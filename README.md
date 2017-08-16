@@ -45,9 +45,12 @@ Linux system, enough disk space and Ram dependent on the size of RNA deep sequen
 
             `echo 'export PATH=$PATH:your_path_to_bowtie' >> ~/.bashrc`
             
-        <pre><code>if you are administrator user, type the following command and password to easily install bowtie:
         
-        sudo apt-get install bowtie</code></pre>
+        ```
+        if you are administrator user, type the following command and password to easily install bowtie:
+        
+        sudo apt-get install bowtie
+        ```
         
     3. Install SRA Toolkit
         
