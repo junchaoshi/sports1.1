@@ -492,8 +492,8 @@ Extracted from miRDeep2 [3] (https://github.com/rajewsky-lab/mirdeep2)
         -------------------------------------------------------------------------------------------------------------
 
         -Class: tRNAdb-tRNA_5_end_Match_Genome    --The major class name.
-        -Sub_Class: tRNA-Glu-CTC_5_end    --The sub class name.
-        -Reads: 123456    --The reads number of the class.
+        -Sub_Class: tRNA-Glu-CTC_5_end            --The sub class name.
+        -Reads: 123456                            --The reads number of the class.
     ```
 
     3. \<seq_fold\>_length_distribution.txt: A 3 column table file including reads number of each length distribution of each major class.
