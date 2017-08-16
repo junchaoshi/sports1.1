@@ -469,17 +469,17 @@ Extracted from miRDeep2 [3] (https://github.com/rajewsky-lab/mirdeep2)
         t00000001    TCCCTGGTGGTCTAGTGGTTAGGATTCGGCGC    32        1234567    Yes             tRNA-Glu-CTC_5_end
         -------------------------------------------------------------------------------------------------------------
 
-        -ID: t00000001    --Represents the unique ID of the sequence, represents the abundance ranking among all the sequences. In this case, the abundance of this sequence is the highest.
+        -ID: t00000001                                 --Represents the unique ID of the sequence, represents the abundance ranking among all the sequences. In this case, the abundance of this sequence is the highest.
 
         -Sequence: TCCCTGGTGGTCTAGTGGTTAGGATTCGGCGC    --Represents the sequence.
 
-        -Length: 32    --Length of the sequence.
+        -Length: 32                                    --Length of the sequence.
 
-        -Reads: 1234567    --Reads number of the sequence.
+        -Reads: 1234567                                --Reads number of the sequence.
 
-        -Match_Genome: Yes    --If the sequence can match the reference genome or not.
+        -Match_Genome: Yes                             --If the sequence can match the reference genome or not.
 
-        -Annotation: tRNA-Glu-CTC_5_end    --The annotation of the sequence. This sequence mapped against the 5' end of tRNA-Glu-CTC sequence.
+        -Annotation: tRNA-Glu-CTC_5_end                --The annotation of the sequence. This sequence mapped against the 5' end of tRNA-Glu-CTC sequence.
     ```
 
     2. \<seq_fold\>_summary.txt: A 3 column table file including reads number of each major- and sub- classes.
