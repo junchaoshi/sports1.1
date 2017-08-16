@@ -1,4 +1,4 @@
-## Annotation References already precompiled for downloading: 
+## Annotation references already precompiled for downloading: 
 
 ### Homo sapiens (Human)
 
