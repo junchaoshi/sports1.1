@@ -595,10 +595,10 @@ Available species lists of bowtie-index based reference database
     To build bowtie-index of your own:
         cd /foo/bar/your_reference_database/
         bowtie-build <your_reference_database_name>.fa <your_reference_database_name>
-	  The built bowtie index will be: /foo/bar/your_reference_database/your_reference_database_name
+    The built bowtie index will be: /foo/bar/your_reference_database/your_reference_database_name
 	
-	  Unpack reference genome (e.g. human genome):
-	      tar zxvf Homo_sapiens_UCSC_hg38.tar.gz
+    Unpack reference genome (e.g. human genome):
+        tar zxvf Homo_sapiens_UCSC_hg38.tar.gz
 ```
 
 Main database source:
