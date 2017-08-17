@@ -259,43 +259,43 @@ Linux system, enough disk space and Ram dependent on the size of RNA deep sequen
        │   │
        │   ├─SeqFile_fa (if -k applied)
        │   │   │
-       │   │   ├SeqFile.fa	---unique seqs with reads number
+       │   │   ├SeqFile.fa					---unique seqs with reads number
        │   │   │
-       │   │   ├SeqFile_disgarded_reads.fa	---seqs that cannot pass adapter removing process  
+       │   │   ├SeqFile_disgarded_reads.fa			---seqs that cannot pass adapter removing process  
        │   │   │
-       │   │   ├SeqFile_too_short_reads.fa	---seqs that are lower than required minimal length threshold
+       │   │   ├SeqFile_too_short_reads.fa			---seqs that are lower than required minimal length threshold
        │   │   │
-       │   │   ├SeqFile_too_long_reads.fa	---seqs that are higher than required maximal length threshold
+       │   │   ├SeqFile_too_long_reads.fa			---seqs that are higher than required maximal length threshold
        │   │   │
-       │   │   ├SeqFile_match_genome.fa	---seqs that can match to reference genome
+       │   │   ├SeqFile_match_genome.fa				---seqs that can match to reference genome
        │   │   │
-       │   │   ├SeqFile_unmatch_genome.fa	---seqs that cannot match to reference genome
+       │   │   ├SeqFile_unmatch_genome.fa			---seqs that cannot match to reference genome
        │   │   │
-       │   │   ├SeqFile_match_<X>_match_genome.fa	---seqs that can match to both <X> database and reference genome
+       │   │   ├SeqFile_match_<X>_match_genome.fa		---seqs that can match to both <X> database and reference genome
        │   │   │
-       │   │   ├SeqFile_match_<X>_unmatch_genome.fa	---seqs that can match to <X> database but not reference genome
+       │   │   ├SeqFile_match_<X>_unmatch_genome.fa		---seqs that can match to <X> database but not reference genome
        │   │   │
-       │   │   ├SeqFile_unmatch_<X>_match_genome.fa	---seqs that cannot match to <X> database but can match to reference genome
+       │   │   ├SeqFile_unmatch_<X>_match_genome.fa		---seqs that cannot match to <X> database but can match to reference genome
        │   │   │
-       │   │   └SeqFile_unmatch_<X>_unmatch_genome.fa	---seqs that match to <X> rfam database nor reference genome
+       │   │   └SeqFile_unmatch_<X>_unmatch_genome.fa		---seqs that match to <X> rfam database nor reference genome
        │   │
        │   ├SeqFile_processed (if -k applied)
        │   │   │
-       │   │   ├SeqFile_output_match_genome	---seqs that match to reference genome in SAM format
+       │   │   ├SeqFile_output_match_genome			---seqs that match to reference genome in SAM format
        │   │   │
-       │   │   ├SeqFile_output_<X>_match_genome	---seqs that match to both miRNA database and reference genome in SAM format
+       │   │   ├SeqFile_output_<X>_match_genome			---seqs that match to both miRNA database and reference genome in SAM format
        │   │   │
-       │   │   ├SeqFile_output_<X>_unmatch_genome	---seqs that match to miRNA database but not reference genome in SAM format
+       │   │   ├SeqFile_output_<X>_unmatch_genome		---seqs that match to miRNA database but not reference genome in SAM format
        │   │   │
-       │   │   ├SeqFile_output_tRNA_match_genome	---seqs that match to both tRNA database and reference genome in SAM format
+       │   │   ├SeqFile_output_tRNA_match_genome		---seqs that match to both tRNA database and reference genome in SAM format
        │   │   │
-       │   │   ├SeqFile_output_tRNA_unmatch_genome	---seqs that match to tRNA database but not reference genome in SAM format
+       │   │   ├SeqFile_output_tRNA_unmatch_genome		---seqs that match to tRNA database but not reference genome in SAM format
        │   │   │
-       │   │   ├SeqFile_output_tRNA_5_tail_match_genome	---seqs that match to both tRNA 5' end and reference genome in SAM format (included in SeqFile_output_tRNA_match_genome file)
+       │   │   ├SeqFile_output_tRNA_5_tail_match_genome		---seqs that match to both tRNA 5' end and reference genome in SAM format (included in SeqFile_output_tRNA_match_genome file)
        │   │   │
        │   │   ├SeqFile_output_tRNA_5_tail_unmatch_genome	---seqs that match to tRNA 5' end but not reference genome in SAM format (included in SeqFile_output_tRNA_unmatch_genome file)
        │   │   │
-       │   │   ├SeqFile_output_tRNA_3_tail_match_genome	---seqs that match to both tRNA 3' end and reference genome in SAM format (included in SeqFile_output_tRNA_match_genome file)
+       │   │   ├SeqFile_output_tRNA_3_tail_match_genome		---seqs that match to both tRNA 3' end and reference genome in SAM format (included in SeqFile_output_tRNA_match_genome file)
        │   │   │
        │   │   ├SeqFile_output_tRNA_3_tail_unmatch_genome	---seqs that match to tRNA 3' end but not reference genome in SAM format (included in SeqFile_output_tRNA_unmatch_genome file)
        │   │   │
@@ -305,25 +305,25 @@ Linux system, enough disk space and Ram dependent on the size of RNA deep sequen
        │   │
        │   └SeqFile_result
        │       │
-       │       ├SeqFile_output.txt	---6 column table file including annotation information for every unique sequence
+       │       ├SeqFile_output.txt				---6 column table file including annotation information for every unique sequence
        │       │
-       │       ├SeqFile_summary.txt	---3 column table file including reads number of each major- (e.g. rRNA) and sub- (e.g. 5S rRNA) classes
+       │       ├SeqFile_summary.txt				---3 column table file including reads number of each major- (e.g. rRNA) and sub- (e.g. 5S rRNA) classes
        │       │
-       │       ├SeqFile_length_distribution.txt	---3 column table file including reads number of each length distribution of each major class
+       │       ├SeqFile_length_distribution.txt			---3 column table file including reads number of each length distribution of each major class
        │       │
-       │       ├SeqFile_sncRNA_distribution.pdf	---figure of length distribution of miRNA, rsRNA, tsRNA, piRNA and other RNAs, if sequence matches existed
+       │       ├SeqFile_sncRNA_distribution.pdf			---figure of length distribution of miRNA, rsRNA, tsRNA, piRNA and other RNAs, if sequence matches existed
        │       │
-       │       ├SeqFile_rRNA_distribution.pdf	---figure of length distribution of different types of rRNAs, if sequence matches existed
+       │       ├SeqFile_rRNA_distribution.pdf			---figure of length distribution of different types of rRNAs, if sequence matches existed
        │       │
-       │       └SeqFile_rRNA_mapping.pdf	---figure of rsRNAs mapping against different types of rRNAs, if sequence matches existed
+       │       └SeqFile_rRNA_mapping.pdf			---figure of rsRNAs mapping against different types of rRNAs, if sequence matches existed
        │
        ├─processing_report (if -k applied)
        │   │
-       │   └1_SeqFile.txt	---processing log file
+       │   └1_SeqFile.txt					---processing log file
        │
        └─sh_file (if -k applied)
            │   
-           └1__SeqFile.sh	---rocessing script file
+           └1__SeqFile.sh					---rocessing script file
 ```
 
 ```
