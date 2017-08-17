@@ -72,7 +72,7 @@ Linux system, enough disk space and Ram dependent on the size of RNA deep sequen
             
     5. Install R and R package
     
-        1. unpack R-x.y.z.tar.gz with:
+        1. Unpack R-x.y.z.tar.gz with:
         
             `tar -xf R-x.y.z.tar.gz`
             
