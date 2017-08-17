@@ -248,7 +248,7 @@ Linux system, enough disk space and Ram dependent on the size of RNA deep sequen
     
     Type following command in terminal: 
     
-    `sports.pl -i /foo/bar/download_seq/ -p 4 -a -x GTTCAGAGTTCTACAGTCCGACGATC -y TGGAATTCTCGGGTGCCAAGG -g /foo/bar/Mus_musculus/UCSC/mm10/Sequence/BowtieIndex/Genome -m /foo/bar/Mus_musculus/miRBase_21/miRbase_21-mmu -r /foo/bar/Mus_musculus/rRNA_db/mouse_rRNA -t /foo/bar/Database/Mus_musculus/GtRNAdb/mm10-tRNAs -w /foo/bar/Database/Mus_musculus/piRBase/piR_mouse -e /foo/bar/Database/Mus_musculus/Ensembl/Mus_musculus.GRCm38.ncrna -f /foo/bar/Database/Mus_musculus/Rfam_12.3/Rfam-12.3-mouse -o /foo/bar/output/ -k`
+    `sports.pl -i /foo/bar/download_seq/ -p 4 -a -x GTTCAGAGTTCTACAGTCCGACGATC -y TGGAATTCTCGGGTGCCAAGG -g /foo/bar/Mus_musculus/UCSC/mm10/Sequence/BowtieIndex/Genome -m /foo/bar/Mus_musculus/miRBase_21/miRbase_21-mmu -r /foo/bar/Mus_musculus/rRNA_db/mouse_rRNA -t /foo/bar/Mus_musculus/GtRNAdb/mm10-tRNAs -w /foo/bar/Mus_musculus/piRBase/piR_mouse -e /foo/bar/Mus_musculus/Ensembl/Mus_musculus.GRCm38.ncrna -f /foo/bar/Mus_musculus/Rfam_12.3/Rfam-12.3-mouse -o /foo/bar/output/ -k`
     
 4. Example output file structure for 1 query file input (e.g. SeqFile):
 
