@@ -11,7 +11,7 @@ Linux system, enough disk space and Ram dependent on the size of RNA deep sequen
    
 2. Download necessary software, packages and reference databases as listed below:
 
-    1. Perl 5 (https://www.perl.org)(Tested version: v5.14.2, v5.22.1); Perl 5 could be already installed in the linux system.
+    1. Perl 5 (https://www.perl.org) (Tested version: v5.14.2, v5.22.1); Perl 5 could be already installed in the linux system.
 	
     2. Bowtie [1] (http://bowtie-bio.sourceforge.net/index.shtml) (Tested version: 1.1.2, 1.2.1.1)	
 
