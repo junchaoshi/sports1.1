@@ -1,10 +1,26 @@
 # SPORTS1.0
 Small non-coding RNA annotation Pipeline Optimized for rRNA- and tRNA-Derived Small RNAs
 
-## Requirements
+<a href='#require'> Requirements </a>
+
+<a href='#install'> Installation </a>
+
+<a href='#script'> Script description </a>
+
+- <a href='#usage'> Example Usage </a>
+
+<a href='#appendix'> Appendix </a>
+
+<a href='#copyright'> Copyright and licensing information </a>
+
+<a href='#disclaimer'> Disclaimer </a>
+
+<a href='#contect'> Contact information </a>
+
+## Requirements <a id='require'></a>
 Linux system, enough disk space and Ram depending on the size of RNA deep sequencing data. (Tested system: ubuntu 12.04 LTS, ubuntu 16.04 LTS)
 
-## Installation
+## Installation <a id='install'></a>
 1. Download SPORTS1.0 pipeline package. 
 
     `wget https://github.com/junchaoshi/sports1.0/archive/master.zip`
@@ -131,7 +147,7 @@ Linux system, enough disk space and Ram depending on the size of RNA deep sequen
     If you get any error messages you should install the software once again.
     ```
           
-## Script description
+## Script description <a id='script'></a>
 
 ### sports.pl
 
@@ -183,7 +199,7 @@ Linux system, enough disk space and Ram depending on the size of RNA deep sequen
         
         -h print this usage message
         
-3. Example
+3. Example <a id='usage'></a>
 
     - Example use 1:
     
@@ -587,7 +603,7 @@ Extracted from miRDeep2 [3] (https://github.com/rajewsky-lab/mirdeep2)
 
     `Rscript --vanilla rRNA_mapping.R <SPAR_output_fold_address> <dataset_name>`
     
-## Appendix
+## Appendix <a id='appendix'></a>
 
 Available species lists of bowtie-index based reference database
 
@@ -2044,13 +2060,13 @@ Main database source:
 8.	Yates A, Akanni W, Amode MR, Barrell D, Billis K, Carvalho-Silva D, et al. Ensembl 2016. Nucleic acids research. 2016;44(D1):D710-6. doi: 10.1093/nar/gkv1157.
 9.	Nawrocki EP, Burge SW, Bateman A, Daub J, Eberhardt RY, Eddy SR, et al. Rfam 12.0: updates to the RNA families database. Nucleic acids research. 2015;43(Database issue):D130-7. doi: 10.1093/nar/gku1063. 
 
-## Copyright and licensing information
+## Copyright and licensing information <a id='copyright'></a>
 SPORTS1.0 is available under the GNU General Public License version 3 (GPLv3).
 
-## Disclaimer
+## Disclaimer <a id='disclaimer'></a>
 The SPORTS1.0 package is provided as is without any guarantees or warranty for correctness. The authors are not responsible for any damage or loss of any kind caused by the use or misuse of the scripts included in the software package. The authors are not under obligation to provide support, service, corrections, or upgrades to the package.
 
-## Contact information
+## Contact information <a id='contact'></a>
 Contact author: Junchao Shi
 
 E-mail: sports.rna@gmail.com; junchao.shi@yahoo.com
