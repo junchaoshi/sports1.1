@@ -15,7 +15,7 @@ Small non-coding RNA annotation Pipeline Optimized for rRNA- and tRNA-Derived Sm
 
 <a href='#disclaimer'> Disclaimer </a>
 
-<a href='#contect'> Contact information </a>
+<a href='#contact'> Contact information </a>
 
 ## Requirements <a id='require'></a>
 Linux system, enough disk space and Ram depending on the size of RNA deep sequencing data. (Tested system: ubuntu 12.04 LTS, ubuntu 16.04 LTS)
