@@ -2,7 +2,7 @@
 Small non-coding RNA annotation Pipeline Optimized for rRNA- and tRNA-Derived Small RNAs
 
 ## Requirements
-Linux system, enough disk space and Ram dependent on the size of RNA deep sequencing data. (Tested system: ubuntu 12.04 LTS, ubuntu 16.04 LTS)
+Linux system, enough disk space and Ram depending on the size of RNA deep sequencing data. (Tested system: ubuntu 12.04 LTS, ubuntu 16.04 LTS)
 
 ## Installation
 1. Download SPORTS1.0 pipeline package. 
@@ -11,7 +11,7 @@ Linux system, enough disk space and Ram dependent on the size of RNA deep sequen
    
 2. Download necessary software, packages and reference databases as listed below:
 
-    1. Perl 5 (https://www.perl.org) (Tested version: v5.14.2, v5.22.1); Perl 5 could be already installed in the linux system.
+    1. Perl 5 (https://www.perl.org) (Tested version: v5.14.2, v5.22.1); Perl 5 might be already installed in the linux system.
 	
     2. Bowtie [1] (http://bowtie-bio.sourceforge.net/index.shtml) (Tested version: 1.1.2, 1.2.1.1)	
 
@@ -47,7 +47,7 @@ Linux system, enough disk space and Ram dependent on the size of RNA deep sequen
             
         
         ```
-        if you are administrator user, type the following command and password to easily install bowtie:
+        If you are administrator user, type the following command and password to easily install bowtie:
         
         sudo apt-get install bowtie
         ```
@@ -128,7 +128,7 @@ Linux system, enough disk space and Ram dependent on the size of RNA deep sequen
     ```
     
     ```
-    If you get any error messages you should correctly install the software again.
+    If you get any error messages you should install the software once again.
     ```
           
 ## Script description
@@ -187,7 +187,7 @@ Linux system, enough disk space and Ram dependent on the size of RNA deep sequen
 
     - Example use 1:
     
-    The user wishes to map a single fasta file against rat reference genome to get the mapping genome annotation only. (No output figures)
+    The user wants to map a single fasta file against rat reference genome to get the mapping genome annotation only. (No output figures)
     
     Type following command in terminal: 
     
@@ -195,7 +195,7 @@ Linux system, enough disk space and Ram dependent on the size of RNA deep sequen
     
     - Example use 2:
     
-    The user wishes to map several already trimed human sequencing files to human reference genome, miRNA database, tRNA database, rRNA database and piRNA database by using 4 CPU threads, then to output the result to the address: '/foo/bar/output/'.
+    The user wants to map several already trimed human sequencing files to human reference genome, miRNA database, tRNA database, rRNA database and piRNA database by using 4 CPU threads, then to output the result to the address: '/foo/bar/output/'.
     
     Write all the fastq files' addresses into a text document, e.g.:
     
@@ -216,7 +216,7 @@ Linux system, enough disk space and Ram dependent on the size of RNA deep sequen
     
     - Example use 3:
     
-    The user wishes to map several untrimmed mouse sequencing files downloaded from NCBI or somewhere else to mouse reference genome, miRNA database, tRNA database, rRNA database, piRNA database, ensembl noncoding RNA database and Rfam database by using 4 CPU threads, then to output the result to the address: '/foo/bar/output/' and keep all the intermediate files generated during the running progress.
+    The user wants to map several untrimmed mouse sequencing files downloaded from NCBI or somewhere else to mouse reference genome, miRNA database, tRNA database, rRNA database, piRNA database, ensembl noncoding RNA database and Rfam database by using 4 CPU threads, then to output the result to the address: '/foo/bar/output/' and keep all the intermediate files generated during the running progress.
     
     ```
     Put all the sequencing files into a folder, e.g.:
@@ -402,7 +402,7 @@ Extracted from miRDeep2 [3] (https://github.com/rajewsky-lab/mirdeep2)
     >t00000001 1234567
     TCCCTGGTGGTCTAGTGGTTAGGATTCGGCGC
     --------------------------------
-    't00000001' is the unique ID of the sequence, represents the abundance ranking among all the sequences. In this case, the abundance of this sequence is the highest.
+    't00000001' is the unique ID of the sequence, representing the abundance ranking among all the sequences. In this case, the abundance of this sequence is the highest.
     '1234567' represents the reads number of sequence 'TCCCTGGTGGTCTAGTGGTTAGGATTCGGCGC'
 ```
 
@@ -428,7 +428,7 @@ Extracted from miRDeep2 [3] (https://github.com/rajewsky-lab/mirdeep2)
 
 3. output:
 
-    1. A 4-column table file describes sequences mapping to tRNA 5' end, including ID, sequence, length and annotation information. e.g.:
+    1. A 4-column table file describes sequences mapping to tRNA 5' end, including ID, sequence, length, and annotation information. e.g.:
     
     ```
         -------------------------------------------------------------------------------------------------------------
@@ -477,7 +477,7 @@ Extracted from miRDeep2 [3] (https://github.com/rajewsky-lab/mirdeep2)
 
         -Reads: 1234567                                --Reads number of the sequence.
 
-        -Match_Genome: Yes                             --If the sequence can match the reference genome or not.
+        -Match_Genome: Yes                             --If the sequence can match the reference genome.
 
         -Annotation: tRNA-Glu-CTC_5_end                --The annotation of the sequence. This sequence mapped against the 5' end of tRNA-Glu-CTC sequence.
     ```
@@ -525,7 +525,7 @@ Extracted from miRDeep2 [3] (https://github.com/rajewsky-lab/mirdeep2)
 
 1. Description:
 
-    Generate figure of length distribution of miRNA, rsRNA, tsRNA, piRNA and other RNAs, if sequence matches existed.
+    Generate figure of length distribution of miRNA, rsRNA, tsRNA, piRNA and other RNAs, if sequence matches exists.
 
 2. Input:
 
@@ -533,7 +533,7 @@ Extracted from miRDeep2 [3] (https://github.com/rajewsky-lab/mirdeep2)
 
 3. Output:
 
-    \<seq_fold\>_sncRNA_distribution.pdfGenerate figure of length distribution of different types of rRNAs, if sequence matches existed.
+    \<seq_fold\>_sncRNA_distribution.pdfGenerate figure of length distribution of different types of rRNAs, if sequence matches exists.
 
 4. Options:
 
@@ -547,7 +547,7 @@ Extracted from miRDeep2 [3] (https://github.com/rajewsky-lab/mirdeep2)
 
 1. Description:
 
-    Generate figure of length distribution of different types of rRNAs, if sequence matches existed. (e.g. 4.5S, 5S, 5.3S, 5.8S, 12S, 16S, 18S, 28S, 45S ...)
+    Generate figure of length distribution of different types of rRNAs, if sequence matches exists. (e.g. 4.5S, 5S, 5.3S, 5.8S, 12S, 16S, 18S, 28S, 45S ...)
 
 2. Input:
 
@@ -575,7 +575,7 @@ Extracted from miRDeep2 [3] (https://github.com/rajewsky-lab/mirdeep2)
 
     Files generated by annotation.pl
 
-3. output:
+3. Output:
 
     \<seq_fold\>_rRNA_mapping.pdf
 
@@ -631,7 +631,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
     ```
 
-    2. SPORTS1.0 related parameters if you download recommend reference database: 
+    2. SPORTS1.0 related parameters if you download recommended reference database: 
     
     ```
         -g /<your_defined_address>/Homo_sapiens/UCSC/hg38/Sequence/BowtieIndex/genome
@@ -654,7 +654,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
 
-    2. SPORTS1.0 related parameters if you download recommend reference database: 
+    2. SPORTS1.0 related parameters if you download recommended reference database: 
     
         ```
         -g /<your_defined_address>/Gorilla_gorilla/UCSC/gorGor5/Sequence/BowtieIndex/genome
@@ -673,7 +673,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```      
 
-    2. SPORTS1.0 related parameters if you download recommend reference database: 
+    2. SPORTS1.0 related parameters if you download recommended reference database: 
     
         ```
         -g /<your_defined_address>/Pan_paniscus/UCSC/panPan1/Sequence/BowtieIndex/genome
@@ -693,7 +693,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ``` 
         
-    2. SPORTS1.0 related parameters if you download recommend reference database: 
+    2. SPORTS1.0 related parameters if you download recommended reference database: 
     
         ``` 
         -g /<your_defined_address>/Pan_troglodytes/UCSC/panTro4/Sequence/BowtieIndex/genome
@@ -715,7 +715,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ``` 
         
-    2. SPORTS1.0 related parameters if you download recommend reference database: 
+    2. SPORTS1.0 related parameters if you download recommended reference database: 
     
         ``` 
         -g /<your_defined_address>/Pongo_abelii/UCSC/ponAbe2/Sequence/BowtieIndex/genome
@@ -735,7 +735,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ``` 
         
-    6.2 SPORTS1.0 related parameters if you download recommend reference database: 
+    6.2 SPORTS1.0 related parameters if you download recommended reference database: 
     
         ``` 
         -g /<your_defined_address>/Nomascus_leucogenys/UCSC/nomLeu3/Sequence/BowtieIndex/genome
@@ -755,7 +755,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ``` 
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ``` 
         -g /<your_defined_address>/Macaca_mulatta/UCSC/rheMac8/Sequence/BowtieIndex/genome
@@ -775,7 +775,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ``` 
 
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ``` 
         -g /<your_defined_address>/Papio_anubis/UCSC/papAnu2/Sequence/BowtieIndex/genome
@@ -794,7 +794,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ``` 
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ``` 
         -g /<your_defined_address>/Callithrix_jacchus/UCSC/calJac3/Sequence/BowtieIndex/genome
@@ -813,7 +813,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ``` 
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ``` 
         -g /<your_defined_address>/Carlito_syrichta/UCSC/tarSyr2/Sequence/BowtieIndex/genome
@@ -835,7 +835,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ``` 
 
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Rattus_norvegicus/UCSC/rn6/Sequence/BowtieIndex/genome
@@ -861,7 +861,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Mus_musculus/UCSC/mm10/Sequence/BowtieIndex/genome
@@ -885,7 +885,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
 
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Cricetulus_griseus/UCSC/criGri1/Sequence/BowtieIndex/genome
@@ -906,7 +906,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Cavia_porcellus/UCSC/cavPor3/Sequence/BowtieIndex/genome
@@ -926,7 +926,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
                 
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Heterocephalus_glaber/UCSC/hetGla2/Sequence/BowtieIndex/genome
@@ -945,7 +945,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
 
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Ictidomys_tridecemlineatus/UCSC/speTri2/Sequence/BowtieIndex/genome
@@ -962,11 +962,13 @@ Main database source:
         -tRNA database with bowtie-index (Original source: http://gtrnadb.ucsc.edu/GtRNAdb2/genomes/eukaryota/Oprin3/ochPri3-tRNAs.fa)
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
 
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
+      
+        ```
         -g /<your_defined_address>/Ochotona_princeps/UCSC/ochPri3/Sequence/BowtieIndex/genome
         -t /<your_defined_address>/Ochotona_princeps/GtRNAdb/ochPri3-tRNAs
         -f /<your_defined_address>/Ochotona_princeps/Rfam_12.3/Rfam-12.3-pika
-        
+        ```       
         
 18. Oryctolagus cuniculus (Rabbit)
 
@@ -980,7 +982,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Oryctolagus_cuniculus/UCSC/oryCun2/Sequence/BowtieIndex/genome
@@ -1001,7 +1003,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Ovis_aries/UCSC/oviAri3/Sequence/BowtieIndex/genome
@@ -1023,7 +1025,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Bos_taurus/UCSC/bosTau8/Sequence/BowtieIndex/genome
@@ -1046,7 +1048,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Sus_scrofa/UCSC/susScr3/Sequence/BowtieIndex/genome
@@ -1066,7 +1068,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Tursiops_truncatus/UCSC/turTru2/Sequence/BowtieIndex/genome
@@ -1084,7 +1086,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
 
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Balaenoptera_acutorostrata/UCSC/balAcu1/Sequence/BowtieIndex/genome
@@ -1102,7 +1104,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
 
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Erinaceus_europaeus/UCSC/eriEur2/Sequence/BowtieIndex/genome
@@ -1120,7 +1122,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Sorex_araneus/UCSC/sorAra2/Sequence/BowtieIndex/genome
@@ -1139,7 +1141,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Canis_familiaris/UCSC/canFam3/Sequence/BowtieIndex/genome
@@ -1158,7 +1160,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Mustela_furo/UCSC/musFur1/Sequence/BowtieIndex/genome
@@ -1176,7 +1178,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Ailuropoda_melanoleuca/UCSC/ailMel1/Sequence/BowtieIndex/genome
@@ -1195,7 +1197,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
          
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Felis_catus/UCSC/felCat8/Sequence/BowtieIndex/genome
@@ -1216,7 +1218,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Equus_caballus/UCSC/equCab2/Sequence/BowtieIndex/genome
@@ -1236,7 +1238,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Ceratotherium_simum/UCSC/cerSim1/Sequence/BowtieIndex/genome
@@ -1254,7 +1256,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Myotis_lucifugus/UCSC/myoLuc2/Sequence/BowtieIndex/genome
@@ -1272,7 +1274,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Trichechus_manatus/UCSC/triMan1/Sequence/BowtieIndex/genome
@@ -1290,7 +1292,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Loxodonta_africana/UCSC/loxAfr3/Sequence/BowtieIndex/genome
@@ -1308,7 +1310,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Dasypus_novemcinctus/UCSC/dasNov3/Sequence/BowtieIndex/genome
@@ -1327,7 +1329,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Notamacropus_eugenii/UCSC/macEug2/Sequence/BowtieIndex/genome
@@ -1347,7 +1349,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Sarcophilus_harrisii/UCSC/sarHar1/Sequence/BowtieIndex/genome
@@ -1368,7 +1370,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
 
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Monodelphis_domestica/UCSC/monDom5/Sequence/BowtieIndex/genome
@@ -1391,7 +1393,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
 
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Ornithorhynchus_anatinus/UCSC/ornAna2/Sequence/BowtieIndex/genome
@@ -1413,7 +1415,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Taeniopygia_guttata/UCSC/taeGut2/Sequence/BowtieIndex/genome
@@ -1432,7 +1434,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Melopsittacus_undulatus/UCSC/melUnd1/Sequence/BowtieIndex/genome
@@ -1454,7 +1456,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. PORTS1.0 related parameters if you download recommend reference database:
+    2. PORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Gallus_gallus/UCSC/galGal5/Sequence/BowtieIndex/genome
@@ -1476,7 +1478,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Meleagris_gallopavo/UCSC/melGal1/Sequence/BowtieIndex/genome
@@ -1494,7 +1496,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Chrysemys_picta/UCSC/chrPic1/Sequence/BowtieIndex/genome
@@ -1514,7 +1516,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Anolis_carolinensis/UCSC/anoCar2/Sequence/BowtieIndex/genome
@@ -1538,7 +1540,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Xenopus_laevis/UCSC/xenTro7/Sequence/BowtieIndex/genome
@@ -1561,7 +1563,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
 
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Latimeria_chalumnae/UCSC/latCha1/Sequence/BowtieIndex/genome
@@ -1581,7 +1583,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Tetraodon_nigroviridis/UCSC/tetNig2/Sequence/BowtieIndex/genome
@@ -1600,7 +1602,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Takifugu_rubripes/UCSC/fr3/Sequence/BowtieIndex/genome
@@ -1619,7 +1621,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
 
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Gasterosteus_aculeatus/UCSC/gasAcu1/Sequence/BowtieIndex/genome
@@ -1639,7 +1641,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Oryzias_latipes/UCSC/oryLat2/Sequence/BowtieIndex/genome
@@ -1658,7 +1660,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Oreochromis_niloticus/UCSC/oreNil2/Sequence/BowtieIndex/genome
@@ -1677,7 +1679,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Gadus_morhua/UCSC/gadMor1/Sequence/BowtieIndex/genome
@@ -1700,7 +1702,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Danio_rerio/UCSC/danRer10/Sequence/BowtieIndex/genome
@@ -1722,7 +1724,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Callorhinchus_milii/UCSC/calMil1/Sequence/BowtieIndex/genome
@@ -1741,7 +1743,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Petromyzon_marinus/UCSC/petMar2/Sequence/BowtieIndex/genome
@@ -1763,7 +1765,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database: 
+    2. SPORTS1.0 related parameters if you download recommended reference database: 
     
         ```
         -g /<your_defined_address>/Strongylocentrotus_purpuratus/UCSC/strPur2/Sequence/BowtieIndex/genome
@@ -1788,7 +1790,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Drosophila_melanogaster/UCSC/dm6/Sequence/BowtieIndex/genome
@@ -1812,7 +1814,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Anopheles_gambiae/UCSC/anoGam1/Sequence/BowtieIndex/genome
@@ -1833,7 +1835,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
 
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Pristionchus_pacificus/UCSC/priPac1/Sequence/BowtieIndex/genome
@@ -1857,7 +1859,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Caenorhabditis_elegans/UCSC/ce10/Sequence/BowtieIndex/genome
@@ -1881,7 +1883,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Saccharomyces_cerevisiae/UCSC/sacCer3/Sequence/BowtieIndex/genome
@@ -1904,7 +1906,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Zea_mays/Ensembl/AGPv4/Sequence/BowtieIndex/genome
@@ -1928,8 +1930,9 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
+    2. SPORTS1.0 related parameters if you download recommended reference database:
+    
         ```
-    2. SPORTS1.0 related parameters if you download recommend reference database:
         -g /<your_defined_address>/Sorghum_bicolor/Ensembl/Sbi1/Sequence/BowtieIndex/genome
         -m /<your_defined_address>/Sorghum_bicolor/miRBase_21/miRBase_21-sbi
         -r /<your_defined_address>/Sorghum_bicolor/rRNA_db/sorghum_rRNA
@@ -1975,7 +1978,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Arabidopsis_thaliana/Ensembl/TAIR10/Sequence/BowtieIndex/genome
@@ -1998,7 +2001,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Glycine_max/Ensembl/Gm01/Sequence/BowtieIndex/genome
@@ -2020,7 +2023,7 @@ Main database source:
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
         ```
         
-    2. SPORTS1.0 related parameters if you download recommend reference database:
+    2. SPORTS1.0 related parameters if you download recommended reference database:
     
         ```
         -g /<your_defined_address>/Escherichia_coli/Ensembl/EB1/Sequence/BowtieIndex/genome
