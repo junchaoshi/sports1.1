@@ -131,7 +131,7 @@ Linux system, enough disk space and Ram dependent on the size of RNA deep sequen
     If you get any error messages you should correctly install the software again.
     ```
           
-## Installation
+## Script description
 
 ### sports.pl
 
