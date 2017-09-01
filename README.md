@@ -50,6 +50,8 @@ Linux system, enough disk space and Ram depending on the size of RNA deep sequen
         2. Attach the SPORTS directory to your PATH:
 
             `echo 'export PATH=$PATH:your_path_to_sports1.0-master/source' >> ~/.bashrc`
+	    
+	    `chmod 755 your_path_to_sports1.0-master/source/sports.pl`
 
     2. Install Bowtie
 
