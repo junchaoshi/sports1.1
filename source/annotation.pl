@@ -38,8 +38,7 @@ open FILE, $in_file
 	or die "Can't open '$in_file': $!";
 
 for (1 .. $file_number){
-	open $file_handle{$_}, $out_file[$_-1]
-		or die "Can't open '$out_file[$_-1]': $!";
+	open $file_handle{$_}, $out_file[$_-1];
 }
 
 open OUTPUT1, ">$out_final"
