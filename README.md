@@ -645,7 +645,7 @@ Main database source:
         -rRNA database with bowtie-index (Original source: https://www.ncbi.nlm.nih.gov/nuccore)
         -tRNA database with bowtie-index (Original source: http://gtrnadb.ucsc.edu/genomes/eukaryota/Hsapi19/hg19-tRNAs.fa)
         -piRNA database with bowtie-index (Original source: http://www.regulatoryrna.org/database/piRNA/ && http://pirnabank.ibab.ac.in/request.html)
-        -ensembl ncRNA database with bowtie-index (Original source: ftp://ftp.ensembl.org/pub/release-89/fasta/mus_musculus/ncrna/)
+        -ensembl ncRNA database with bowtie-index (Original source: ftp://ftp.ensembl.org/pub/release-89/fasta/homo_sapiens/ncrna/)
         -rfam 12.3 database with bowtie-index (Original source: ftp://ftp.ebi.ac.uk/pub/databases/Rfam/12.3/fasta_files/)
     ```
 
