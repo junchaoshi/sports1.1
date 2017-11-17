@@ -109,6 +109,7 @@ Linux system, enough disk space and Ram depending on the size of RNA deep sequen
             
             make install
             ```
+	    
         4. Install R packages by typing following command in terminal:
         
             ```
