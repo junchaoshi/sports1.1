@@ -85,19 +85,19 @@ Linux system, enough disk space and Ram depending on the size of RNA deep sequen
             `pip install --user --upgrade cutadapt`
         
         2. Attach the cutadapt directory to your PATH:
-        
+
             `echo 'export PATH=$PATH:$HOME/.local/bin' >> ~/.bashrc`
-            
+ 
     5. Install R and R package
     
         1. Unpack R-x.y.z.tar.gz with:
         
             `tar -xf R-x.y.z.tar.gz`
-            
+
         2. Enter into the R-x.y.z directory:
-        
+
             `cd R-x.y.z`
-            
+  
         3. Type following command in terminal: 
         
             ```
