@@ -95,7 +95,7 @@ Linux system, enough disk space and Ram depending on the size of RNA deep sequen
             `tar -xf R-x.y.z.tar.gz`
 
         2. Enter into the R-x.y.z directory:
-
+	
             `cd R-x.y.z`
   
         3. Type following command in terminal: 
@@ -109,7 +109,7 @@ Linux system, enough disk space and Ram depending on the size of RNA deep sequen
             
             make install
             ```
-	    
+	
         4. Install R packages by typing following command in terminal:
         
             ```
