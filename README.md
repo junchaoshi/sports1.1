@@ -41,7 +41,7 @@ Linux system, enough disk space and Ram depending on the size of RNA deep sequen
 
 3. Installation tutorial for software and packages.
    
-    1. Install SPOR1.0
+    1. Install SPORTS1.0
 
         1. Unpack SPORTS1.0 package.
 
@@ -90,7 +90,7 @@ Linux system, enough disk space and Ram depending on the size of RNA deep sequen
  
     5. Install R and R package
     
-        1. Unpack R-x.y.z.tar.gz with:
+        1. Unpack R-x.y.z.tar.gz with:
         
             `tar -xf R-x.y.z.tar.gz`
 
