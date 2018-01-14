@@ -9,8 +9,8 @@ getopts('i:f:abx:y:l:L:M:p:s:g:m:r:t:e:f:w:o:kvh');
 my $input_file		= $opt_i;
 my $opt_adapter		= $opt_a ? 1 : 0;
 my $opt_format		= $opt_b ? 1 : 0;
-my $adapter_5		= $opt_x ? $opt_x : "GTTCAGAGTTCTACAGTCCGACGATC";
-my $adapter_3		= $opt_y ? $opt_y : "TGGAATTCTCGGGTGCCAAGG";
+my $adapter_5		= $opt_x ? $opt_x : "default";
+my $adapter_3		= $opt_y ? $opt_y : "default";
 my $min_length		= $opt_l ? $opt_l : 15;
 my $max_length		= $opt_L ? $opt_L : 45;
 my $mismatch		= $opt_M ? $opt_M : 0;
@@ -28,7 +28,7 @@ my $version		= $opt_v ? 1 : 0;
 my $help		= $opt_h ? 1 : 0;
 
 
-my $version_info = "1.0.0";
+my $version_info = "1.0.1";
 
 my $usage = <<"USAGE";
 Description:	Perl script used to annotate small RNA sequences in batch.
@@ -67,15 +67,13 @@ Alignment:
   -L <int>	the maximal length of the output sequences (default = 45)
   -M <int>	the total number of mismatches in the entire alignment (default = 0)
   -a		Remove 5\'/3\' adapters
-  -x <str>	(When -a is selected) 5\' adapter sequence. Default = "GTTCAGAGTTCTACAGTCCGACGATC"
-  -y <str>	(When -a is selected) 3\' adapter sequence. Default = "TGGAATTCTCGGGTGCCAAGG"
+  -x <str>	(When -a is selected) Your 5\' adapter sequence or use "default". Default = "GTTCAGAGTTCTACAGTCCGACGATC"
+  -y <str>	(When -a is selected) Your 3\' adapter sequence or use "default". Default = "TGGAATTCTCGGGTGCCAAGG"
 
 Others:
   -v		print version information
   -h		print this usage message
 USAGE
-
-
 
 
 if ($version) {
@@ -86,23 +84,36 @@ if ($version) {
 	exit;
 }
 
-
-
-
+##determine if input file and genome file are defined
 unless (defined $input_file && 
 	defined $genome_address
 	){
-	print "Input file genome bowtie index should be specified!\n";
+	print "Input file genome bowtie index should be specified!\n\n";
 	print $usage;
 	exit;
 }
 
 unless (-e $input_file){
-	print "Input file is not exist!\n";
+	print "Input file is not exist!\n\n";
 	print $usage;
 	exit;
 }
 
+##determine if adapter sequences are valid
+if($opt_adapter){
+	unless ($adapter_5 =~ /^[atgcu]+$/i || $adapter_5 =~ /^default$/i ){
+	print "Invalid 5\' end adapter input!\n\n";
+	print $usage;
+	exit;
+	}
+	unless ($adapter_3 =~ /^[atgcu]+$/i || $adapter_3 =~ /^default$/i ){
+	print "Invalid 3\' end adapter input!\n\n";
+	print $usage;
+	exit;
+	}
+}
+
+##define parameters
 my @input;
 my $input_address = abs_path($input_file);
 
@@ -114,20 +125,27 @@ my $input_query_address;
 my $input_query_name;
 my $input_query_suffix;
 
-
-
 my $script_address = `which sports.pl`;
    @input = split(/\//, $script_address);
    pop @input;
    $script_address = join('/', @input) . '/';
 
+##generate tRNA unmatch genome database
+unless($tRNA_db_address eq "NULL"){
+	my $tRNA_db_UMG_file = $tRNA_db_address . "_CCA.1.ebwt";
+	unless (-e $tRNA_db_UMG_file){
+		system ("perl ${script_address}tRNA_db_processing.pl ${tRNA_db_address}.fa");
+		print "\n\nGenerating tRNA (unmatch genome) database bowtie index...\n\n";
+		system ("bowtie-build -q ${tRNA_db_address}_CCA.fa ${tRNA_db_address}_CCA");
+	}
+}
 
 ##push all the query into an array: @filelist
 if (-d $input_address){
 	@input = split(/\//, $input_address);
 	$input_address = join('/', @input) . '/';
 	@dirlist = ($input_address);
-	print "Searching input files...\n";
+	print "\n\nSearching input files...\n\n";
 	while (@dirlist){
 		my $tmp_d = $dirlist[0];
 		opendir DIR, $tmp_d || die "Cannot open directory: $tmp_d !\n";
@@ -285,6 +303,7 @@ unless ($rRNA_db_address eq "NULL"){
 	}
 }
 
+
 while (@tmp_filelist){
 	my $tmp_f = $tmp_filelist[0];
 	$count += 1;
@@ -308,7 +327,7 @@ while (@tmp_filelist){
 	open FILE, '>',"${tmp_sh}/${count}_$input_query_name.sh"
 		or die "can not open '${tmp_sh}/${count}_$input_query_name.sh";
 	print FILE '#!/bin/bash	
-##This script use to annotate small RNA
+##This script uses to annotate small RNA
 date
 thread=' . $thread . '
 adapter5=' . $adapter_5 . '
@@ -321,8 +340,6 @@ input_query_name=' . $input_query_name . '
 input_query_suffix=' . $input_query_suffix . '
 output_address=' . $output_address . ${count} . '_${input_query_name}/
 script_address=' . $script_address . '
-
-
 
 
 if [ ! -d "${output_address}" ]; then
@@ -352,12 +369,43 @@ rm -rf ${output_address}${input_query_name}.sra
 
 ###remove adapter
 	if ($opt_adapter){
+		if ($adapter_5 =~ /^default$/i && 
+		    $adapter_3 =~ /^default$/i){
+my $adapter_5		= "GTTCAGAGTTCTACAGTCCGACGATC";
+my $adapter_3		= "TGGAATTCTCGGGTGCCAAGG";
 		print FILE '
 echo ""
-echo "remove adapter"
-cutadapt -g ${adapter5} -a ${adapter3} -o ${output_address}${input_query_name}_trim_1.${input_query_suffix} --max-n 0 ${output_address}${input_query_name}.${input_query_suffix}
+echo "remove default 5\' and 3\' adapters"
+cutadapt -g ' . $adapter_5 . ' -a ' . $adapter_3 . ' -o ${output_address}${input_query_name}_trim_1.${input_query_suffix} --max-n 0 ${output_address}${input_query_name}.${input_query_suffix}
 rm -rf ${output_address}${input_query_name}.${input_query_suffix}
 		';
+		}
+		elsif ($adapter_5 !~ /^default$/i && 
+		       $adapter_3 =~ /^default$/i){
+		print FILE '
+echo ""
+echo "remove 5\' adapter"
+cutadapt -g ' . $adapter_5 . ' -o ${output_address}${input_query_name}_trim_1.${input_query_suffix} --max-n 0 ${output_address}${input_query_name}.${input_query_suffix}
+rm -rf ${output_address}${input_query_name}.${input_query_suffix}
+		';
+		}
+		elsif ($adapter_5 =~ /^default$/i && 
+		       $adapter_3 !~ /^default$/i){
+		print FILE '
+echo ""
+echo "remove 3\' adapter"
+cutadapt -a ' . $adapter_3 . ' -o ${output_address}${input_query_name}_trim_1.${input_query_suffix} --max-n 0 ${output_address}${input_query_name}.${input_query_suffix}
+rm -rf ${output_address}${input_query_name}.${input_query_suffix}
+		';
+		}
+		elsif ($adapter_5 !~ /^default$/i && 
+		       $adapter_3 !~ /^default$/i){
+		print FILE '
+echo ""
+echo "remove 5-end and 3-end adapters"
+cutadapt -g ' . $adapter_5 . ' -a ' . $adapter_3 . ' -o ${output_address}${input_query_name}_trim_1.${input_query_suffix} --max-n 0 ${output_address}${input_query_name}.${input_query_suffix}
+		';
+		}
 	}
 	else{
 		print FILE '
@@ -464,9 +512,10 @@ touch ${output_detail_unmatch_genome}';
 ###step4: match to tRNA database
 echo ""
 echo "match to tRNA database"
+
+######match genome part - tRNA
 name=tRNA
 bowtie_address=' . $tRNA_db_address . '
-######match genome part
 echo ""
 echo "match to tRNA-match_genome"
 output_match_match_genome=${output_address}${input_query_name}_match_${name}_match_genome.fa
@@ -477,31 +526,28 @@ touch ${output_detail_match_genome}
 touch ${output_match_match_genome}
 touch ${output_unmatch_match_genome}
 
-bowtie ${bowtie_address} -f ${input_match} -v ${mismatch} -k 1 -p ${thread} --fullref --norc --al ${output_match_match_genome} --un ${output_unmatch_match_genome} > ${output_detail_match_genome}
+bowtie ${bowtie_address} -f ${input_match} -v ${mismatch} -k 10000 -p ${thread} --fullref --norc --al ${output_match_match_genome} --un ${output_unmatch_match_genome} > ${output_detail_match_genome}
 
-output_match_match_genome=${output_match_match_genome%.fa}
-touch ${output_match_match_genome}_output_tRNA_5_tail
-touch ${output_match_match_genome}_output_tRNA_3_tail
-touch ${output_match_match_genome}_output_tRNA_CCA_tail
-touch ${output_match_match_genome}_not_match_tRNA_tail.fa
-perl ${script_address}tRNA_tail_annotation.pl ' . $tRNA_db_address . '.fa ${output_match_match_genome}.fa
+input_match=${output_unmatch_match_genome}
 
-rm ${output_match_match_genome}_output_tRNA_CCA_tail
-rm ${output_match_match_genome}_not_match_tRNA_tail.fa
-mv ${output_match_match_genome}_output_tRNA_5_tail ${output_address}${input_query_name}_output_tRNA_5_tail_match_genome
-mv ${output_match_match_genome}_output_tRNA_3_tail ${output_address}${input_query_name}_output_tRNA_3_tail_match_genome
+######match genome part - tRNA-CCA
+name=tRNA_CCA
+bowtie_address=' . $tRNA_db_address . '_CCA
+echo ""
+echo "match to tRNA_CCA-match_genome"
+output_match_match_genome=${output_address}${input_query_name}_match_${name}_match_genome.fa
+output_unmatch_match_genome=${output_address}${input_query_name}_unmatch_${name}_match_genome.fa
+output_detail_match_genome=${output_address}${input_query_name}_output_${name}_match_genome
 
-output_unmatch_match_genome=${output_unmatch_match_genome%.fa}
-touch ${output_unmatch_match_genome}_output_tRNA_5_tail
-touch ${output_unmatch_match_genome}_output_tRNA_3_tail
-touch ${output_unmatch_match_genome}_output_tRNA_CCA_tail
-touch ${output_unmatch_match_genome}_not_match_tRNA_tail.fa
-perl ${script_address}tRNA_tail_annotation.pl ' . $tRNA_db_address . '.fa ${output_unmatch_match_genome}.fa
-rm ${output_unmatch_match_genome}_output_tRNA_5_tail
-rm ${output_unmatch_match_genome}_output_tRNA_3_tail
-mv ${output_unmatch_match_genome}_output_tRNA_CCA_tail ${output_address}${input_query_name}_output_tRNA_CCA_tail_match_genome
+touch ${output_detail_match_genome}
+touch ${output_match_match_genome}
+touch ${output_unmatch_match_genome}
 
-######unmatch genome part
+bowtie ${bowtie_address} -f ${input_match} -v ${mismatch} -k 10000 -p ${thread} --fullref --norc --al ${output_match_match_genome} --un ${output_unmatch_match_genome} > ${output_detail_match_genome}
+
+######unmatch genome part - tRNA
+name=tRNA
+bowtie_address=' . $tRNA_db_address . '
 echo ""
 echo "match to tRNA-unmatch_genome"
 output_match_unmatch_genome=${output_address}${input_query_name}_match_${name}_unmatch_genome.fa
@@ -512,33 +558,28 @@ touch ${output_detail_unmatch_genome}
 touch ${output_match_unmatch_genome}
 touch ${output_unmatch_unmatch_genome}
 
-bowtie ${bowtie_address} -f ${input_unmatch} -v ${mismatch} -k 1 -p ${thread} --fullref --norc --al ${output_match_unmatch_genome} --un ${output_unmatch_unmatch_genome} > ${output_detail_unmatch_genome}
+bowtie ${bowtie_address} -f ${input_unmatch} -v ${mismatch} -k 10000 -p ${thread} --fullref --norc --al ${output_match_unmatch_genome} --un ${output_unmatch_unmatch_genome} > ${output_detail_unmatch_genome}
 
-output_match_unmatch_genome=${output_match_unmatch_genome%.fa}
-touch ${output_match_unmatch_genome}_output_tRNA_5_tail
-touch ${output_match_unmatch_genome}_output_tRNA_3_tail
-touch ${output_match_unmatch_genome}_output_tRNA_CCA_tail
-touch ${output_match_unmatch_genome}_not_match_tRNA_tail.fa
-perl ${script_address}tRNA_tail_annotation.pl ' . $tRNA_db_address . '.fa ${output_match_unmatch_genome}.fa
+input_unmatch=${output_unmatch_unmatch_genome}
 
-rm ${output_match_unmatch_genome}_output_tRNA_CCA_tail
-rm ${output_match_unmatch_genome}_not_match_tRNA_tail.fa
-mv ${output_match_unmatch_genome}_output_tRNA_5_tail ${output_address}${input_query_name}_output_tRNA_5_tail_unmatch_genome
-mv ${output_match_unmatch_genome}_output_tRNA_3_tail ${output_address}${input_query_name}_output_tRNA_3_tail_unmatch_genome
+######unmatch genome part - tRNA-CCA
+name=tRNA_CCA
+bowtie_address=' . $tRNA_db_address . '_CCA
+echo ""
+echo "match to tRNA_CCA-unmatch_genome"
+output_match_unmatch_genome=${output_address}${input_query_name}_match_${name}_unmatch_genome.fa
+output_unmatch_unmatch_genome=${output_address}${input_query_name}_unmatch_${name}_ummatch_genome.fa
+output_detail_unmatch_genome=${output_address}${input_query_name}_output_${name}_unmatch_genome
 
-output_unmatch_unmatch_genome=${output_unmatch_unmatch_genome%.fa}
-touch ${output_unmatch_unmatch_genome}_output_tRNA_5_tail
-touch ${output_unmatch_unmatch_genome}_output_tRNA_3_tail
-touch ${output_unmatch_unmatch_genome}_output_tRNA_CCA_tail
-touch ${output_unmatch_unmatch_genome}_not_match_tRNA_tail.fa
-perl ${script_address}tRNA_tail_annotation.pl ' . $tRNA_db_address . '.fa ${output_unmatch_unmatch_genome}.fa
-rm ${output_unmatch_unmatch_genome}_output_tRNA_5_tail
-rm ${output_unmatch_unmatch_genome}_output_tRNA_3_tail
-mv ${output_unmatch_unmatch_genome}_output_tRNA_CCA_tail ${output_address}${input_query_name}_output_tRNA_CCA_tail_unmatch_genome
+touch ${output_detail_unmatch_genome}
+touch ${output_match_unmatch_genome}
+touch ${output_unmatch_unmatch_genome}
+
+bowtie ${bowtie_address} -f ${input_unmatch} -v ${mismatch} -k 10000 -p ${thread} --fullref --norc --al ${output_match_unmatch_genome} --un ${output_unmatch_unmatch_genome} > ${output_detail_unmatch_genome}
 
 ######define next input
-input_match=${output_unmatch_match_genome}_not_match_tRNA_tail.fa
-input_unmatch=${output_unmatch_unmatch_genome}_not_match_tRNA_tail.fa';
+input_match=${output_unmatch_match_genome}
+input_unmatch=${output_unmatch_unmatch_genome}';
 	}
 
 	unless ($piRNA_db_address eq "NULL"){
@@ -612,7 +653,7 @@ fi
 
 mv ${output_address}${input_query_name}_*.txt ${output_address}${input_query_name}_result
 mv ${output_address}${input_query_name}_output_* ${output_address}${input_query_name}_processed
-mv ${output_address}${input_query_name}*.fa ${output_address}${input_query_name}_fa';
+mv ${output_address}${input_query_name}*.fa* ${output_address}${input_query_name}_fa';
 
 	unless ($miRNA_db_address eq "NULL" && 
 		$rRNA_db_address eq "NULL" && 
@@ -646,7 +687,7 @@ date';
 close FILE_OUT
 	or warn $!;
 
-print "Processing input files...\n";
+print "\nProcessing input files...\n\n";
 
 system("sh $output_file");	
 
