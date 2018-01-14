@@ -13,6 +13,8 @@ Small non-coding RNA annotation Pipeline Optimized for rRNA- and tRNA-Derived Sm
 
 <a href='#copyright'> Copyright and licensing information </a>
 
+<a href='#history'> History </a>
+
 <a href='#disclaimer'> Disclaimer </a>
 
 <a href='#contact'> Contact information </a>
@@ -433,11 +435,11 @@ Extracted from miRDeep2 [3] (https://github.com/rajewsky-lab/mirdeep2)
 
     `combine_reads.pl reads.fa > combined_reads.fa`
     
-### tRNA_tail_annotation.pl
+### tRNA_db_processing.pl
 
 1. Description:
 
-    This script annotates (perfect match) RNA sequences to tRNA 5' end, tRNA 3' end (without -CCA) and tRNA 3' end (with -CCA). 
+    This script adds CCA end to original genomic tRNA 3’ end and add G to Histidine tRNA 5’ end. 
 
 2. Input:
 
@@ -445,28 +447,12 @@ Extracted from miRDeep2 [3] (https://github.com/rajewsky-lab/mirdeep2)
     
     A fasta file
 
-3. output:
-
-    1. A 4-column table file describes sequences mapping to tRNA 5' end, including ID, sequence, length, and annotation information. e.g.:
-    
-    ```
-        -------------------------------------------------------------------------------------------------------------
-        t00000001    TCCCTGGTGGTCTAGTGGTTAGGATTCGGCGC    32    tRNA_Glu_CTC_5_end
-        -------------------------------------------------------------------------------------------------------------
-    ```
-
-    2. A 4-column table file describes sequences mapping to tRNA 3' end (without -CCA), same format as in output_1
-
-    3. A 4-column table file describes sequences mapping to tRNA 3' end (with -CCA), same format as in output_1
-
-    4. A fasta file including sequences that not mapping to tRNA end
-
-4. Options:
+3. Options:
     \-
 
-5. Example usage:
+4. Example usage:
 
-    `tRNA_tail_annotation.pl refer_file in_file`
+    `tRNA_db_processing.pl input_tRNA_file.fa`
     
 ### annotation.pl
 
@@ -2062,6 +2048,12 @@ Main database source:
 7.	Sai Lakshmi S, Agrawal S. piRNABank: a web resource on classified and clustered Piwi-interacting RNAs. Nucleic acids research. 2008;36(Database issue):D173-7. doi: 10.1093/nar/gkm696. 
 8.	Yates A, Akanni W, Amode MR, Barrell D, Billis K, Carvalho-Silva D, et al. Ensembl 2016. Nucleic acids research. 2016;44(D1):D710-6. doi: 10.1093/nar/gkv1157.
 9.	Nawrocki EP, Burge SW, Bateman A, Daub J, Eberhardt RY, Eddy SR, et al. Rfam 12.0: updates to the RNA families database. Nucleic acids research. 2015;43(Database issue):D130-7. doi: 10.1093/nar/gku1063. 
+
+## History <a id='history'></a>
+1.0.1 - 01/13/2018
+1. 	Fixed bug that caused unexpected exit. 
+2.	Optimized script to speed up tRNA annotation process. 
+
 
 ## Copyright and licensing information <a id='copyright'></a>
 SPORTS1.0 is available under the GNU General Public License version 3 (GPLv3).
