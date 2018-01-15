@@ -314,7 +314,7 @@ if (-e $out_file[4] && !-z $out_file[4]){
 		while (<$fh>){
 			chomp;
 			($id, $anno, $start_site, $seq, $repeat_num) = (split /\t/)[0, 3, 4, 5, 7];
-			@annotation = split(/ /, $anno);
+			@annotation = split(/ +/, $anno);
 			$tRNA_len = $annotation[-4];
 			$len = length $seq;
 			if ($start_site == 0){
@@ -365,7 +365,7 @@ if (-e $out_file[4] && !-z $out_file[4]){
 		while (<$fh>){
 			chomp;
 			($id, $anno, $start_site, $seq, $repeat_num) = (split /\t/)[0, 3, 4, 5, 7];
-			@annotation = split(/ /, $anno);
+			@annotation = split(/ +/, $anno);
 			$tRNA_len = $annotation[-4];
 			$len = length $seq;
 			if ($start_site == 0){
@@ -487,7 +487,7 @@ if (-e $out_file[4] && !-z $out_file[4]){
 		while (<$fh>){
 			chomp;
 			($id, $anno, $start_site, $seq, $repeat_num) = (split /\t/)[0, 3, 4, 5, 7];
-			@annotation = split(/ /, $anno);
+			@annotation = split(/ +/, $anno);
 			$tRNA_len = $annotation[-4];
 			$len = length $seq;
 			if ($start_site == 0){
@@ -538,7 +538,7 @@ if (-e $out_file[4] && !-z $out_file[4]){
 		while (<$fh>){
 			chomp;
 			($id, $anno, $start_site, $seq, $repeat_num) = (split /\t/)[0, 3, 4, 5, 7];
-			@annotation = split(/ /, $anno);
+			@annotation = split(/ +/, $anno);
 			$tRNA_len = $annotation[-4];
 			$len = length $seq;
 			if ($start_site == 0){
