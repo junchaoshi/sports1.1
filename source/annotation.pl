@@ -35,7 +35,6 @@ open FILE, $in_file
 
 for (1 .. $file_number){
 	open $file_handle{$_}, $out_file[$_-1] ;
-#		or die "Can't open '$out_file[$_-1]': $!";
 }
 
 open OUTPUT1, ">$out_final"
@@ -296,6 +295,7 @@ if (-e $out_file[4] && !-z $out_file[4]){
 	my %sum_5_end;
 	my %sum_3_end;
 	my %sum_CCA_end;
+	my %repeat_num;
 	my $sums  = 0;
 	my $sums_5_end = 0;
 	my $sums_3_end = 0;
@@ -306,14 +306,21 @@ if (-e $out_file[4] && !-z $out_file[4]){
 	my $temp_anno;
 	my $tRNA_len;
 	my $start_site;
-	my $repeat_num;
 	my @annotation;
 	my $item;
 	if (-e $out_file[5] && !-z $out_file[5]){
 		$fh = $file_handle{6};
 		while (<$fh>){
+		chomp;
+		$id = (split /\t/)[0];
+		$repeat_num{$id} = 0 unless defined $repeat_num{$id};
+		$repeat_num{$id} += 1;
+		}
+		close $fh;
+		open $fh, $out_file[5];
+		while (<$fh>){
 			chomp;
-			($id, $anno, $start_site, $seq, $repeat_num) = (split /\t/)[0, 3, 4, 5, 7];
+			($id, $anno, $start_site, $seq) = (split /\t/)[0, 3, 4, 5];
 			@annotation = split(/ +/, $anno);
 			$tRNA_len = $annotation[-4];
 			$len = length $seq;
@@ -322,19 +329,19 @@ if (-e $out_file[4] && !-z $out_file[4]){
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1 . '_5_end';
 				$anno = $temp_anno;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1;
-				$sum_5_end{$anno} += ($reads{$id} / ($repeat_num + 1));
-				$sum{$temp_anno} += ($reads{$id} / ($repeat_num + 1));
-				$distr_5_end{$len} += ($reads{$id} / ($repeat_num + 1));
-				$sums_5_end += ($reads{$id} / ($repeat_num + 1));
+				$sum_5_end{$anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$distr_5_end{$len} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sums_5_end += ($reads{$id} / ($repeat_num{$id} + 1));
 			}elsif ($tRNA_len == ($len + $start_site + 1)){
 				$annotation[-5] =~ /\((.+)\)/;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1 . '_3_end';
 				$anno = $temp_anno;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1;
-				$sum_3_end{$anno} += ($reads{$id} / ($repeat_num + 1));
-				$sum{$temp_anno} += ($reads{$id} / ($repeat_num + 1));
-				$distr_3_end{$len} += ($reads{$id} / ($repeat_num + 1));
-				$sums_3_end += ($reads{$id} / ($repeat_num + 1));
+				$sum_3_end{$anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$distr_3_end{$len} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sums_3_end += ($reads{$id} / ($repeat_num{$id} + 1));
 			}else {
 				$annotation[-5] =~ /\((.+)\)/;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1;
@@ -352,9 +359,9 @@ if (-e $out_file[4] && !-z $out_file[4]){
 				$anno =~ s/\\\?/\?/g;
 				$annos{$id} = $anno;
 			}
-			$sum{$temp_anno} += ($reads{$id} / ($repeat_num + 1));
-			$sums += ($reads{$id} / ($repeat_num + 1));
-			$distr{$len} += ($reads{$id} / ($repeat_num + 1));
+			$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+			$sums += ($reads{$id} / ($repeat_num{$id} + 1));
+			$distr{$len} += ($reads{$id} / ($repeat_num{$id} + 1));
 			if ($unannos_unmatch{$id}){
 				delete $unannos_unmatch{$id};
 			}
@@ -363,8 +370,16 @@ if (-e $out_file[4] && !-z $out_file[4]){
 	if (-e $out_file[6] && !-z $out_file[6]){
 		$fh = $file_handle{7};
 		while (<$fh>){
+		chomp;
+		$id = (split /\t/)[0];
+		$repeat_num{$id} = 0 unless defined $repeat_num{$id};
+		$repeat_num{$id} += 1;
+		}
+		close $fh;
+		open $fh, $out_file[6];
+		while (<$fh>){
 			chomp;
-			($id, $anno, $start_site, $seq, $repeat_num) = (split /\t/)[0, 3, 4, 5, 7];
+			($id, $anno, $start_site, $seq) = (split /\t/)[0, 3, 4, 5];
 			@annotation = split(/ +/, $anno);
 			$tRNA_len = $annotation[-4];
 			$len = length $seq;
@@ -373,28 +388,28 @@ if (-e $out_file[4] && !-z $out_file[4]){
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1 . '_5_end';
 				$anno = $temp_anno;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1;
-				$sum_5_end{$anno} += ($reads{$id} / ($repeat_num + 1));
-				$sum{$temp_anno} += ($reads{$id} / ($repeat_num + 1));
-				$distr_5_end{$len} += ($reads{$id} / ($repeat_num + 1));
-				$sums_5_end += ($reads{$id} / ($repeat_num + 1));
+				$sum_5_end{$anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$distr_5_end{$len} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sums_5_end += ($reads{$id} / ($repeat_num{$id} + 1));
 			}elsif ($tRNA_len == ($len + $start_site + 1)){
 				$annotation[-5] =~ /\((.+)\)/;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1 . '_3_end';
 				$anno = $temp_anno;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1;
-				$sum_3_end{$anno} += ($reads{$id} / ($repeat_num + 1));
-				$sum{$temp_anno} += ($reads{$id} / ($repeat_num + 1));
-				$distr_3_end{$len} += ($reads{$id} / ($repeat_num + 1));
-				$sums_3_end += ($reads{$id} / ($repeat_num + 1));
+				$sum_3_end{$anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$distr_3_end{$len} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sums_3_end += ($reads{$id} / ($repeat_num{$id} + 1));
 			}elsif ($tRNA_len == ($len + $start_site - 2)){
 				$annotation[-5] =~ /\((.+)\)/;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1 . '_CCA_end';
 				$anno = $temp_anno;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1;
-				$sum_CCA_end{$anno} += ($reads{$id} / ($repeat_num + 1));
-				$sum{$temp_anno} += ($reads{$id} / ($repeat_num + 1));
-				$distr_CCA_end{$len} += ($reads{$id} / ($repeat_num + 1));
-				$sums_CCA_end += ($reads{$id} / ($repeat_num + 1));
+				$sum_CCA_end{$anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$distr_CCA_end{$len} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sums_CCA_end += ($reads{$id} / ($repeat_num{$id} + 1));
 			}else{
 				$annotation[-5] =~ /\((.+)\)/;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1;
@@ -412,9 +427,9 @@ if (-e $out_file[4] && !-z $out_file[4]){
 				$anno =~ s/\\\?/\?/g;
 				$annos{$id} = $anno;
 			}
-			$sum{$temp_anno} += ($reads{$id} / ($repeat_num + 1));
-			$sums += ($reads{$id} / ($repeat_num + 1));
-			$distr{$len} += ($reads{$id} / ($repeat_num + 1));
+			$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+			$sums += ($reads{$id} / ($repeat_num{$id} + 1));
+			$distr{$len} += ($reads{$id} / ($repeat_num{$id} + 1));
 			if ($unannos_unmatch{$id}){
 				delete $unannos_unmatch{$id};
 			}
@@ -469,6 +484,7 @@ if (-e $out_file[4] && !-z $out_file[4]){
 	my %sum_5_end;
 	my %sum_3_end;
 	my %sum_CCA_end;
+	my %repeat_num;
 	my $sums  = 0;
 	my $sums_5_end = 0;
 	my $sums_3_end = 0;
@@ -479,14 +495,21 @@ if (-e $out_file[4] && !-z $out_file[4]){
 	my $temp_anno;
 	my $tRNA_len;
 	my $start_site;
-	my $repeat_num;
 	my @annotation;
 	my $item;
 	if (-e $out_file[7] && !-z $out_file[7]){
 		$fh = $file_handle{8};
 		while (<$fh>){
+		chomp;
+		$id = (split /\t/)[0];
+		$repeat_num{$id} = 0 unless defined $repeat_num{$id};
+		$repeat_num{$id} += 1;
+		}
+		close $fh;
+		open $fh, $out_file[7];
+		while (<$fh>){
 			chomp;
-			($id, $anno, $start_site, $seq, $repeat_num) = (split /\t/)[0, 3, 4, 5, 7];
+			($id, $anno, $start_site, $seq) = (split /\t/)[0, 3, 4, 5];
 			@annotation = split(/ +/, $anno);
 			$tRNA_len = $annotation[-4];
 			$len = length $seq;
@@ -495,19 +518,19 @@ if (-e $out_file[4] && !-z $out_file[4]){
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1 . '_5_end';
 				$anno = $temp_anno;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1;
-				$sum_5_end{$anno} += ($reads{$id} / ($repeat_num + 1));
-				$sum{$temp_anno} += ($reads{$id} / ($repeat_num + 1));
-				$distr_5_end{$len} += ($reads{$id} / ($repeat_num + 1));
-				$sums_5_end += ($reads{$id} / ($repeat_num + 1));
+				$sum_5_end{$anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$distr_5_end{$len} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sums_5_end += ($reads{$id} / ($repeat_num{$id} + 1));
 			}elsif ($tRNA_len == ($len + $start_site + 1)){
 				$annotation[-5] =~ /\((.+)\)/;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1 . '_3_end';
 				$anno = $temp_anno;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1;
-				$sum_3_end{$anno} += ($reads{$id} / ($repeat_num + 1));
-				$sum{$temp_anno} += ($reads{$id} / ($repeat_num + 1));
-				$distr_3_end{$len} += ($reads{$id} / ($repeat_num + 1));
-				$sums_3_end += ($reads{$id} / ($repeat_num + 1));
+				$sum_3_end{$anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$distr_3_end{$len} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sums_3_end += ($reads{$id} / ($repeat_num{$id} + 1));
 			}else {
 				$annotation[-5] =~ /\((.+)\)/;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1;
@@ -525,9 +548,9 @@ if (-e $out_file[4] && !-z $out_file[4]){
 				$anno =~ s/\\\?/\?/g;
 				$annos{$id} = $anno;
 			}
-			$sum{$temp_anno} += ($reads{$id} / ($repeat_num + 1));
-			$sums += ($reads{$id} / ($repeat_num + 1));
-			$distr{$len} += ($reads{$id} / ($repeat_num + 1));
+			$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+			$sums += ($reads{$id} / ($repeat_num{$id} + 1));
+			$distr{$len} += ($reads{$id} / ($repeat_num{$id} + 1));
 			if ($unannos_unmatch{$id}){
 				delete $unannos_unmatch{$id};
 			}
@@ -536,8 +559,16 @@ if (-e $out_file[4] && !-z $out_file[4]){
 	if (-e $out_file[8] && !-z $out_file[8]){
 		$fh = $file_handle{9};
 		while (<$fh>){
+		chomp;
+		$id = (split /\t/)[0];
+		$repeat_num{$id} = 0 unless defined $repeat_num{$id};
+		$repeat_num{$id} += 1;
+		}
+		close $fh;
+		open $fh, $out_file[8];
+		while (<$fh>){
 			chomp;
-			($id, $anno, $start_site, $seq, $repeat_num) = (split /\t/)[0, 3, 4, 5, 7];
+			($id, $anno, $start_site, $seq) = (split /\t/)[0, 3, 4, 5];
 			@annotation = split(/ +/, $anno);
 			$tRNA_len = $annotation[-4];
 			$len = length $seq;
@@ -546,28 +577,28 @@ if (-e $out_file[4] && !-z $out_file[4]){
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1 . '_5_end';
 				$anno = $temp_anno;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1;
-				$sum_5_end{$anno} += ($reads{$id} / ($repeat_num + 1));
-				$sum{$temp_anno} += ($reads{$id} / ($repeat_num + 1));
-				$distr_5_end{$len} += ($reads{$id} / ($repeat_num + 1));
-				$sums_5_end += ($reads{$id} / ($repeat_num + 1));
+				$sum_5_end{$anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$distr_5_end{$len} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sums_5_end += ($reads{$id} / ($repeat_num{$id} + 1));
 			}elsif ($tRNA_len == ($len + $start_site + 1)){
 				$annotation[-5] =~ /\((.+)\)/;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1 . '_3_end';
 				$anno = $temp_anno;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1;
-				$sum_3_end{$anno} += ($reads{$id} / ($repeat_num + 1));
-				$sum{$temp_anno} += ($reads{$id} / ($repeat_num + 1));
-				$distr_3_end{$len} += ($reads{$id} / ($repeat_num + 1));
-				$sums_3_end += ($reads{$id} / ($repeat_num + 1));
+				$sum_3_end{$anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$distr_3_end{$len} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sums_3_end += ($reads{$id} / ($repeat_num{$id} + 1));
 			}elsif ($tRNA_len == ($len + $start_site - 2)){
 				$annotation[-5] =~ /\((.+)\)/;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1 . '_CCA_end';
 				$anno = $temp_anno;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1;
-				$sum_CCA_end{$anno} += ($reads{$id} / ($repeat_num + 1));
-				$sum{$temp_anno} += ($reads{$id} / ($repeat_num + 1));
-				$distr_CCA_end{$len} += ($reads{$id} / ($repeat_num + 1));
-				$sums_CCA_end += ($reads{$id} / ($repeat_num + 1));
+				$sum_CCA_end{$anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$distr_CCA_end{$len} += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sums_CCA_end += ($reads{$id} / ($repeat_num{$id} + 1));
 			}else{
 				$annotation[-5] =~ /\((.+)\)/;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1;
@@ -585,9 +616,9 @@ if (-e $out_file[4] && !-z $out_file[4]){
 				$anno =~ s/\\\?/\?/g;
 				$annos{$id} = $anno;
 			}
-			$sum{$temp_anno} += ($reads{$id} / ($repeat_num + 1));
-			$sums += ($reads{$id} / ($repeat_num + 1));
-			$distr{$len} += ($reads{$id} / ($repeat_num + 1));
+			$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
+			$sums += ($reads{$id} / ($repeat_num{$id} + 1));
+			$distr{$len} += ($reads{$id} / ($repeat_num{$id} + 1));
 			if ($unannos_unmatch{$id}){
 				delete $unannos_unmatch{$id};
 			}
