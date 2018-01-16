@@ -30,9 +30,7 @@ length.stack <- function(file.address, file.name){
   dis.clean  <- length.dis[which(length.dis$name == "Clean_Reads"), 2:3]
   dis.miRNA  <- length.dis[grep("mir", length.dis$name, ignore.case = TRUE), 2:3]
   dis.tRNA   <- rbind(length.dis[grep("tRNA_Match_Genome", length.dis$name, ignore.case = TRUE), 2:3],
-                      length.dis[grep("tRNA_Unmatch_Genome", length.dis$name, ignore.case = TRUE), 2:3],
-                      length.dis[grep("tRNA_CCA_end", length.dis$name, ignore.case = TRUE), 2:3],
-                      length.dis[grep("Mt_tRNA", length.dis$name, ignore.case = TRUE), 2:3]
+                      length.dis[grep("tRNA_Unmatch_Genome", length.dis$name, ignore.case = TRUE), 2:3]
                       )
 
   dis.tRNA.5.end    <- length.dis[grep("tRNA_5_end", length.dis$name, ignore.case = TRUE), 2:3]
