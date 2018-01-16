@@ -65,7 +65,6 @@ Output:
 Alignment:
   -l <int>	the minimal length of the output sequences (default = 15)
   -L <int>	the maximal length of the output sequences (default = 45)
-  -M <int>	the total number of mismatches in the entire alignment (default = 0)
   -a		Remove 5\'/3\' adapters
   -x <str>	(When -a is selected) Your 5\' adapter sequence or use "default". Default = "GTTCAGAGTTCTACAGTCCGACGATC"
   -y <str>	(When -a is selected) Your 3\' adapter sequence or use "default". Default = "TGGAATTCTCGGGTGCCAAGG"
