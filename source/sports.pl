@@ -28,7 +28,7 @@ my $version		= $opt_v ? 1 : 0;
 my $help		= $opt_h ? 1 : 0;
 
 
-my $version_info = "1.0.1";
+my $version_info = "1.0.2";
 
 my $usage = <<"USAGE";
 Description:	Perl script used to annotate small RNA sequences in batch.
