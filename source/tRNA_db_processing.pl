@@ -5,9 +5,9 @@ use warnings;
 use Cwd 'abs_path';
 
 my $usage = <<"USAGE";
-Description:	This script adds CCA end to original genomic tRNA 3’ end and add G to Histidine tRNA 5’ end.
+Description:	This script transfers original tRNA sequences to mature tRNA sequences. 
 		input_tRNA_file is in .fa format.
-Usage: tRNA_db_processing.pl input_tRNA_file.fa
+Usage: tRNA_db_processing.pl input_tRNA_file
 USAGE
 
 my $in_file = shift or die $usage;
@@ -31,19 +31,17 @@ open INPUT, $in_file
 open OUTPUT, ">$out_file"
 	or die "Can't open '$out_file': $!";
 
-my @seqs = ();
+my $seqs = undef;
 my @annos;
 my $end = "CCA";
-
-
 
 while (<INPUT>){
 	chomp;
 	if($_ =~ /^>(.*)His(.*)/){
-		if(@seqs){
-			print OUTPUT join("", @seqs);
+		if(defined $seqs){
+			print OUTPUT $seqs;
 			print OUTPUT "$end\n";
-			@seqs = ();
+			$seqs = undef;
 		}
 		@annos = split(/ /, $_);
 		print OUTPUT join(" ", @annos);
@@ -51,18 +49,21 @@ while (<INPUT>){
 		next;
 	}
 	elsif($_ =~ /^>(.*)/ && $_ !~ /^>(.*)His(.*)/ ){
-		if(@seqs){
-			print OUTPUT join("", @seqs);
+		if(defined $seqs){
+			print OUTPUT $seqs;
 			print OUTPUT "$end\n";
-			@seqs = ();
+			$seqs = undef;
 		}
 		@annos = split(/ /, $_);
 		print OUTPUT join(" ", @annos);
 		print OUTPUT "\n";
 		next;
 	}else{
-		push @seqs, $_;
+		$_ =~ s/[atcgun]//g;
+		$seqs = $seqs . $_;
+		
+		
 	}
 }
-print OUTPUT join("", @seqs);
+print OUTPUT $seqs;
 print OUTPUT "$end\n";
