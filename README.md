@@ -2050,8 +2050,11 @@ Main database source:
 9.	Nawrocki EP, Burge SW, Bateman A, Daub J, Eberhardt RY, Eddy SR, et al. Rfam 12.0: updates to the RNA families database. Nucleic acids research. 2015;43(Database issue):D130-7. doi: 10.1093/nar/gku1063. 
 
 ## History <a id='history'></a>
+1.0.2 - 01/22/2018
+1.	Fixed bugs to generate more accurate mature tRNA database.
+
 1.0.1 - 01/13/2018
-1. 	Fixed bug that caused unexpected exit. 
+1. 	Fixed bugs that caused unexpected exit. 
 2.	Optimized script to speed up tRNA annotation process. 
 
 
