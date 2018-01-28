@@ -2050,6 +2050,9 @@ Main database source:
 9.	Nawrocki EP, Burge SW, Bateman A, Daub J, Eberhardt RY, Eddy SR, et al. Rfam 12.0: updates to the RNA families database. Nucleic acids research. 2015;43(Database issue):D130-7. doi: 10.1093/nar/gku1063. 
 
 ## History <a id='history'></a>
+1.0.3 - 01/27/2018
+1.	Changed the mapping order to make the mapping results more accurate according to the paper "Juan Pablo Tosar, Carlos Rovira, Alfonso Cayota. Non-coding RNA fragments account for the majority of annotated piRNAs expressed in somatic non-gonadal tissues. Communications Biology. 2018;1, Article number: 2. doi: 10.1038/s42003-017-0001-7".
+
 1.0.2 - 01/22/2018
 1.	Fixed bugs to generate more accurate mature tRNA database.
 
