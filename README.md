@@ -2051,7 +2051,7 @@ Main database source:
 
 ## History <a id='history'></a>
 1.0.3 - 01/27/2018
-1.	Changed the mapping order to make the mapping results more accurate according to the paper "Juan Pablo Tosar, Carlos Rovira, Alfonso Cayota. Non-coding RNA fragments account for the majority of annotated piRNAs expressed in somatic non-gonadal tissues. Communications Biology. 2018;1, Article number: 2. doi: 10.1038/s42003-017-0001-7".
+1.	Changed the mapping order to make the mapping results more accurate according to the paper " Juan Pablo Tosar, Carlos Rovira, Alfonso Cayota. Non-coding RNA fragments account for the majority of annotated piRNAs expressed in somatic non-gonadal tissues. Communications Biology. 2018;1, Article number: 2. doi: 10.1038/s42003-017-0001-7 ".
 
 1.0.2 - 01/22/2018
 1.	Fixed bugs to generate more accurate mature tRNA database.
