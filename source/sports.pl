@@ -28,7 +28,7 @@ my $version		= $opt_v ? 1 : 0;
 my $help		= $opt_h ? 1 : 0;
 
 
-my $version_info = "1.0.2";
+my $version_info = "1.0.3";
 
 my $usage = <<"USAGE";
 Description:	Perl script used to annotate small RNA sequences in batch.
@@ -446,11 +446,12 @@ rm ${output_address}${input_query_name}_trim_1.${input_query_suffix}
 	}
 
 ###annotation process
+	my $step_number = 1;
 	print FILE '
 
 input=${output_address}${input_query_name}.fa	
 
-###step1: match to genome
+###step' . $step_number . ': match to genome
 echo "match to genome"
 bowtie_address=' . $genome_address . '
 output_match=${output_address}${input_query_name}_match_genome.fa
@@ -465,8 +466,9 @@ input_match=${output_address}${input_query_name}_match_genome.fa
 input_unmatch=${output_address}${input_query_name}_unmatch_genome.fa';
 
 	unless ($miRNA_db_address eq "NULL"){
+		$step_number += 1;
 		print FILE '
-###step2: match to microRNA database
+###step' . $step_number . ': match to microRNA database
 echo ""
 echo "match to microRNA database"
 output_detail_match_genome=${output_address}${input_query_name}_output_miRNA_match_genome
@@ -484,8 +486,9 @@ touch ${output_detail_unmatch_genome}';
 	}
 	
 	unless ($rRNA_db_address eq "NULL"){
+		$step_number += 1;
 		print FILE '
-###step3: match to rRNA database
+###step' . $step_number . ': match to rRNA database
 echo ""
 echo "match to rRNA database"
 output_detail_match_genome=${output_address}${input_query_name}_output_rRNA_match_genome
@@ -508,8 +511,9 @@ touch ${output_detail_unmatch_genome}';
 		}
 	}
 	unless ($tRNA_db_address eq "NULL"){
+		$step_number += 1;
 		print FILE '
-###step4: match to tRNA database
+###step' . $step_number . ': match to tRNA database
 echo ""
 echo "match to tRNA database"
 
@@ -582,27 +586,10 @@ input_match=${output_unmatch_match_genome}
 input_unmatch=${output_unmatch_unmatch_genome}';
 	}
 
-	unless ($piRNA_db_address eq "NULL"){
-		print FILE '
-###step5: match to piRNA database
-echo ""
-echo "match to piRNA database"
-output_detail_match_genome=${output_address}${input_query_name}_output_piRNA_match_genome
-output_detail_unmatch_genome=${output_address}${input_query_name}_output_piRNA_unmatch_genome
-if [ -e "${output_detail_match_genome}" ]; then
-rm ${output_detail_match_genome}
-fi
-if [ -e "${output_detail_unmatch_genome}" ]; then
-rm ${output_detail_unmatch_genome}
-fi
-touch ${output_detail_match_genome}
-touch ${output_detail_unmatch_genome}';
-		BowtiePrint('piRNA', $piRNA_db_address);
-	}
-
 	unless ($ensembl_nc_address eq "NULL"){
+		$step_number += 1;
 		print FILE '
-###step6: match to ensembl database
+###step' . $step_number . ': match to ensembl database
 echo ""
 echo "match to ensembl database"
 output_detail_match_genome=${output_address}${input_query_name}_output_ensembl_match_genome
@@ -619,8 +606,9 @@ touch ${output_detail_unmatch_genome}';
 	}
 
 	unless ($rfam_address eq "NULL"){
+		$step_number += 1;
 		print FILE '
-###step7: match to rfam database
+###step' . $step_number . ': match to rfam database
 echo ""
 echo "match to rfam database"
 output_detail_match_genome=${output_address}${input_query_name}_output_rfam_match_genome
@@ -635,6 +623,27 @@ touch ${output_detail_match_genome}
 touch ${output_detail_unmatch_genome}';
 		BowtiePrint('rfam', $rfam_address);
 	}
+
+
+	unless ($piRNA_db_address eq "NULL"){
+		$step_number += 1;
+		print FILE '
+###step' . $step_number . ': match to piRNA database
+echo ""
+echo "match to piRNA database"
+output_detail_match_genome=${output_address}${input_query_name}_output_piRNA_match_genome
+output_detail_unmatch_genome=${output_address}${input_query_name}_output_piRNA_unmatch_genome
+if [ -e "${output_detail_match_genome}" ]; then
+rm ${output_detail_match_genome}
+fi
+if [ -e "${output_detail_unmatch_genome}" ]; then
+rm ${output_detail_unmatch_genome}
+fi
+touch ${output_detail_match_genome}
+touch ${output_detail_unmatch_genome}';
+		BowtiePrint('piRNA', $piRNA_db_address);
+	}
+
 
 	print FILE '
 perl ${script_address}annotation.pl ${output_address}${input_query_name}
