@@ -275,8 +275,8 @@ unless (defined $output_address){
 
 unless (-e $output_address){
 	`mkdir -p $output_address`;
-	$output_address = abs_path($output_address);
 }
+$output_address = abs_path($output_address);
 
 {
 @input = split(/\//, $output_address);
