@@ -101,12 +101,12 @@ unless (-e $input_file){
 
 ##determine if adapter sequences are valid
 if($opt_adapter){
-	unless ($adapter_5 =~ /^[atgcun]+$/i || $adapter_5 =~ /^default$/i ){
+	unless ($adapter_5 =~ /^[atgcu]+$/i || $adapter_5 =~ /^default$/i ){
 	print "Invalid 5\' end adapter input!\n\n";
 	print $usage;
 	exit;
 	}
-	unless ($adapter_3 =~ /^[atgcun]+$/i || $adapter_3 =~ /^default$/i ){
+	unless ($adapter_3 =~ /^[atgcu]+$/i || $adapter_3 =~ /^default$/i ){
 	print "Invalid 3\' end adapter input!\n\n";
 	print $usage;
 	exit;
