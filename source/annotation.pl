@@ -329,23 +329,24 @@ if (-e $out_file[4] && !-z $out_file[4]){
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1 . '_5_end';
 				$anno = $temp_anno;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1;
-				$sum_5_end{$anno} += ($reads{$id} / ($repeat_num{$id} + 1));
-				$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
-				$distr_5_end{$len} += ($reads{$id} / ($repeat_num{$id} + 1));
-				$sums_5_end += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sum_5_end{$anno} += ($reads{$id} / $repeat_num{$id});
+				$sum{$temp_anno} += ($reads{$id} / $repeat_num{$id});
+				$distr_5_end{$len} += ($reads{$id} / $repeat_num{$id});
+				$sums_5_end += ($reads{$id} / $repeat_num{$id});
 			}elsif ($tRNA_len == ($len + $start_site + 1)){
 				$annotation[-5] =~ /\((.+)\)/;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1 . '_3_end';
 				$anno = $temp_anno;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1;
-				$sum_3_end{$anno} += ($reads{$id} / ($repeat_num{$id} + 1));
-				$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
-				$distr_3_end{$len} += ($reads{$id} / ($repeat_num{$id} + 1));
-				$sums_3_end += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sum_3_end{$anno} += ($reads{$id} / $repeat_num{$id});
+				$sum{$temp_anno} += ($reads{$id} / $repeat_num{$id});
+				$distr_3_end{$len} += ($reads{$id} / $repeat_num{$id});
+				$sums_3_end += ($reads{$id} / $repeat_num{$id});
 			}else {
 				$annotation[-5] =~ /\((.+)\)/;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1;
 				$anno = $temp_anno;
+				$sum{$temp_anno} += ($reads{$id} / $repeat_num{$id});
 			}
 			if ($anno =~ /Undet/){
 				$anno =~ s/\?/\\\?/g;
@@ -359,9 +360,8 @@ if (-e $out_file[4] && !-z $out_file[4]){
 				$anno =~ s/\\\?/\?/g;
 				$annos{$id} = $anno;
 			}
-			$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
-			$sums += ($reads{$id} / ($repeat_num{$id} + 1));
-			$distr{$len} += ($reads{$id} / ($repeat_num{$id} + 1));
+			$sums += ($reads{$id} / $repeat_num{$id});
+			$distr{$len} += ($reads{$id} / $repeat_num{$id});
 			if ($unannos_unmatch{$id}){
 				delete $unannos_unmatch{$id};
 			}
@@ -388,32 +388,33 @@ if (-e $out_file[4] && !-z $out_file[4]){
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1 . '_5_end';
 				$anno = $temp_anno;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1;
-				$sum_5_end{$anno} += ($reads{$id} / ($repeat_num{$id} + 1));
-				$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
-				$distr_5_end{$len} += ($reads{$id} / ($repeat_num{$id} + 1));
-				$sums_5_end += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sum_5_end{$anno} += ($reads{$id} / $repeat_num{$id});
+				$sum{$temp_anno} += ($reads{$id} / $repeat_num{$id});
+				$distr_5_end{$len} += ($reads{$id} / $repeat_num{$id});
+				$sums_5_end += ($reads{$id} / $repeat_num{$id});
 			}elsif ($tRNA_len == ($len + $start_site + 1)){
 				$annotation[-5] =~ /\((.+)\)/;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1 . '_3_end';
 				$anno = $temp_anno;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1;
-				$sum_3_end{$anno} += ($reads{$id} / ($repeat_num{$id} + 1));
-				$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
-				$distr_3_end{$len} += ($reads{$id} / ($repeat_num{$id} + 1));
-				$sums_3_end += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sum_3_end{$anno} += ($reads{$id} / $repeat_num{$id});
+				$sum{$temp_anno} += ($reads{$id} / $repeat_num{$id});
+				$distr_3_end{$len} += ($reads{$id} / $repeat_num{$id});
+				$sums_3_end += ($reads{$id} / $repeat_num{$id} );
 			}elsif ($tRNA_len == ($len + $start_site - 2)){
 				$annotation[-5] =~ /\((.+)\)/;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1 . '_CCA_end';
 				$anno = $temp_anno;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1;
-				$sum_CCA_end{$anno} += ($reads{$id} / ($repeat_num{$id} + 1));
-				$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
-				$distr_CCA_end{$len} += ($reads{$id} / ($repeat_num{$id} + 1));
-				$sums_CCA_end += ($reads{$id} / ($repeat_num{$id} + 1));
+				$sum_CCA_end{$anno} += ($reads{$id} / $repeat_num{$id});
+				$sum{$temp_anno} += ($reads{$id} / $repeat_num{$id});
+				$distr_CCA_end{$len} += ($reads{$id} / $repeat_num{$id});
+				$sums_CCA_end += ($reads{$id} / $repeat_num{$id});
 			}else{
 				$annotation[-5] =~ /\((.+)\)/;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1;
 				$anno = $temp_anno;
+				$sum{$temp_anno} += ($reads{$id} / $repeat_num{$id});
 			}
 			if ($anno =~ /Undet/){
 				$anno =~ s/\?/\\\?/g;
@@ -427,9 +428,8 @@ if (-e $out_file[4] && !-z $out_file[4]){
 				$anno =~ s/\\\?/\?/g;
 				$annos{$id} = $anno;
 			}
-			$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
-			$sums += ($reads{$id} / ($repeat_num{$id} + 1));
-			$distr{$len} += ($reads{$id} / ($repeat_num{$id} + 1));
+			$sums += ($reads{$id} / $repeat_num{$id});
+			$distr{$len} += ($reads{$id} / $repeat_num{$id});
 			if ($unannos_unmatch{$id}){
 				delete $unannos_unmatch{$id};
 			}
@@ -439,37 +439,37 @@ if (-e $out_file[4] && !-z $out_file[4]){
 	if ($sums > 0){
 		printf OUTPUT2 "GtRNAdb-tRNA_Match_Genome\t-\t%d\n", $sums;
 		foreach $anno(sort keys %sum){
-			printf OUTPUT2 "-\t$anno\t%d\n", $sum{$anno};
+			printf OUTPUT2 "-\t$anno\t%.2f\n", $sum{$anno};
 		}
 		foreach $len (sort keys %distr){
-			printf OUTPUT3 "GtRNAdb-tRNA_Match_Genome\t$len\t%d\n", $distr{$len};
+			printf OUTPUT3 "GtRNAdb-tRNA_Match_Genome\t$len\t%.2f\n", $distr{$len};
 		}
 	}
 	if ($sums_5_end > 0){
 		printf OUTPUT2 "GtRNAdb-tRNA_5_end_Match_Genome\t-\t%d\n", $sums_5_end;
 		foreach $anno(sort keys %sum_5_end){
-			printf OUTPUT2 "-\t$anno\t%d\n", $sum_5_end{$anno};
+			printf OUTPUT2 "-\t$anno\t%.2f\n", $sum_5_end{$anno};
 		}
 		foreach $len (sort keys %distr_5_end){
-			printf OUTPUT3 "GtRNAdb-tRNA_5_end_Match_Genome\t$len\t%d\n", $distr_5_end{$len};
+			printf OUTPUT3 "GtRNAdb-tRNA_5_end_Match_Genome\t$len\t%.2f\n", $distr_5_end{$len};
 		}
 	}
 	if ($sums_3_end > 0){
 		printf OUTPUT2 "GtRNAdb-tRNA_3_end_Match_Genome\t-\t%d\n", $sums_3_end;
 		foreach $anno(sort keys %sum_3_end){
-			printf OUTPUT2 "-\t$anno\t%d\n", $sum_3_end{$anno};
+			printf OUTPUT2 "-\t$anno\t%.2f\n", $sum_3_end{$anno};
 		}
 		foreach $len (sort keys %distr_3_end){
-			printf OUTPUT3 "GtRNAdb-tRNA_3_end_Match_Genome\t$len\t%d\n", $distr_3_end{$len};
+			printf OUTPUT3 "GtRNAdb-tRNA_3_end_Match_Genome\t$len\t%.2f\n", $distr_3_end{$len};
 		}
 	}
 	if ($sums_CCA_end > 0){
 		printf OUTPUT2 "GtRNAdb-tRNA_CCA_end_Match_Genome\t-\t%d\n", $sums_CCA_end;
 		foreach $anno(sort keys %sum_CCA_end){
-			printf OUTPUT2 "-\t$anno\t%d\n", $sum_CCA_end{$anno};
+			printf OUTPUT2 "-\t$anno\t%.2f\n", $sum_CCA_end{$anno};
 		}
 		foreach $len (sort keys %distr_CCA_end){
-			printf OUTPUT3 "GtRNAdb-tRNA_CCA_end_Match_Genome\t$len\t%d\n", $distr_CCA_end{$len};
+			printf OUTPUT3 "GtRNAdb-tRNA_CCA_end_Match_Genome\t$len\t%.2f\n", $distr_CCA_end{$len};
 		}
 	}
 }
@@ -535,6 +535,7 @@ if (-e $out_file[4] && !-z $out_file[4]){
 				$annotation[-5] =~ /\((.+)\)/;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1;
 				$anno = $temp_anno;
+				$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
 			}
 			if ($anno =~ /Undet/){
 				$anno =~ s/\?/\\\?/g;
@@ -548,7 +549,6 @@ if (-e $out_file[4] && !-z $out_file[4]){
 				$anno =~ s/\\\?/\?/g;
 				$annos{$id} = $anno;
 			}
-			$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
 			$sums += ($reads{$id} / ($repeat_num{$id} + 1));
 			$distr{$len} += ($reads{$id} / ($repeat_num{$id} + 1));
 			if ($unannos_unmatch{$id}){
@@ -603,6 +603,7 @@ if (-e $out_file[4] && !-z $out_file[4]){
 				$annotation[-5] =~ /\((.+)\)/;
 				$temp_anno = 'tRNA-' . $annotation[-6] . '-' . $1;
 				$anno = $temp_anno;
+				$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
 			}
 			if ($anno =~ /Undet/){
 				$anno =~ s/\?/\\\?/g;
@@ -616,7 +617,6 @@ if (-e $out_file[4] && !-z $out_file[4]){
 				$anno =~ s/\\\?/\?/g;
 				$annos{$id} = $anno;
 			}
-			$sum{$temp_anno} += ($reads{$id} / ($repeat_num{$id} + 1));
 			$sums += ($reads{$id} / ($repeat_num{$id} + 1));
 			$distr{$len} += ($reads{$id} / ($repeat_num{$id} + 1));
 			if ($unannos_unmatch{$id}){
@@ -628,37 +628,37 @@ if (-e $out_file[4] && !-z $out_file[4]){
 	if ($sums > 0){
 		printf OUTPUT2 "GtRNAdb-tRNA_Unmatch_Genome\t-\t%d\n", $sums;
 		foreach $anno(sort keys %sum){
-			printf OUTPUT2 "-\t$anno\t%d\n", $sum{$anno};
+			printf OUTPUT2 "-\t$anno\t%.2f\n", $sum{$anno};
 		}
 		foreach $len (sort keys %distr){
-			printf OUTPUT3 "GtRNAdb-tRNA_Unmatch_Genome\t$len\t%d\n", $distr{$len};
+			printf OUTPUT3 "GtRNAdb-tRNA_Unmatch_Genome\t$len\t%.2f\n", $distr{$len};
 		}
 	}
 	if ($sums_5_end > 0){
 		printf OUTPUT2 "GtRNAdb-tRNA_5_end_Unmatch_Genome\t-\t%d\n", $sums_5_end;
 		foreach $anno(sort keys %sum_5_end){
-			printf OUTPUT2 "-\t$anno\t%d\n", $sum_5_end{$anno};
+			printf OUTPUT2 "-\t$anno\t%.2f\n", $sum_5_end{$anno};
 		}
 		foreach $len (sort keys %distr_5_end){
-			printf OUTPUT3 "GtRNAdb-tRNA_5_end_Unmatch_Genome\t$len\t%d\n", $distr_5_end{$len};
+			printf OUTPUT3 "GtRNAdb-tRNA_5_end_Unmatch_Genome\t$len\t%.2f\n", $distr_5_end{$len};
 		}
 	}
 	if ($sums_3_end > 0){
 		printf OUTPUT2 "GtRNAdb-tRNA_3_end_Unmatch_Genome\t-\t%d\n", $sums_3_end;
 		foreach $anno(sort keys %sum_3_end){
-			printf OUTPUT2 "-\t$anno\t%d\n", $sum_3_end{$anno};
+			printf OUTPUT2 "-\t$anno\t%.2f\n", $sum_3_end{$anno};
 		}
 		foreach $len (sort keys %distr_3_end){
-			printf OUTPUT3 "GtRNAdb-tRNA_3_end_Unmatch_Genome\t$len\t%d\n", $distr_3_end{$len};
+			printf OUTPUT3 "GtRNAdb-tRNA_3_end_Unmatch_Genome\t$len\t%.2f\n", $distr_3_end{$len};
 		}
 	}
 	if ($sums_CCA_end > 0){
 		printf OUTPUT2 "GtRNAdb-tRNA_CCA_end_Unmatch_Genome\t-\t%d\n", $sums_CCA_end;
 		foreach $anno(sort keys %sum_CCA_end){
-			printf OUTPUT2 "-\t$anno\t%d\n", $sum_CCA_end{$anno};
+			printf OUTPUT2 "-\t$anno\t%.2f\n", $sum_CCA_end{$anno};
 		}
 		foreach $len (sort keys %distr_CCA_end){
-			printf OUTPUT3 "GtRNAdb-tRNA_CCA_end_Unmatch_Genome\t$len\t%d\n", $distr_CCA_end{$len};
+			printf OUTPUT3 "GtRNAdb-tRNA_CCA_end_Unmatch_Genome\t$len\t%.2f\n", $distr_CCA_end{$len};
 		}
 	}
 }
