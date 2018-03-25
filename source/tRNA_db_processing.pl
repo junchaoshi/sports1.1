@@ -24,7 +24,7 @@ $input_address = join('/', @input) . '/';
 $input_suffix = pop (@input);
 $input_name = join('.', @input);
 
-my $out_file = $input_address . $input_name . "_CCA.fa";
+my $out_file = $input_address . $input_name . "_mature.fa";
 
 open INPUT, $in_file
 	or die "Can't open '$in_file': $!";

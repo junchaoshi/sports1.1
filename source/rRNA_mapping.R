@@ -262,7 +262,7 @@ ref.distr <- function(file.address, file.name, rRNA.length){
       k <- k+1
     }
   }
-  dev.off() 
+  invisible(dev.off())
 }
 
 match.stat <- function(input, RNA.name, RNA.length, total.reads){

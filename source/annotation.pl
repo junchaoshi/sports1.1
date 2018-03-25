@@ -12,9 +12,9 @@ my @out_file = ($name . '_output_match_genome',
 		$name . '_output_rRNA_match_genome',
 		$name . '_output_rRNA_unmatch_genome',
 		$name . '_output_tRNA_match_genome',
-		$name . '_output_tRNA_CCA_match_genome',
+		$name . '_output_tRNA_mature_match_genome',
 		$name . '_output_tRNA_unmatch_genome',
-		$name . '_output_tRNA_CCA_unmatch_genome',
+		$name . '_output_tRNA_mature_unmatch_genome',
 		$name . '_output_piRNA_match_genome',
 		$name . '_output_piRNA_unmatch_genome',
 		$name . '_output_ensembl_match_genome',
@@ -112,6 +112,7 @@ my %unannos_unmatch;
 if (-e $out_file[1] && !-z $out_file[1]){
 	my %distr;
 	my %sum;
+	my %repeat_num;
 	my $sums  = 0;
 	my $len;
 	my $anno;
@@ -119,23 +120,42 @@ if (-e $out_file[1] && !-z $out_file[1]){
 	$fh = $file_handle{2};
 	while (<$fh>){
 		chomp;
+		$id = (split /\t/)[0];
+		$repeat_num{$id} = 0 unless defined $repeat_num{$id};
+		$repeat_num{$id} += 1;
+	}
+	close $fh;
+	open $fh, $out_file[1];
+	while (<$fh>){
+		chomp;
 		($id, $anno, $seq) = (split /\t/)[0, 3, 5];
 		$anno = (split /\s+/, $anno)[0];
-		$annos{$id} = $anno;
-		$sum{$anno} += $reads{$id};
+		$sum{$anno} += ($reads{$id} / $repeat_num{$id});
 		$len = length $seq;
-		$sums += $reads{$id};
-		$distr{$len} += $reads{$id};
-		delete $unannos_unmatch{$id};
-
-
+		if ($annos{$id}){
+			$anno =~ s/\?/\\\?/g;
+			unless ($annos{$id} =~ /$anno/){
+				$anno =~ s/\\\?/\?/g;
+				$annos{$id} = $annos{$id} . ';' . $anno;
+			}
+		}else{
+			$anno =~ s/\\\?/\?/g;
+			$annos{$id} = $anno;
+		}
+		$sums += ($reads{$id} / $repeat_num{$id});
+		$distr{$len} += ($reads{$id} / $repeat_num{$id});
+		if ($unannos_unmatch{$id}){
+			delete $unannos_unmatch{$id};
+		}
 	}
-	print OUTPUT2 "miRBase-miRNA_Match_Genome\t-\t$sums\n";
-	foreach $anno(sort keys %sum){
-		print OUTPUT2 "-\t$anno\t$sum{$anno}\n";
-	}
-	foreach $len (sort keys %distr){
-		print OUTPUT3 "miRBase-miRNA_Match_Genome\t$len\t$distr{$len}\n";
+	if ($sums > 0){
+		printf OUTPUT2 "miRBase-miRNA_Match_Genome\t-\t%d\n", $sums;
+		foreach $anno(sort keys %sum){
+			printf OUTPUT2 "-\t$anno\t%.2f\n", $sum{$anno};
+		}
+		foreach $len (sort keys %distr){
+			printf OUTPUT3 "miRBase-miRNA_Match_Genome\t$len\t%.2f\n", $distr{$len};
+		}
 	}
 }
 
@@ -143,6 +163,7 @@ if (-e $out_file[1] && !-z $out_file[1]){
 if (-e $out_file[2] && !-z $out_file[2]){
 	my %distr;
 	my %sum;
+	my %repeat_num;
 	my $sums  = 0;
 	my $len;
 	my $anno;
@@ -150,21 +171,42 @@ if (-e $out_file[2] && !-z $out_file[2]){
 	$fh = $file_handle{3};
 	while (<$fh>){
 		chomp;
+		$id = (split /\t/)[0];
+		$repeat_num{$id} = 0 unless defined $repeat_num{$id};
+		$repeat_num{$id} += 1;
+	}
+	close $fh;
+	open $fh, $out_file[2];
+	while (<$fh>){
+		chomp;
 		($id, $anno, $seq) = (split /\t/)[0, 3, 5];
 		$anno = (split /\s+/, $anno)[0];
-		$annos{$id} = $anno;
-		$sum{$anno} += $reads{$id};
+		$sum{$anno} += ($reads{$id} / $repeat_num{$id});
 		$len = length $seq;
-		$sums += $reads{$id};
-		$distr{$len} += $reads{$id};
-		delete $unannos_unmatch{$id};
+		if ($annos{$id}){
+			$anno =~ s/\?/\\\?/g;
+			unless ($annos{$id} =~ /$anno/){
+				$anno =~ s/\\\?/\?/g;
+				$annos{$id} = $annos{$id} . ';' . $anno;
+			}
+		}else{
+			$anno =~ s/\\\?/\?/g;
+			$annos{$id} = $anno;
+		}
+		$sums += ($reads{$id} / $repeat_num{$id});
+		$distr{$len} += ($reads{$id} / $repeat_num{$id});
+		if ($unannos_unmatch{$id}){
+			delete $unannos_unmatch{$id};
+		}
 	}
-	print OUTPUT2 "miRBase-miRNA_Unmatch_Genome\t-\t$sums\n";
-	foreach $anno(sort keys %sum){
-		print OUTPUT2 "-\t$anno\t$sum{$anno}\n";
-	}
-	foreach $len (sort keys %distr){
-		print OUTPUT3 "miRBase-miRNA_Unmatch_Genome\t$len\t$distr{$len}\n";
+	if ($sums > 0){
+		printf OUTPUT2 "miRBase-miRNA_Unmatch_Genome\t-\t%d\n", $sums;
+		foreach $anno(sort keys %sum){
+			printf OUTPUT2 "-\t%.2f\n", $sum{$anno};
+		}
+		foreach $len (sort keys %distr){
+			printf OUTPUT3 "miRBase-miRNA_Unmatch_Genome\t$len\t%.2f\n", $distr{$len};
+		}
 	}
 }
 
@@ -174,11 +216,20 @@ if (-e $out_file[3] && !-z $out_file[3]){
 	my %distr_a;
 	my %distr_b;
 	my %sum;
+	my %repeat_num;
 	my $sums  = 0;
 	my $len;
 	my $anno;
 	my $seq;
 	$fh = $file_handle{4};
+	while (<$fh>){
+		chomp;
+		$id = (split /\t/)[0];
+		$repeat_num{$id} = 0 unless defined $repeat_num{$id};
+		$repeat_num{$id} += 1;
+	}
+	close $fh;
+	open $fh, $out_file[3];
 	while (<$fh>){
 		chomp;
 		if (/^(t[0-9]+?)\s.*\s([0-9]+\.[0-9]+S)\s/){
@@ -202,28 +253,41 @@ if (-e $out_file[3] && !-z $out_file[3]){
 				$seq = $1;
 			}
 		}
-		$annos{$id} = $anno;
-		$sum{$anno} += $reads{$id};
+		$sum{$anno} += ($reads{$id} / $repeat_num{$id});
 		$len = length $seq;
-		$sums += $reads{$id};
-		$distr_a{$len} += $reads{$id};
+		if ($annos{$id}){
+			$anno =~ s/\?/\\\?/g;
+			unless ($annos{$id} =~ /$anno/){
+				$anno =~ s/\\\?/\?/g;
+				$annos{$id} = $annos{$id} . ';' . $anno;
+			}
+		}else{
+			$anno =~ s/\\\?/\?/g;
+			$annos{$id} = $anno;
+		}
+		$sums += ($reads{$id} / $repeat_num{$id});
+		$distr_a{$len} += ($reads{$id} / $repeat_num{$id});
 		$distr_b{$anno}{$len} = 0 unless defined $distr_b{$anno}{$len};
-		$distr_b{$anno}{$len} += $reads{$id};
-		delete $unannos_unmatch{$id};
+		$distr_b{$anno}{$len} += ($reads{$id} / $repeat_num{$id});
+		if ($unannos_unmatch{$id}){
+			delete $unannos_unmatch{$id};
+		}
 
 	}
-	print OUTPUT2 "rRNAdb-rRNA_Match_Genome\t-\t$sums\n";
-	foreach $anno(sort keys %sum){
-		print OUTPUT2 "-\t${anno}_Match_Genome\t$sum{$anno}\n";
+	if ($sums > 0){
+		printf OUTPUT2 "rRNAdb-rRNA_Match_Genome\t-\t%d\n", $sums;
+		foreach $anno(sort keys %sum){
+			printf OUTPUT2 "-\t${anno}_Match_Genome\t%.2f\n", $sum{$anno};
+		}
+		foreach $len(sort keys %distr_a){
+			printf OUTPUT3 "rRNAdb-rRNA_Match_Genome\t$len\t%.2f\n", $distr_a{$len};
+		}
+		foreach $anno(sort keys %distr_b){
+			foreach $len(sort keys %{$distr_b{$anno}}){
+				printf OUTPUT3 "rRNAdb-${anno}_Match_Genome\t$len\t%0.2f\n", $distr_b{$anno}{$len};
+			}
+		}
 	}
-	foreach $len(sort keys %distr_a){
-		print OUTPUT3 "rRNAdb-rRNA_Match_Genome\t$len\t$distr_a{$len}\n";
-    }
-    foreach $anno(sort keys %distr_b){
-	foreach $len(sort keys %{ $distr_b{$anno} }){
-	    print OUTPUT3 "rRNAdb-${anno}_Match_Genome\t$len\t$distr_b{$anno}{$len}\n";
-	}
-    }
 }
 
 ######summarize and annotate rRNA reads: unmatch-genome######
@@ -232,11 +296,20 @@ if (-e $out_file[4] && !-z $out_file[4]){
 	my %distr_a;
 	my %distr_b;
 	my %sum;
+	my %repeat_num;
 	my $sums  = 0;
 	my $len;
 	my $anno;
 	my $seq;
 	$fh = $file_handle{5};
+	while (<$fh>){
+		chomp;
+		$id = (split /\t/)[0];
+		$repeat_num{$id} = 0 unless defined $repeat_num{$id};
+		$repeat_num{$id} += 1;
+	}
+	close $fh;
+	open $fh, $out_file[4];
 	while (<$fh>){
 		chomp;
 		if (/^(t[0-9]+?)\s.*\s([0-9]+\.[0-9]+S)\s/){
@@ -260,29 +333,41 @@ if (-e $out_file[4] && !-z $out_file[4]){
 				$seq = $1;
 			}
 		}
-		$annos{$id} = $anno;
-		$sum{$anno} += $reads{$id};
+		$sum{$anno} += ($reads{$id} / $repeat_num{$id});
 		$len = length $seq;
-		$sums += $reads{$id};
-		$distr_a{$len} += $reads{$id};
+		if ($annos{$id}){
+			$anno =~ s/\?/\\\?/g;
+			unless ($annos{$id} =~ /$anno/){
+				$anno =~ s/\\\?/\?/g;
+				$annos{$id} = $annos{$id} . ';' . $anno;
+			}
+		}else{
+			$anno =~ s/\\\?/\?/g;
+			$annos{$id} = $anno;
+		}
+		$sums += ($reads{$id} / $repeat_num{$id});
+		$distr_a{$len} += ($reads{$id} / $repeat_num{$id});
 		$distr_b{$anno}{$len} = 0 unless defined $distr_b{$anno}{$len};
-		$distr_b{$anno}{$len} += $reads{$id};
-		delete $unannos_unmatch{$id};
+		$distr_b{$anno}{$len} += ($reads{$id} / $repeat_num{$id});
+		if ($unannos_unmatch{$id}){
+			delete $unannos_unmatch{$id};
+		}
 
 	}
-	print OUTPUT2 "rRNAdb-rRNA_Unmatch_Genome\t-\t$sums\n";
-	foreach $anno(sort keys %sum){
-		print OUTPUT2 "-\t${anno}_Unmatch_Genome\t$sum{$anno}\n";
+	if ($sums > 0){
+		printf OUTPUT2 "rRNAdb-rRNA_Unmatch_Genome\t%d\n", $sums;
+		foreach $anno(sort keys %sum){
+			printf OUTPUT2 "-\t${anno}_Unmatch_Genome\t%.2f\n", $sum{$anno};
+		}
+		foreach $len(sort keys %distr_a){
+			printf OUTPUT3 "rRNAdb-rRNA_Unmatch_Genome\t$len\t%.2f\n", $distr_a{$len};
+		}
+    		foreach $anno(sort keys %distr_b){
+			foreach $len(sort keys %{$distr_b{$anno}}){
+				printf OUTPUT3 "rRNAdb-${anno}_Unmatch_Genome\t$len\t%0.2f\n", $distr_b{$anno}{$len};
+			}
+		}
 	}
-	foreach $len(sort keys %distr_a){
-		print OUTPUT3 "rRNAdb-rRNA_Unmatch_Genome\t$len\t$distr_a{$len}\n";
-    }
-    foreach $anno(sort keys %distr_b){
-	foreach $len(sort keys %{ $distr_b{$anno} }){
-	    print OUTPUT3 "rRNAdb-${anno}_Unmatch_Genome\t$len\t$distr_b{$anno}{$len}\n";
-	}
-    }
-	
 }
 
 ######summarize and annotate tRNA reads: match-genome######
@@ -667,6 +752,7 @@ if (-e $out_file[4] && !-z $out_file[4]){
 if (-e $out_file[9] && !-z $out_file[9]){
 	my %distr;
 	my %sum;
+	my %repeat_num;
 	my $sums  = 0;
 	my $len;
 	my $anno;
@@ -674,20 +760,30 @@ if (-e $out_file[9] && !-z $out_file[9]){
 	$fh = $file_handle{10};
 	while (<$fh>){
 		chomp;
-		($id, $anno, $seq) = (split /\s+/)[0, 3, 5];
-		$annos{$id} = $anno;
-		$sum{$anno} += $reads{$id};
+		$id = (split /\t/)[0];
+		$repeat_num{$id} = 0 unless defined $repeat_num{$id};
+		$repeat_num{$id} += 1;
+	}
+	close $fh;
+	open $fh, $out_file[9];
+	while (<$fh>){
+		chomp;
+		($id, $seq) = (split /\s+/)[0, 5];
+		$anno = 'piRNA';
+		$sum{$anno} += ($reads{$id} / $repeat_num{$id});
 		$len = length $seq;
-		$sums += $reads{$id};
-		$distr{$len} += $reads{$id};
-		delete $unannos_unmatch{$id};
+		$annos{$id} = $anno;
+		$sums += ($reads{$id} / $repeat_num{$id});
+		$distr{$len} += ($reads{$id} / $repeat_num{$id});
+		if ($unannos_unmatch{$id}){
+			delete $unannos_unmatch{$id};
+		}
 	}
-	print OUTPUT2 "piRNAdb-piRNA_Match_Genome\t-\t$sums\n";
-	foreach $anno(sort keys %sum){
-		print OUTPUT2 "-\t$anno\t$sum{$anno}\n";
-	}
-	foreach $len (sort keys %distr){
-		print OUTPUT3 "piRNAdb-piRNA_Match_Genome\t$len\t$distr{$len}\n";
+	if ($sums > 0){
+		printf OUTPUT2 "piRNAdb-piRNA_Match_Genome\t-\t%d\n", $sums;
+		foreach $len (sort keys %distr){
+			printf OUTPUT3 "piRNAdb-piRNA_Match_Genome\t$len\t%.2f\n", $distr{$len};
+		}
 	}
 }
 
@@ -695,6 +791,7 @@ if (-e $out_file[9] && !-z $out_file[9]){
 if (-e $out_file[10] && !-z $out_file[10]){
 	my %distr;
 	my %sum;
+	my %repeat_num;
 	my $sums  = 0;
 	my $len;
 	my $anno;
@@ -702,81 +799,135 @@ if (-e $out_file[10] && !-z $out_file[10]){
 	$fh = $file_handle{11};
 	while (<$fh>){
 		chomp;
-		($id, $anno, $seq) = (split /\s+/)[0, 3, 5];
-		$annos{$id} = $anno;
-		$sum{$anno} += $reads{$id};
+		$id = (split /\t/)[0];
+		$repeat_num{$id} = 0 unless defined $repeat_num{$id};
+		$repeat_num{$id} += 1;
+	}
+	close $fh;
+	open $fh, $out_file[10];
+	while (<$fh>){
+		chomp;
+		($id, $seq) = (split /\s+/)[0, 5];
+		$anno = 'piRNA';
+		$sum{$anno} += ($reads{$id} / $repeat_num{$id});
 		$len = length $seq;
-		$sums += $reads{$id};
-		$distr{$len} += $reads{$id};
-		delete $unannos_unmatch{$id};
+		$annos{$id} = $anno;
+		$sums += ($reads{$id} / $repeat_num{$id});
+		$distr{$len} += ($reads{$id} / $repeat_num{$id});
+		if ($unannos_unmatch{$id}){
+			delete $unannos_unmatch{$id};
+		}
 	}
-	print OUTPUT2 "piRNAdb-piRNA_Unmatch_Genome\t-\t$sums\n";
-	foreach $anno(sort keys %sum){
-		print OUTPUT2 "-\t$anno\t$sum{$anno}\n";
-	}
-	foreach $len (sort keys %distr){
-		print OUTPUT3 "piRNAdb-piRNA_Unmatch_Genome\t$len\t$distr{$len}\n";
+	if ($sums > 0){
+		printf OUTPUT2 "piRNAdb-piRNA_Unmatch_Genome\t-\t%d\n", $sums;
+		foreach $len (sort keys %distr){
+			printf OUTPUT3 "piRNAdb-piRNA_Unmatch_Genome\t$len\t%.2f\n", $distr{$len};
+		}
 	}
 }
 
 ######summarize and annotate using ensembl database: match-genome######
 if (-e $out_file[11] && !-z $out_file[11]){
-
 	my %distr;
 	my %sum;
+	my %repeat_num;
 	my $sums  = 0;
 	my $len;
 	my $anno;
 	$fh = $file_handle{12};
 	while (<$fh>){
 		chomp;
+		$id = (split /\t/)[0];
+		$repeat_num{$id} = 0 unless defined $repeat_num{$id};
+		$repeat_num{$id} += 1;
+	}
+	close $fh;
+	open $fh, $out_file[11];
+	while (<$fh>){
+		chomp;
 		if (/^(t[0-9]+?)\s.*gene_biotype:(\S+?)\s+/){
 			$id = $1;
 			$anno = $2;
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
+			if ($annos{$id}){
+				$anno =~ s/\?/\\\?/g;
+				unless ($annos{$id} =~ /$anno/){
+					$anno =~ s/\\\?/\?/g;
+					$annos{$id} = $annos{$id} . ';' . $anno;
+				}
+			}else{
+				$anno =~ s/\\\?/\?/g;
+				$annos{$id} = $anno;
+			}
+			$sum{$anno} += ($reads{$id} / $repeat_num{$id});
 			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};
-			delete $unannos_unmatch{$id};
+			$distr{$anno}{$len} += ($reads{$id} / $repeat_num{$id});
+			if ($unannos_unmatch{$id}){
+				delete $unannos_unmatch{$id};
+			}
 		}
 	}
-	foreach $anno(sort keys %sum){
-		print OUTPUT2 "ensembl-${anno}_Match_Genome\t-\t$sum{$anno}\n";
-	}
-	foreach	my $key1(sort keys %distr){
-		foreach my $key2 (sort keys %{$distr{$key1}}){
-			print OUTPUT3 "ensembl-${key1}_Match_Genome\t$key2\t$distr{$key1}{$key2}\n";
+	if ($sums > 0){
+		foreach $anno(sort keys %sum){
+			printf OUTPUT2 "ensembl-${anno}_Match_Genome\t-\t%d\n", $sum{$anno};
+		}
+		foreach	my $key1(sort keys %distr){
+			foreach my $key2 (sort keys %{$distr{$key1}}){
+				printf OUTPUT3 "ensembl-${key1}_Match_Genome\t$key2\t%.2f\n", $distr{$key1}{$key2};
+			}
 		}
 	}
 }
 
 ######summarize and annotate using ensembl database: unmatch-genome######
 if (-e $out_file[12] && !-z $out_file[12]){
-
 	my %distr;
 	my %sum;
+	my %repeat_num;
 	my $sums  = 0;
 	my $len;
 	my $anno;
 	$fh = $file_handle{13};
 	while (<$fh>){
 		chomp;
+		$id = (split /\t/)[0];
+		$repeat_num{$id} = 0 unless defined $repeat_num{$id};
+		$repeat_num{$id} += 1;
+	}
+	close $fh;
+	open $fh, $out_file[12];
+	while (<$fh>){
+		chomp;
 		if (/^(t[0-9]+?)\s.*gene_biotype:(\S+?)\s+/){
 			$id = $1;
 			$anno = $2;
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
+			if ($annos{$id}){
+				$anno =~ s/\?/\\\?/g;
+				unless ($annos{$id} =~ /$anno/){
+					$anno =~ s/\\\?/\?/g;
+					$annos{$id} = $annos{$id} . ';' . $anno;
+				}
+			}else{
+				$anno =~ s/\\\?/\?/g;
+				$annos{$id} = $anno;
+			}
+			$sum{$anno} += ($reads{$id} / $repeat_num{$id});
 			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};
-			delete $unannos_unmatch{$id};
+			$distr{$anno}{$len} += ($reads{$id} / $repeat_num{$id});
+			if ($unannos_unmatch{$id}){
+				delete $unannos_unmatch{$id};
+			}
 		}
 	}
-	foreach $anno(sort keys %sum){
-		print OUTPUT2 "ensembl-${anno}_Unmatch_Genome\t-\t$sum{$anno}\n";
-	}
-	foreach	my $key1(sort keys %distr){
-		foreach my $key2 (sort keys %{$distr{$key1}}){
-			print OUTPUT3 "ensembl-${key1}_Unmatch_Genome\t$key2\t$distr{$key1}{$key2}\n";
+
+
+	if ($sums > 0){
+		foreach $anno(sort keys %sum){
+			printf OUTPUT2 "ensembl-${anno}_Unmatch_Genome\t-\t%d\n", $sum{$anno};
+		}
+		foreach	my $key1(sort keys %distr){
+			foreach my $key2 (sort keys %{$distr{$key1}}){
+				printf OUTPUT3 "ensembl-${key1}_Unmatch_Genome\t$key2\t%.2f\n", $distr{$key1}{$key2};
+			}
 		}
 	}
 }
@@ -785,367 +936,244 @@ if (-e $out_file[12] && !-z $out_file[12]){
 if (-e $out_file[13] && !-z $out_file[13]){
 	my %distr;
 	my %sum;
+	my %repeat_num;
 	my $sums  = 0;
 	my $len;
 	my $anno;
 	$fh = $file_handle{14};
 	while (<$fh>){
 		chomp;
+		$id = (split /\t/)[0];
+		$repeat_num{$id} = 0 unless defined $repeat_num{$id};
+		$repeat_num{$id} += 1;
+	}
+	close $fh;
+	open $fh, $out_file[13];
+	while (<$fh>){
+		chomp;
 		if (/^(t[0-9]+?)\s.*(mRNA|cds|protein)/){
 			$id = $1;
 			$anno = 'mRNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};
 		}
 		elsif (/^(t[0-9]+?)\s.*(miRNA|microRNA)/){
 			$id = $1;
 			$anno = 'miRNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};
 		}
 		elsif (/^(t[0-9]+?)\s.*(tRNA-like)/){
 			$id = $1;
-			$anno = 'tRNA-like';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};			
+			$anno = 'tRNA-like';			
 		}
 		elsif (/^(t[0-9]+?)\s.*(tRNA|transfer RNA)/){
 			$id = $1;
-			$anno = 'tRNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};			
+			$anno = 'tRNA';		
 		}
 		elsif (/^(t[0-9]+?)\s.*(rRNA|ribosomal RNA|ribosomal DNA)/){
 			$id = $1;
-			$anno = 'rRNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};			
+			$anno = 'rRNA';			
 		}
 		elsif (/^(t[0-9]+?)\s.*(piRNA)/){
 			$id = $1;
-			$anno = 'piRNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};			
+			$anno = 'piRNA';		
 		}
 		elsif (/^(t[0-9]+?)\s.*(snRNA|small nuclear RNA|small-nuclear RNA)/){
 			$id = $1;
-			$anno = 'snRNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};		
+			$anno = 'snRNA';	
 		}
 		elsif (/^(t[0-9]+?)\s.*(snoRNA)/){
 			$id = $1;
-			$anno = 'snoRNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};			
+			$anno = 'snoRNA';		
 		}
 		elsif (/^(t[0-9]+?)\s.*(scRNA)/){
 			$id = $1;
-			$anno = 'scRNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};		
+			$anno = 'scRNA';		
 		}
 		elsif (/^(t[0-9]+?)\s.*(lncRNA|lincRNA)/){
 			$id = $1;
 			$anno = 'lncRNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};
 		}
 		elsif (/^(t[0-9]+?)\s.*(antisense)/){
 			$id = $1;
 			$anno = 'antisense';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};
 		}
 		elsif (/^(t[0-9]+?)\s.*(vault RNA)/){
 			$id = $1;
 			$anno = 'vault_RNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};
 		}
 		elsif (/^(t[0-9]+?)\s.*(telomerase RNA)/){
 			$id = $1;
 			$anno = 'telomerase_RNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};
 		}
 		elsif (/^(t[0-9]+?)\s.*(noncoding)/){
 			$id = $1;
 			$anno = 'noncoding_RNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};
 		}
 		elsif (/^(t[0-9]+?)\s.*(RNA)/){
 			$id = $1;
-			$anno = 'other_RNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};			
+			$anno = 'other_RNA';			
 		}
 		elsif (/^(t[0-9]+?)\s.*(pseudogene)/){
 			$id = $1;
-			$anno = 'pseudogene';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};		
+			$anno = 'pseudogene';		
 		}
 		elsif (/^(t[0-9]+?)\s.*(gene)/){
 			$id = $1;
-			$anno = 'gene_region';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};			
+			$anno = 'gene_region';		
 		}
 		elsif (/^(t[0-9]+?)\s.*(mitochondrial|mitochondrion)/){
 			$id = $1;
-			$anno = 'mt_DNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};			
+			$anno = 'mt_DNA';			
 		}
 		elsif (/^(t[0-9]+?)\s.*(genome|chromosome|BAC|genomic|X-inactivation center)/){
 			$id = $1;
-			$anno = 'DNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};		
+			$anno = 'DNA';		
 		}
 		elsif (/^(t[0-9]+?)\s/){
 			$id = $1;
-			$anno = 'other';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};		
+			$anno = 'other';	
 		}
-		delete $unannos_unmatch{$id};
+		if ($annos{$id}){
+			unless ($annos{$id} =~ /$anno/){
+				$annos{$id} = $annos{$id} . ';' . $anno;
+			}
+		}else{
+			$annos{$id} = $anno;
+		}
+		$sum{$anno} += ($reads{$id} / $repeat_num{$id});
+		$len = $lens{$id};
+		$distr{$anno}{$len} += ($reads{$id} / $repeat_num{$id});
+		if ($unannos_unmatch{$id}){
+			delete $unannos_unmatch{$id};
+		}
 	}
 	foreach $anno(sort keys %sum){
-		print OUTPUT2 "Rfam-${anno}_Match_Genome\t-\t$sum{$anno}\n";
+		printf OUTPUT2 "Rfam-${anno}_Match_Genome\t-\t%d\n", $sum{$anno};
 	}
 	foreach	my $key1(sort keys %distr){
 		foreach my $key2 (sort keys %{$distr{$key1}}){
-			print OUTPUT3 "Rfam-${key1}_Match_Genome\t$key2\t$distr{$key1}{$key2}\n";
+			printf OUTPUT3 "Rfam-${key1}_Match_Genome\t$key2\t%.2f\n", $distr{$key1}{$key2};
 		}
 	}	
 }
-
 
 ######summarize and annotate using rfam database: unmatch-genome######
 if (-e $out_file[14] && !-z $out_file[14]){
 	my %distr;
 	my %sum;
+	my %repeat_num;
 	my $sums  = 0;
 	my $len;
 	my $anno;
 	$fh = $file_handle{15};
 	while (<$fh>){
 		chomp;
+		$id = (split /\t/)[0];
+		$repeat_num{$id} = 0 unless defined $repeat_num{$id};
+		$repeat_num{$id} += 1;
+	}
+	close $fh;
+	open $fh, $out_file[14];
+	while (<$fh>){
+		chomp;
 		if (/^(t[0-9]+?)\s.*(mRNA|cds|protein)/){
 			$id = $1;
 			$anno = 'mRNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};
 		}
 		elsif (/^(t[0-9]+?)\s.*(miRNA|microRNA)/){
 			$id = $1;
 			$anno = 'miRNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};
 		}
 		elsif (/^(t[0-9]+?)\s.*(tRNA-like)/){
 			$id = $1;
-			$anno = 'tRNA-like';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};			
+			$anno = 'tRNA-like';		
 		}
 		elsif (/^(t[0-9]+?)\s.*(tRNA|transfer RNA)/){
 			$id = $1;
-			$anno = 'tRNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};			
+			$anno = 'tRNA';			
 		}
 		elsif (/^(t[0-9]+?)\s.*(rRNA|ribosomal RNA|ribosomal DNA)/){
 			$id = $1;
-			$anno = 'rRNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};			
+			$anno = 'rRNA';			
 		}
 		elsif (/^(t[0-9]+?)\s.*(piRNA)/){
 			$id = $1;
-			$anno = 'piRNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};			
+			$anno = 'piRNA';		
 		}
 		elsif (/^(t[0-9]+?)\s.*(snRNA|small nuclear RNA|small-nuclear RNA)/){
 			$id = $1;
-			$anno = 'snRNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};		
+			$anno = 'snRNA';	
 		}
 		elsif (/^(t[0-9]+?)\s.*(snoRNA)/){
 			$id = $1;
-			$anno = 'snoRNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};			
+			$anno = 'snoRNA';		
 		}
 		elsif (/^(t[0-9]+?)\s.*(scRNA)/){
 			$id = $1;
-			$anno = 'scRNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};		
+			$anno = 'scRNA';		
 		}
 		elsif (/^(t[0-9]+?)\s.*(lncRNA|lincRNA)/){
 			$id = $1;
 			$anno = 'lncRNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};
 		}
 		elsif (/^(t[0-9]+?)\s.*(antisense)/){
 			$id = $1;
 			$anno = 'antisense';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};
 		}
 		elsif (/^(t[0-9]+?)\s.*(vault RNA)/){
 			$id = $1;
 			$anno = 'vault_RNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};
 		}
 		elsif (/^(t[0-9]+?)\s.*(telomerase RNA)/){
 			$id = $1;
 			$anno = 'telomerase_RNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};
 		}
 		elsif (/^(t[0-9]+?)\s.*(noncoding)/){
 			$id = $1;
 			$anno = 'noncoding_RNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};
 		}
 		elsif (/^(t[0-9]+?)\s.*(RNA)/){
 			$id = $1;
-			$anno = 'other_RNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};			
+			$anno = 'other_RNA';			
 		}
 		elsif (/^(t[0-9]+?)\s.*(pseudogene)/){
 			$id = $1;
-			$anno = 'pseudogene';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};		
+			$anno = 'pseudogene';	
 		}
 		elsif (/^(t[0-9]+?)\s.*(gene)/){
 			$id = $1;
-			$anno = 'gene_region';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};			
+			$anno = 'gene_region';		
 		}
 		elsif (/^(t[0-9]+?)\s.*(mitochondrial|mitochondrion)/){
 			$id = $1;
-			$anno = 'mt_DNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};			
+			$anno = 'mt_DNA';		
 		}
 		elsif (/^(t[0-9]+?)\s.*(genome|chromosome|BAC|genomic|X-inactivation center)/){
 			$id = $1;
-			$anno = 'DNA';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};		
+			$anno = 'DNA';	
 		}
 		elsif (/^(t[0-9]+?)\s/){
 			$id = $1;
-			$anno = 'other';
-			$annos{$id} = $anno;
-			$sum{$anno} += $reads{$id};
-			$len = $lens{$id};
-			$distr{$anno}{$len} += $reads{$id};		
+			$anno = 'other';	
 		}
-		delete $unannos_unmatch{$id};
+		if ($annos{$id}){
+			unless ($annos{$id} =~ /$anno/){
+				$annos{$id} = $annos{$id} . ';' . $anno;
+			}
+		}else{
+			$annos{$id} = $anno;
+		}
+		$sum{$anno} += ($reads{$id} / $repeat_num{$id});
+		$len = $lens{$id};
+		$distr{$anno}{$len} += ($reads{$id} / $repeat_num{$id});
+		if ($unannos_unmatch{$id}){
+			delete $unannos_unmatch{$id};
+		}
 	}
 	foreach $anno(sort keys %sum){
-		print OUTPUT2 "Rfam-${anno}_Unmatch_Genome\t-\t$sum{$anno}\n";
+		printf OUTPUT2 "Rfam-${anno}_Unmatch_Genome\t-\t%d\n", $sum{$anno};
 	}
 	foreach	my $key1(sort keys %distr){
 		foreach my $key2 (sort keys %{$distr{$key1}}){
-			print OUTPUT3 "Rfam-${key1}_Unmatch_Genome\t$key2\t$distr{$key1}{$key2}\n";
+			printf OUTPUT3 "Rfam-${key1}_Unmatch_Genome\t$key2\t%.2f\n", $distr{$key1}{$key2};
 		}
 	}	
 }

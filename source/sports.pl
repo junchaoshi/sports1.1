@@ -27,8 +27,10 @@ my $keep_all		= $opt_k;
 my $version		= $opt_v ? 1 : 0;
 my $help		= $opt_h ? 1 : 0;
 
+my $threshold = 10;
+my $seq_err = 0.01;
 
-my $version_info = "1.0.3";
+my $version_info = "1.0.4";
 
 my $usage = <<"USAGE";
 Description:	Perl script used to annotate small RNA sequences in batch.
@@ -132,11 +134,11 @@ my $script_address = `which sports.pl`;
 
 ##generate tRNA unmatch genome database
 unless($tRNA_db_address eq "NULL"){
-	my $tRNA_db_UMG_file = $tRNA_db_address . "_CCA.1.ebwt";
+	my $tRNA_db_UMG_file = $tRNA_db_address . "_mature.1.ebwt";
 	unless (-e $tRNA_db_UMG_file){
 		system ("perl ${script_address}tRNA_db_processing.pl ${tRNA_db_address}.fa");
 		print "\n\nGenerating tRNA (unmatch genome) database bowtie index...\n\n";
-		system ("bowtie-build -q ${tRNA_db_address}_CCA.fa ${tRNA_db_address}_CCA");
+		system ("bowtie-build -q ${tRNA_db_address}_mature.fa ${tRNA_db_address}_mature");
 	}
 }
 
@@ -534,11 +536,11 @@ bowtie ${bowtie_address} -f ${input_match} -v ${mismatch} -k 10000 -p ${thread} 
 
 input_match=${output_unmatch_match_genome}
 
-######match genome part - tRNA-CCA
-name=tRNA_CCA
-bowtie_address=' . $tRNA_db_address . '_CCA
+######match genome part - tRNA-mature
+name=tRNA_mature
+bowtie_address=' . $tRNA_db_address . '_mature
 echo ""
-echo "match to tRNA_CCA-match_genome"
+echo "match to tRNA_mature-match_genome"
 output_match_match_genome=${output_address}${input_query_name}_match_${name}_match_genome.fa
 output_unmatch_match_genome=${output_address}${input_query_name}_unmatch_${name}_match_genome.fa
 output_detail_match_genome=${output_address}${input_query_name}_output_${name}_match_genome
@@ -566,11 +568,11 @@ bowtie ${bowtie_address} -f ${input_unmatch} -v ${mismatch} -k 10000 -p ${thread
 
 input_unmatch=${output_unmatch_unmatch_genome}
 
-######unmatch genome part - tRNA-CCA
-name=tRNA_CCA
-bowtie_address=' . $tRNA_db_address . '_CCA
+######unmatch genome part - tRNA-mature
+name=tRNA_mature
+bowtie_address=' . $tRNA_db_address . '_mature
 echo ""
-echo "match to tRNA_CCA-unmatch_genome"
+echo "match to tRNA_mature-unmatch_genome"
 output_match_unmatch_genome=${output_address}${input_query_name}_match_${name}_unmatch_genome.fa
 output_unmatch_unmatch_genome=${output_address}${input_query_name}_unmatch_${name}_ummatch_genome.fa
 output_detail_unmatch_genome=${output_address}${input_query_name}_output_${name}_unmatch_genome
@@ -664,6 +666,32 @@ mv ${output_address}${input_query_name}_*.txt ${output_address}${input_query_nam
 mv ${output_address}${input_query_name}_output_* ${output_address}${input_query_name}_processed
 mv ${output_address}${input_query_name}*.fa* ${output_address}${input_query_name}_fa';
 
+###mismatch statistics
+	if($mismatch > 0){
+		if ($miRNA_db_address ne "NULL" || 
+		    $rRNA_db_address ne "NULL" || 
+		    $tRNA_db_address ne "NULL" || 
+		    $ensembl_nc_address ne "NULL" || 
+		    $rfam_address ne "NULL"  || 
+		    $piRNA_db_address ne "NULL"){
+			print FILE '
+echo ""
+echo "mismatch loci statistics"
+if [ -f "${output_address}${input_query_name}_result/${input_query_name}_mismatch_summary.txt" ]; then
+	echo > ${output_address}${input_query_name}_result/${input_query_name}_mismatch_summary.txt
+fi
+for file in ${output_address}${input_query_name}_processed/*
+do
+	if [ -f ${file} ] && [ ${file} != "${output_address}${input_query_name}_processed/${input_query_name}_output_match_genome" ]; then
+		perl ${script_address}mismatch_summary.pl ${file} ' . $threshold .' >> ${output_address}${input_query_name}_result/${input_query_name}_mismatch_summary.txt
+	fi
+done
+
+Rscript --vanilla ${script_address}mismatch_stat.R ${output_address}${input_query_name}_result/${input_query_name}_mismatch_summary.txt ' . $seq_err . '';
+		}
+	}
+
+###generate output figures
 	unless ($miRNA_db_address eq "NULL" && 
 		$rRNA_db_address eq "NULL" && 
 		$tRNA_db_address eq "NULL" &&
@@ -673,7 +701,16 @@ echo ""
 echo "generating graph"
 Rscript --vanilla ${script_address}overall_RNA_length_distribution.R ${output_address} ${input_query_name}';
 	}
+	unless ($tRNA_db_address eq "NULL"){
+		print FILE '
+cat ${output_address}${input_query_name}_processed/${input_query_name}_output_tRNA_*_genome > ${output_address}${input_query_name}_processed/${input_query_name}_output_tRNA
+perl ${script_address}tRNA_mapping.pl ${output_address}${input_query_name}_processed/${input_query_name}_output_tRNA ${output_address}${input_query_name}_result/${input_query_name}_summary.txt > ${output_address}${input_query_name}_processed/${input_query_name}_tRNA_mapping.txt
+Rscript --vanilla ${script_address}tRNA_mapping.R ${output_address}${input_query_name}_processed/${input_query_name}_tRNA_mapping.txt ${output_address}${input_query_name}_result/${input_query_name}_tRNA_mapping.pdf
+rm ${output_address}${input_query_name}_processed/${input_query_name}_output_tRNA
+rm ${output_address}${input_query_name}_processed/${input_query_name}_tRNA_mapping.txt
+';
 
+	}
 	unless ($rRNA_db_address eq "NULL"){
 		print FILE '
 temp_length=' . join(',', @rRNA_length) . '
@@ -683,8 +720,7 @@ Rscript --vanilla ${script_address}rRNA_mapping.R ${output_address} ${input_quer
 	unless ($keep_all){
 		print FILE '
 rm -rf ${output_address}${input_query_name}_fa
-rm -rf ${output_address}${input_query_name}_processed
-		';
+rm -rf ${output_address}${input_query_name}_processed';
 	}
 	print FILE '
 
@@ -703,7 +739,7 @@ system("sh $output_file");
 unless ($keep_all){
 	system("rm -rf ${output_address}processing_report");
 	system("rm $output_file");
-	system("mv  ${output_address}sh_file/*.sh ${output_address}");
+	system("mv ${output_address}sh_file/*.sh ${output_address}");
 	system("rmdir ${output_address}sh_file");
 	system("rm ${output_address}*.sh");
 }
@@ -724,7 +760,7 @@ output_unmatch_match_genome=${output_address}${input_query_name}_unmatch_${name}
 touch ${output_match_match_genome}
 touch ${output_unmatch_match_genome}
 
-bowtie ${bowtie_address} -f ${input_match} -v ${mismatch} -k 1 -p ${thread} --fullref --norc --al ${output_match_match_genome} --un ${output_unmatch_match_genome} >> ${output_detail_match_genome}
+bowtie ${bowtie_address} -f ${input_match} -v ${mismatch} -k 10000 -p ${thread} --fullref --norc --al ${output_match_match_genome} --un ${output_unmatch_match_genome} >> ${output_detail_match_genome}
 
 ######unmatch genome part
 echo ""
@@ -734,7 +770,7 @@ output_unmatch_unmatch_genome=${output_address}${input_query_name}_unmatch_${nam
 touch ${output_match_unmatch_genome}
 touch ${output_unmatch_unmatch_genome}
 
-bowtie ${bowtie_address} -f ${input_unmatch} -v ${mismatch} -k 1 -p ${thread} --fullref --norc --al ${output_match_unmatch_genome} --un ${output_unmatch_unmatch_genome} >> ${output_detail_unmatch_genome}
+bowtie ${bowtie_address} -f ${input_unmatch} -v ${mismatch} -k 10000 -p ${thread} --fullref --norc --al ${output_match_unmatch_genome} --un ${output_unmatch_unmatch_genome} >> ${output_detail_unmatch_genome}
 
 ######define next input
 input_match=${output_unmatch_match_genome}

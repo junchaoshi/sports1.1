@@ -198,7 +198,7 @@ rRNA.stack <- function(file.address, file.name, rRNA.length){
   grid.text(pdf.title, vp = vplayout(1, 1), gp = gpar(fontsize = 20))
   print(stack.pic, vp = vplayout(2:3, 1))
   print(stack.sep, vp = vplayout(4, 1))
-  dev.off()
+  invisible(dev.off())
 }
 
 
@@ -217,5 +217,3 @@ length.combine <- function(distr, len){
 }
 
 rRNA.stack(file.address = args[1], file.name = args[2], rRNA.length = args[3])
-
-
