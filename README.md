@@ -2129,8 +2129,8 @@ Main database source:
 ## History <a id='history'></a>
 1.0.4 - 03/25/2018
 1.	New function added: if '-M' > 0 applied in sports.pl, statistics of mismatch information will generated to predict potential nucleic acid modification loci;
-2.	Figure of tRNA mapping information will generated if tRNA database is defined;
-3.	A sample output with the parameters '-M 1' of dataset GSM2304822 (mouse sperm) is uploaded [here](https://github.com/junchaoshi/sports1.0/tree/master/Sample_output).
+2.	The figure of tRNA mapping information will generated if tRNA database is defined;
+3.	A sample output with the parameter '-M 1' of dataset GSM2304822 (mouse sperm) is uploaded [here](https://github.com/junchaoshi/sports1.0/tree/master/Sample_output).
 
 1.0.3 - 01/27/2018
 1.	Changed the mapping order to make the mapping results more accurate according to the paper " Juan Pablo Tosar, Carlos Rovira, Alfonso Cayota. Non-coding RNA fragments account for the majority of annotated piRNAs expressed in somatic non-gonadal tissues. Communications Biology. 2018;1, Article number: 2. doi: 10.1038/s42003-017-0001-7 ".
