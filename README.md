@@ -2128,7 +2128,7 @@ Main database source:
 
 ## History <a id='history'></a>
 1.0.4 - 03/25/2018
-1.	New function added: if '-M > 0' applied in sports.pl, statistics of mismatch information will generated to predict potential nucleic acid modification loci;
+1.	New function added: if '-M' > 0 applied in sports.pl, statistics of mismatch information will generated to predict potential nucleic acid modification loci;
 2.	Figure of tRNA mapping information will generated if tRNA database is defined;
 3.	A sample output with the parameters '-M 1' of dataset GSM2304822 (mouse sperm) is uploaded [here](https://github.com/junchaoshi/sports1.0/tree/master/Sample_output).
 
