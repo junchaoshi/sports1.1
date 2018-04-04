@@ -1,5 +1,5 @@
 # SPORTS1.0
-Small non-coding RNA annotation Pipeline Optimized for rRNA- and tRNA-Derived Small RNAs
+<b>S</b>mall non-coding RNA annotation <b>P</b>ipeline <b>O</b>ptimized for <b>r</b>RNA- and <b>t</b>RNA-Derived <b>S</b>mall RNAs
 
 <a href='#require'> Requirements </a>
 
