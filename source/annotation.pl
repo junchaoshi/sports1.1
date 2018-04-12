@@ -1230,9 +1230,9 @@ foreach $id(sort keys %seqs){
     }elsif($match_genome{$id}){
         print OUTPUT1 "$id\t$seqs{$id}\t$lens{$id}\t$reads{$id}\t$match_genome{$id}\tNO_Annotation\n";
     }elsif($annos{$id}){
-        print OUTPUT1 "$id\t$seqs{$id}\t$lens{$id}\t$reads{$id}\tNO\t$annos{$id}\n";
+        print OUTPUT1 "$id\t$seqs{$id}\t$lens{$id}\t$reads{$id}\tNo\t$annos{$id}\n";
     }else{
-        print OUTPUT1 "$id\t$seqs{$id}\t$lens{$id}\t$reads{$id}\tNO\tNO_Annotation\n";
+        print OUTPUT1 "$id\t$seqs{$id}\t$lens{$id}\t$reads{$id}\tNo\tNO_Annotation\n";
     }
 }
 
