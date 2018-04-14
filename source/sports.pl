@@ -557,7 +557,7 @@ bowtie_address=' . $tRNA_db_address . '
 echo ""
 echo "match to tRNA-unmatch_genome"
 output_match_unmatch_genome=${output_address}${input_query_name}_match_${name}_unmatch_genome.fa
-output_unmatch_unmatch_genome=${output_address}${input_query_name}_unmatch_${name}_ummatch_genome.fa
+output_unmatch_unmatch_genome=${output_address}${input_query_name}_unmatch_${name}_unmatch_genome.fa
 output_detail_unmatch_genome=${output_address}${input_query_name}_output_${name}_unmatch_genome
 
 touch ${output_detail_unmatch_genome}
@@ -574,7 +574,7 @@ bowtie_address=' . $tRNA_db_address . '_mature
 echo ""
 echo "match to tRNA_mature-unmatch_genome"
 output_match_unmatch_genome=${output_address}${input_query_name}_match_${name}_unmatch_genome.fa
-output_unmatch_unmatch_genome=${output_address}${input_query_name}_unmatch_${name}_ummatch_genome.fa
+output_unmatch_unmatch_genome=${output_address}${input_query_name}_unmatch_${name}_unmatch_genome.fa
 output_detail_unmatch_genome=${output_address}${input_query_name}_output_${name}_unmatch_genome
 
 touch ${output_detail_unmatch_genome}
@@ -766,7 +766,7 @@ bowtie ${bowtie_address} -f ${input_match} -v ${mismatch} -k 10000 -p ${thread} 
 echo ""
 echo "match to ${name}-unmatch_genome"
 output_match_unmatch_genome=${output_address}${input_query_name}_match_${name}_unmatch_genome.fa
-output_unmatch_unmatch_genome=${output_address}${input_query_name}_unmatch_${name}_ummatch_genome.fa
+output_unmatch_unmatch_genome=${output_address}${input_query_name}_unmatch_${name}_unmatch_genome.fa
 touch ${output_match_unmatch_genome}
 touch ${output_unmatch_unmatch_genome}
 
