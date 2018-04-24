@@ -202,7 +202,7 @@ if (-e $out_file[2] && !-z $out_file[2]){
 	if ($sums > 0){
 		printf OUTPUT2 "miRBase-miRNA_Unmatch_Genome\t-\t%d\n", $sums;
 		foreach $anno(sort keys %sum){
-			printf OUTPUT2 "-\t%.2f\n", $sum{$anno};
+			printf OUTPUT2 "-\t$anno\t%.2f\n", $sum{$anno};
 		}
 		foreach $len (sort keys %distr){
 			printf OUTPUT3 "miRBase-miRNA_Unmatch_Genome\t$len\t%.2f\n", $distr{$len};
