@@ -3,7 +3,9 @@
 
 If you use SPORTS1.0 in your work, please cite this paper: 
 
-Junchao Shi, Eun-A Ko, Kenton M. Sanders, Qi Chen, Tong Zhou. SPORTS1.0: a tool for annotating and profiling non-coding RNAs optimized for rRNA-and tRNA-derived small RNAs. <i>Genomics, Proteomics & Bioinformatics</i> (2018) doi.org/10.1016/j.gpb.2018.04.004
+[SPORTS1.0: a tool for annotating and profiling non-coding RNAs optimized for rRNA-and tRNA-derived small RNAs](https://www.sciencedirect.com/science/article/pii/S1672022918300445)
+
+Junchao Shi, Eun-A Ko, Kenton M. Sanders, Qi Chen, Tong Zhou. [SPORTS1.0: a tool for annotating and profiling non-coding RNAs optimized for rRNA-and tRNA-derived small RNAs](https://www.sciencedirect.com/science/article/pii/S1672022918300445). <i>Genomics, Proteomics & Bioinformatics</i> (2018) doi.org/10.1016/j.gpb.2018.04.004
 
 <a href='#require'> Requirements </a>
 
