@@ -370,7 +370,7 @@ rRNAdb-rRNA_Match_Genome	-	323584
 -	45S-rRNA_Match_Genome	7250.00
 -	5.8S-rRNA_Match_Genome	35.00
 -	5S-rRNA_Match_Genome	28800.00
-rRNAdb-rRNA_Unmatch_Genome	306484
+rRNAdb-rRNA_Unmatch_Genome	-	306484
 -	18S-rRNA_Unmatch_Genome	13925.00
 -	28S-rRNA_Unmatch_Genome	224979.00
 -	45S-rRNA_Unmatch_Genome	32192.00
