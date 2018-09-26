@@ -30,7 +30,7 @@ my $help		= $opt_h ? 1 : 0;
 my $threshold = 10;
 my $seq_err = 0.01;
 
-my $version_info = "1.0.4";
+my $version_info = "1.0.5.1";
 
 my $usage = <<"USAGE";
 Description:	Perl script used to annotate small RNA sequences in batch.
@@ -442,8 +442,10 @@ rm ${output_address}${input_query_name}_trim_4.fa
 	}
 	if($opt_format){
 		print FILE '
-tr -d "\15\32" < ${output_address}${input_query_name}_trim_1.${input_query_suffix} > ${output_address}${input_query_name}.${input_query_suffix}
+tr -d "\15\32" < ${output_address}${input_query_name}_trim_1.${input_query_suffix} > ${output_address}${input_query_name}_trim_2.${input_query_suffix}
 rm ${output_address}${input_query_name}_trim_1.${input_query_suffix}
+perl ${script_address}filter_length.pl ${output_address}${input_query_name}_trim_2.${input_query_suffix} ${min_length} ${max_length} > ${output_address}${input_query_name}.${input_query_suffix}
+rm ${output_address}${input_query_name}_trim_2.${input_query_suffix}
 		';
 	}
 
@@ -557,7 +559,7 @@ bowtie_address=' . $tRNA_db_address . '
 echo ""
 echo "match to tRNA-unmatch_genome"
 output_match_unmatch_genome=${output_address}${input_query_name}_match_${name}_unmatch_genome.fa
-output_unmatch_unmatch_genome=${output_address}${input_query_name}_unmatch_${name}_unmatch_genome.fa
+output_unmatch_unmatch_genome=${output_address}${input_query_name}_unmatch_${name}_ummatch_genome.fa
 output_detail_unmatch_genome=${output_address}${input_query_name}_output_${name}_unmatch_genome
 
 touch ${output_detail_unmatch_genome}
@@ -574,7 +576,7 @@ bowtie_address=' . $tRNA_db_address . '_mature
 echo ""
 echo "match to tRNA_mature-unmatch_genome"
 output_match_unmatch_genome=${output_address}${input_query_name}_match_${name}_unmatch_genome.fa
-output_unmatch_unmatch_genome=${output_address}${input_query_name}_unmatch_${name}_unmatch_genome.fa
+output_unmatch_unmatch_genome=${output_address}${input_query_name}_unmatch_${name}_ummatch_genome.fa
 output_detail_unmatch_genome=${output_address}${input_query_name}_output_${name}_unmatch_genome
 
 touch ${output_detail_unmatch_genome}
@@ -766,7 +768,7 @@ bowtie ${bowtie_address} -f ${input_match} -v ${mismatch} -k 10000 -p ${thread} 
 echo ""
 echo "match to ${name}-unmatch_genome"
 output_match_unmatch_genome=${output_address}${input_query_name}_match_${name}_unmatch_genome.fa
-output_unmatch_unmatch_genome=${output_address}${input_query_name}_unmatch_${name}_unmatch_genome.fa
+output_unmatch_unmatch_genome=${output_address}${input_query_name}_unmatch_${name}_ummatch_genome.fa
 touch ${output_match_unmatch_genome}
 touch ${output_unmatch_unmatch_genome}
 
