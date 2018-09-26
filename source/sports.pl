@@ -30,7 +30,7 @@ my $help		= $opt_h ? 1 : 0;
 my $threshold = 10;
 my $seq_err = 0.01;
 
-my $version_info = "1.0.5";
+my $version_info = "1.0.5.1";
 
 my $usage = <<"USAGE";
 Description:	Perl script used to annotate small RNA sequences in batch.
@@ -378,7 +378,7 @@ my $adapter_3		= "TGGAATTCTCGGGTGCCAAGG";
 		print FILE '
 echo ""
 echo "remove default 5\' and 3\' adapters"
-cutadapt -g ' . $adapter_5 . ' -a ' . $adapter_3 . ' -o ${output_address}${input_query_name}_trim_1.${input_query_suffix} --max-n 0 ${output_address}${input_query_name}.${input_query_suffix}
+cutadapt -j ${thread} -g ' . $adapter_5 . ' -a ' . $adapter_3 . ' -o ${output_address}${input_query_name}_trim_1.${input_query_suffix} --max-n 0 ${output_address}${input_query_name}.${input_query_suffix}
 rm -rf ${output_address}${input_query_name}.${input_query_suffix}
 		';
 		}
@@ -387,7 +387,7 @@ rm -rf ${output_address}${input_query_name}.${input_query_suffix}
 		print FILE '
 echo ""
 echo "remove 5\' adapter"
-cutadapt -g ' . $adapter_5 . ' -o ${output_address}${input_query_name}_trim_1.${input_query_suffix} --max-n 0 ${output_address}${input_query_name}.${input_query_suffix}
+cutadapt -j ${thread} -g ' . $adapter_5 . ' -o ${output_address}${input_query_name}_trim_1.${input_query_suffix} --max-n 0 ${output_address}${input_query_name}.${input_query_suffix}
 rm -rf ${output_address}${input_query_name}.${input_query_suffix}
 		';
 		}
@@ -396,7 +396,7 @@ rm -rf ${output_address}${input_query_name}.${input_query_suffix}
 		print FILE '
 echo ""
 echo "remove 3\' adapter"
-cutadapt -a ' . $adapter_3 . ' -o ${output_address}${input_query_name}_trim_1.${input_query_suffix} --max-n 0 ${output_address}${input_query_name}.${input_query_suffix}
+cutadapt -j ${thread} -a ' . $adapter_3 . ' -o ${output_address}${input_query_name}_trim_1.${input_query_suffix} --max-n 0 ${output_address}${input_query_name}.${input_query_suffix}
 rm -rf ${output_address}${input_query_name}.${input_query_suffix}
 		';
 		}
@@ -405,7 +405,7 @@ rm -rf ${output_address}${input_query_name}.${input_query_suffix}
 		print FILE '
 echo ""
 echo "remove 5-end and 3-end adapters"
-cutadapt -g ' . $adapter_5 . ' -a ' . $adapter_3 . ' -o ${output_address}${input_query_name}_trim_1.${input_query_suffix} --max-n 0 ${output_address}${input_query_name}.${input_query_suffix}
+cutadapt -j ${thread} -g ' . $adapter_5 . ' -a ' . $adapter_3 . ' -o ${output_address}${input_query_name}_trim_1.${input_query_suffix} --max-n 0 ${output_address}${input_query_name}.${input_query_suffix}
 		';
 		}
 	}
