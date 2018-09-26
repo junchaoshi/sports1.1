@@ -30,7 +30,7 @@ my $help		= $opt_h ? 1 : 0;
 my $threshold = 10;
 my $seq_err = 0.01;
 
-my $version_info = "1.0.5.1";
+my $version_info = "1.0.5";
 
 my $usage = <<"USAGE";
 Description:	Perl script used to annotate small RNA sequences in batch.
