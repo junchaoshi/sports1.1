@@ -2133,6 +2133,10 @@ Main database source:
 9.	Nawrocki EP, Burge SW, Bateman A, Daub J, Eberhardt RY, Eddy SR, et al. Rfam 12.0: updates to the RNA families database. Nucleic acids research. 2015;43(Database issue):D130-7. doi: 10.1093/nar/gku1063. 
 
 ## History <a id='history'></a>
+1.0.5 - 09/25/2018
+1.	Changed annotation strategy to fit more species tRNA annotation in GtRNAdb.
+2.	Fixed some bugs in the previous version. Thanks Catrin Lloyd to figure one out!
+
 1.0.4 - 03/25/2018
 1.	New function added: if '-M' > 0 applied in sports.pl, statistics of mismatch information will generated to predict potential nucleic acid modification loci;
 2.	The figure of tRNA mapping information will generated if tRNA database is defined;
