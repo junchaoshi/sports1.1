@@ -43,7 +43,7 @@ while (<INPUT>){
 			print OUTPUT "$end\n";
 			$seqs = undef;
 		}
-		@annos = split(/ /, $_);
+		@annos = split(/\s+/, $_);
 		print OUTPUT join(" ", @annos);
 		print OUTPUT "\nG";
 		next;
@@ -54,16 +54,18 @@ while (<INPUT>){
 			print OUTPUT "$end\n";
 			$seqs = undef;
 		}
-		@annos = split(/ /, $_);
+		@annos = split(/\s+/, $_);
 		print OUTPUT join(" ", @annos);
 		print OUTPUT "\n";
 		next;
-	}else{
-		$_ =~ s/[atcgun]//g;
+	}
+	elsif(defined $seqs){
 		$seqs = $seqs . $_;
-		
-		
+		}
+	else{
+		$seqs = $_;
 	}
 }
+
 print OUTPUT $seqs;
 print OUTPUT "$end\n";

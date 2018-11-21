@@ -34,7 +34,7 @@ my (%ref_lens, %reads);
 
 while (<INPUT1>){
 	($read, $annotation, $start_site, $seq, $repeat_site) = (split /\t/, $_)[1, 3, 4, 5, 7];
-	@annos = split(/ /, $annotation);
+	@annos = split(/\s+/, $annotation);
 	$annos[0] =~ /(.+)-.+$/;
 	$temp_anno = $1;
 	$ref_lens{$temp_anno} = $annos[-4];
