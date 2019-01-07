@@ -704,6 +704,8 @@ Main database source:
     -ensembl ncRNA database [8] (Original source: http://www.ensembl.org/index.html)
   
     -rfam 12.3 database [9] (Original source: http://rfam.xfam.org/)
+    
+To download annotation databases of mulitple species please use this link: https://ncrnainfo-my.sharepoint.com/:f:/g/personal/sports_ncrna_info/EvZP50IfGFRJlNJwZRujI00BM-CP_w7gITsv8iU45m1rxQ?e=Pk89b9
 
 1. Homo sapiens (Human)    
 
