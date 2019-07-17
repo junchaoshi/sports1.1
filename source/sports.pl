@@ -39,9 +39,9 @@ Description:	Perl script used to annotate small RNA sequences in batch.
 
 Usage Examples:	sports.pl -i reads.fa -g /foo/bar/Genome/Mouse/UCSC/mm10/Sequence/BowtieIndex/Genome
 		or: 
-		sports.pl -i seq_address.txt -p 4 -g /foo/bar/Genome/Human/UCSC/hg38/Sequence/BowtieIndex/Genome -m /foo/bar/Database/Human/miRBase_21/miRbase_21 -r /foo/bar/Database/Human/rRNA_db/human_rRNA -t /foo/bar/Database/Human/GtRNAdb/hg19-tRNAs -w /foo/bar/Database/Human/piRBase/piR_human_v1.0 -o /foo/bar/output/
+		sports.pl -i seq_address.txt -p 4 -g /foo/bar/Genome/Human/UCSC/hg38/Sequence/BowtieIndex/Genome -m /foo/bar/Database/Human/miRBase_21/miRbase_21 -r /foo/bar/Database/Human/rRNAdb/human_rRNA -t /foo/bar/Database/Human/GtRNAdb/hg19-tRNAs -w /foo/bar/Database/Human/piRBase/piR_human_v1.0 -o /foo/bar/output/
 		or:
-		sports.pl -i /foo/bar/download_seq/ -p 4 -g /foo/bar/Genome/rat/UCSC/rn6/Sequence/BowtieIndex/Genome -m /foo/bar/Database/Rat/miRBase_21/miRbase_21 -r /foo/bar/Database/Rat/rRNA_db/rat_rRNA -t /foo/bar/Database/Rat/GtRNAdb/rn5-tRNAs -w /foo/bar/Database/Rat/piRBase/piR_rat_v1.0 -e /foo/bar/Database/Rat/Ensembl/release-89/Rattus_norvegicus.Rnor_6.0.ncrna -f /foo/bar/Database/Rat/Rfam_12.3/Rfam-12.3-rat -o /foo/bar/output/ -k
+		sports.pl -i /foo/bar/download_seq/ -p 4 -g /foo/bar/Genome/rat/UCSC/rn6/Sequence/BowtieIndex/Genome -m /foo/bar/Database/Rat/miRBase_21/miRbase_21 -r /foo/bar/Database/Rat/rRNAdb/rat_rRNA -t /foo/bar/Database/Rat/GtRNAdb/rn5-tRNAs -w /foo/bar/Database/Rat/piRBase/piR_rat_v1.0 -e /foo/bar/Database/Rat/Ensembl/release-89/Rattus_norvegicus.Rnor_6.0.ncrna -f /foo/bar/Database/Rat/Rfam_12.3/Rfam-12.3-rat -o /foo/bar/output/ -k
 
 Input:
   -i <file>	Input could be: 
