@@ -239,7 +239,7 @@ Linux system, enough disk space and Ram depending on the size of RNA deep sequen
     
     Type following command in terminal: 
     
-    `sports.pl -i seq_address.txt -p 4 -g /foo/bar/Homo_sapiens/UCSC/hg38/Sequence/BowtieIndex/genome -m /Homo_sapiens/miRBase_21/miRBase_21-has -r /foo/bar/Homo_sapiens/rRNA_db/human_rRNA -t /foo/bar/Homo_sapiens/GtRNAdb/hg19-tRNAs -w /foo/bar/Homo_sapiens/piRBase/piR_human -o /foo/bar/output/`
+    `sports.pl -i seq_address.txt -p 4 -g /foo/bar/Homo_sapiens/UCSC/hg38/Sequence/BowtieIndex/genome -m /Homo_sapiens/miRBase_21/miRBase_21-has -r /foo/bar/Homo_sapiens/rRNAdb/human_rRNA -t /foo/bar/Homo_sapiens/GtRNAdb/hg19-tRNAs -w /foo/bar/Homo_sapiens/piRBase/piR_human -o /foo/bar/output/`
     
     - Example use 3:
     
@@ -275,7 +275,7 @@ Linux system, enough disk space and Ram depending on the size of RNA deep sequen
     
     Type following command in terminal: 
     
-    `sports.pl -i /foo/bar/download_seq/ -p 4 -a -x GTTCAGAGTTCTACAGTCCGACGATC -y TGGAATTCTCGGGTGCCAAGG -g /foo/bar/Mus_musculus/UCSC/mm10/Sequence/BowtieIndex/Genome -m /foo/bar/Mus_musculus/miRBase_21/miRbase_21-mmu -r /foo/bar/Mus_musculus/rRNA_db/mouse_rRNA -t /foo/bar/Mus_musculus/GtRNAdb/mm10-tRNAs -w /foo/bar/Mus_musculus/piRBase/piR_mouse -e /foo/bar/Mus_musculus/Ensembl/Mus_musculus.GRCm38.ncrna -f /foo/bar/Mus_musculus/Rfam_12.3/Rfam-12.3-mouse -o /foo/bar/output/ -k`
+    `sports.pl -i /foo/bar/download_seq/ -p 4 -a -x GTTCAGAGTTCTACAGTCCGACGATC -y TGGAATTCTCGGGTGCCAAGG -g /foo/bar/Mus_musculus/UCSC/mm10/Sequence/BowtieIndex/Genome -m /foo/bar/Mus_musculus/miRBase_21/miRbase_21-mmu -r /foo/bar/Mus_musculus/rRNAdb/mouse_rRNA -t /foo/bar/Mus_musculus/GtRNAdb/mm10-tRNAs -w /foo/bar/Mus_musculus/piRBase/piR_mouse -e /foo/bar/Mus_musculus/Ensembl/Mus_musculus.GRCm38.ncrna -f /foo/bar/Mus_musculus/Rfam_12.3/Rfam-12.3-mouse -o /foo/bar/output/ -k`
     
 4. Example output file structure for 1 query file input (e.g. SeqFile):
 
@@ -726,7 +726,7 @@ To download annotation databases of mulitple species please use this link: https
     ```
         -g /<your_defined_address>/Homo_sapiens/UCSC/hg38/Sequence/BowtieIndex/genome
         -m /<your_defined_address>/Homo_sapiens/miRBase_21/miRBase_21-hsa
-        -r /<your_defined_address>/Homo_sapiens/rRNA_db/human_rRNA
+        -r /<your_defined_address>/Homo_sapiens/rRNAdb/human_rRNA
         -t /<your_defined_address>/Homo_sapiens/GtRNAdb/hg19-tRNAs
         -w /<your_defined_address>/Homo_sapiens/piRBase/piR_human
         -e /<your_defined_address>/Homo_sapiens/Ensembl/Homo_sapiens.GRCh38.ncrna
@@ -850,7 +850,7 @@ To download annotation databases of mulitple species please use this link: https
         ``` 
         -g /<your_defined_address>/Macaca_mulatta/UCSC/rheMac8/Sequence/BowtieIndex/genome
         -m /<your_defined_address>/Macaca_mulatta/miRBase_21/miRBase_21-mml
-        -r /<your_defined_address>/Macaca_mulatta/rRNA_db/rhesus_rRNA
+        -r /<your_defined_address>/Macaca_mulatta/rRNAdb/rhesus_rRNA
         -t /<your_defined_address>/Macaca_mulatta/GtRNAdb/rheMac3-tRNAs
         -f /<your_defined_address>/Macaca_mulatta/Rfam_12.3/Rfam-12.3-rhesus
         ``` 
@@ -930,7 +930,7 @@ To download annotation databases of mulitple species please use this link: https
         ```
         -g /<your_defined_address>/Rattus_norvegicus/UCSC/rn6/Sequence/BowtieIndex/genome
         -m /<your_defined_address>/Rattus_norvegicus/miRBase_21/miRBase_21-rno
-        -r /<your_defined_address>/Rattus_norvegicus/rRNA_db/mouse_rRNA
+        -r /<your_defined_address>/Rattus_norvegicus/rRNAdb/mouse_rRNA
         -t /<your_defined_address>/Rattus_norvegicus/GtRNAdb/rn5-tRNAs
         -w /<your_defined_address>/Rattus_norvegicus/piRBase/piR_rat
         -e /<your_defined_address>/Rattus_norvegicus/Ensembl/Rattus_norvegicus.Rnor_6.0.ncrna
@@ -956,7 +956,7 @@ To download annotation databases of mulitple species please use this link: https
         ```
         -g /<your_defined_address>/Mus_musculus/UCSC/mm10/Sequence/BowtieIndex/genome
         -m /<your_defined_address>/Mus_musculus/miRBase_21/miRBase_21-mmu
-        -r /<your_defined_address>/Mus_musculus/rRNA_db/mouse_rRNA
+        -r /<your_defined_address>/Mus_musculus/rRNAdb/mouse_rRNA
         -t /<your_defined_address>/Mus_musculus/GtRNAdb/mm10-tRNAs
         -w /<your_defined_address>/Mus_musculus/piRBase/piR_mouse
         -e /<your_defined_address>/Mus_musculus/Ensembl/Mus_musculus.GRCm38.ncrna
