@@ -7,7 +7,7 @@ use Cwd 'abs_path';
 my $usage = <<"USAGE";
 Description:	This script transfers mitotRNAdb tRNA sequences to standard tRNA sequences. 
 		input_tRNA_file is in .fa format.
-Usage: tRNA_db_processing.pl input_tRNA_file output_file_name
+Usage: mt_tRNA_transfer.pl input_tRNA_file output_file_name
 USAGE
 
 my $in_file = shift or die $usage;
