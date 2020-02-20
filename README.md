@@ -1653,13 +1653,17 @@ To download annotation databases of mulitple species please use this link: https
     
     4. Download the high confidence tRNA sequences (X-tRNAs.fa) and high confidence mature tRNA sequences (X-mature-tRNAs.fa) in .fa format from GtRNAdb (http://gtrnadb.ucsc.edu/) and put the files X-mature-tRNAs.fa and X-tRNAs.fa into the defined folder address: \<your_defined_address\>; (optional)
     
-    5. Download the noncoding RNA sequences in .fa format from Ensembl database (http://ensemblgenomes.org/) and put the file X_ensembl_ncrna.fa into the defined folder address: \<your_defined_address\>; (optional)
+    5. Download mitocondrial tRNA sequences from mitotRNAdb (http://mttrna.bioinf.uni-leipzig.de/mtDataOutput/) in .fa format and reformat the file X_mito-tRNA.fa by using the scripts provided below and put the generated files X-mt_tRNA.fa and X-mt_tRNA_CCA.fa into the defined folder address: \<your_defined_address\>; (optional)
     
-    6. Download and extract the noncoding RNA sequences in .fa format from Rfam database (http://ensemblgenomes.org/) and put the file X_rfam_ncrna.fa into the defined folder address: \<your_defined_address\>; (optional)
+    `mt_tRNA_transfer.pl X_mito-tRNA.fa X-mt_tRNA`
+    
+    6. Download the noncoding RNA sequences in .fa format from Ensembl database (http://ensemblgenomes.org/) and put the file X_ensembl_ncrna.fa into the defined folder address: \<your_defined_address\>; (optional)
+    
+    7. Download and extract the noncoding RNA sequences in .fa format from Rfam database (http://ensemblgenomes.org/) and put the file X_rfam_ncrna.fa into the defined folder address: \<your_defined_address\>; (optional)
      
-    7. Download and extract the noncoding RNA sequences belong to the species in .fa format from Rfam database (https://rfam.xfam.org/) and put the file X_rfam.fa into the defined folder address: \<your_defined_address\>; (optional)
+    8. Download and extract the noncoding RNA sequences belong to the species in .fa format from Rfam database (https://rfam.xfam.org/) and put the file X_rfam.fa into the defined folder address: \<your_defined_address\>; (optional)
      
-    8. Download piRNA sequences in .fa format from piRNA databases and put the file X_piRNA.fa into the defined folder address: \<your_defined_address\>. (optional)
+    9. Download piRNA sequences in .fa format from piRNA databases and put the file X_piRNA.fa into the defined folder address: \<your_defined_address\>. (optional)
     
 2. Type following command in terminal: 
     
@@ -1682,7 +1686,7 @@ To download annotation databases of mulitple species please use this link: https
 1.  The tsRNA annotation information has been refined to pre-tsRNA and mature-tsRNA based on updated tRNA database; 
 2.  Annotation for Mitocondrial tRNAs (obtained from mitotRNAdb http://mttrna.bioinf.uni-leipzig.de/mtDataOutput/) and yRNAs (obtained from https://www.ncbi.nlm.nih.gov/) are now available. Pre-compiled databases for mouse and human have been updated (databases for other species will updated soon if applicable), please re-download the databases for better results; 
 3.  The miRNA annotation process has been optimized to get more accurate results.
-4.  Bowtie index building process has been imbedded in sports.pl to reduce the size of pre-compiled database; 
+4.  Bowtie index building process has been imbedded in sports.pl to reduce the size of pre-compiled database (the bowtie index will build when the user using SPORTS for the first time); 
 5.  New parameter '-z' is added to make mismatch information statistics optional ('-M' > 0 is needed for the statistics).
 6.  Instruction for compiling annotation database by user is added. 
 
@@ -1710,7 +1714,7 @@ To download annotation databases of mulitple species please use this link: https
 SPORTS1.1 is available under the GNU General Public License version 3 (GPLv3).
 
 ## Disclaimer <a id='disclaimer'></a>
-The SPORTS1.X package is provided as is without any guarantees or warranty for correctness. The authors are not responsible for any damage or loss of any kind caused by the use or misuse of the scripts included in the software package. The authors are not under obligation to provide support, service, corrections, or upgrades to the package.
+The SPORTS1.1 package is provided as is without any guarantees or warranty for correctness. The authors are not responsible for any damage or loss of any kind caused by the use or misuse of the scripts included in the software package. The authors are not under obligation to provide support, service, corrections, or upgrades to the package.
 
 ## Contact information <a id='contact'></a>
 Contact author: Junchao Shi
