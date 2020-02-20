@@ -11,7 +11,6 @@ library("data.table")
 library("grid")
 library(stringr)
 
-
 ref.distr <- function(file.address, file.name, rRNA.length){ 
   length.dis <- read.table(paste(file.address
 				 , file.name
@@ -63,206 +62,35 @@ ref.distr <- function(file.address, file.name, rRNA.length){
 					 , "mismatch"
 					 )
 			  )
-  RPM.2S <- 0
-  RPM.4.5S <- 0
-  RPM.5S <- 0
-  RPM.5.3S <- 0
-  RPM.5.8S <- 0
-  RPM.12S <- 0
-  RPM.16S <- 0
-  RPM.17S <- 0
-  RPM.18S <- 0
-  RPM.25S <- 0
-  RPM.26S <- 0
-  RPM.28S <- 0
-  RPM.45S <- 0
+  
   rRNA.length <- unlist(strsplit(rRNA.length, ","))
-  j <- 0
+  graph <- list()
   for(i in 1:length(rRNA.length)){
     temp.length <- unlist(strsplit(rRNA.length[i], "="))
-    if(temp.length[1] == "2S"){
-      len.2S.match <- match.stat(rRNA.match, "2S", temp.length[2], total.reads)
-      len.2S.unmatch <- match.stat(rRNA.unmatch, "2S", temp.length[2], total.reads)
-      len.2S <- data.frame(length = len.2S.match$length, RPM = (len.2S.match$RPM + len.2S.unmatch$RPM))
-      RPM.2S <- sum(len.2S$RPM)
-      if(RPM.2S > 0){
-        j <- j+1
-        graph.2S <- graph.distr(len.2S, output.color = "#E76BF3", "Mapping to 2S rRNA")
-      }
-    }else if(temp.length[1] == "4.5S"){
-      len.4.5S.match <- match.stat(rRNA.match, "4.5S", temp.length[2], total.reads)
-      len.4.5S.unmatch <- match.stat(rRNA.unmatch, "4.5S", temp.length[2], total.reads)
-      len.4.5S <- data.frame(length = len.4.5S.match$length, RPM = (len.4.5S.match$RPM + len.4.5S.unmatch$RPM))
-      RPM.4.5S <- sum(len.4.5S$RPM)
-      if(RPM.4.5S > 0){
-        j <- j+1
-        graph.4.5S <- graph.distr(len.4.5S, output.color = "#E76BF3", "Mapping to 4.5S rRNA")
-      }
-    }else if(temp.length[1] == "5S"){
-      len.5S.match <- match.stat(rRNA.match, " 5S", temp.length[2], total.reads)
-      len.5S.unmatch <- match.stat(rRNA.unmatch, " 5S", temp.length[2], total.reads)
-      len.5S <- data.frame(length = len.5S.match$length, RPM = (len.5S.match$RPM + len.5S.unmatch$RPM))
-      RPM.5S <- sum(len.5S$RPM)
-      if(RPM.5S > 0){
-        j <- j+1
-        graph.5S <- graph.distr(len.5S, output.color = "#E76BF3", "Mapping to 5S rRNA")
-      }
-    }else if(temp.length[1] == "5.3S"){
-      len.5.3S.match <- match.stat(rRNA.match, " 5.3S", temp.length[2], total.reads)
-      len.5.3S.unmatch <- match.stat(rRNA.unmatch, " 5.3S", temp.length[2], total.reads)
-      len.5.3S <- data.frame(length = len.5.3S.match$length, RPM = (len.5.3S.match$RPM + len.5.3S.unmatch$RPM))
-      RPM.5.3S <- sum(len.5.3S$RPM)
-      if(RPM.5.3S > 0){
-        j <- j+1
-        graph.5.3S <- graph.distr(len.5.3S, output.color = "#E76BF3", "Mapping to 5.3S rRNA")
-      }
-    }else if(temp.length[1] == "5.8S"){
-      len.5.8S.match <- match.stat(rRNA.match, "5.8S", temp.length[2], total.reads)
-      len.5.8S.unmatch <- match.stat(rRNA.unmatch, "5.8S", temp.length[2], total.reads)
-      len.5.8S <- data.frame(length = len.5.8S.match$length, RPM = (len.5.8S.match$RPM + len.5.8S.unmatch$RPM))
-      RPM.5.8S <- sum(len.5.8S$RPM)
-      if(RPM.5.8S > 0){
-        j <- j+1
-        graph.5.8S <- graph.distr(len.5.8S, output.color = "#E76BF3", "Mapping to 5.8S rRNA")
-      }
-    }else if(temp.length[1] == "12S"){
-      len.12S.match <- match.stat(rRNA.match, "12S", temp.length[2], total.reads)
-      len.12S.unmatch <- match.stat(rRNA.unmatch, "12S", temp.length[2], total.reads)
-      len.12S <- data.frame(length = len.12S.match$length, RPM = (len.12S.match$RPM + len.12S.unmatch$RPM))
-      RPM.12S <- sum(len.12S$RPM)
-      if(RPM.12S > 0){
-        j <- j+1
-        graph.12S <- graph.distr(len.12S, output.color = "#E76BF3", "Mapping to 12S rRNA")
-      }
-    }else if(temp.length[1] == "16S"){
-      len.16S.match <- match.stat(rRNA.match, "16S", temp.length[2], total.reads)
-      len.16S.unmatch <- match.stat(rRNA.unmatch, "16S", temp.length[2], total.reads)
-      len.16S <- data.frame(length = len.16S.match$length, RPM = (len.16S.match$RPM + len.16S.unmatch$RPM))
-      RPM.16S <- sum(len.16S$RPM)
-      if(RPM.16S > 0){
-        j <- j+1
-        graph.16S <- graph.distr(len.16S, output.color = "#E76BF3", "Mapping to 16S rRNA")
-      }
-    }else if(temp.length[1] == "17S"){
-      len.17S.match <- match.stat(rRNA.match, "17S", temp.length[2], total.reads)
-      len.17S.unmatch <- match.stat(rRNA.unmatch, "17S", temp.length[2], total.reads)
-      len.17S <- data.frame(length = len.17S.match$length, RPM = (len.17S.match$RPM + len.17S.unmatch$RPM))
-      RPM.17S <- sum(len.17S$RPM)
-      if(RPM.17S > 0){
-        j <- j+1
-        graph.17S <- graph.distr(len.17S, output.color = "#E76BF3", "Mapping to 17S rRNA")
-      }
-    }else if(temp.length[1] == "18S"){
-      len.18S.match <- match.stat(rRNA.match, "18S", temp.length[2], total.reads)
-      len.18S.unmatch <- match.stat(rRNA.unmatch, "18S", temp.length[2], total.reads)
-      len.18S <- data.frame(length = len.18S.match$length, RPM = (len.18S.match$RPM + len.18S.unmatch$RPM))
-      RPM.18S <- sum(len.18S$RPM)
-      if(RPM.18S > 0){
-        j <- j+1
-        graph.18S <- graph.distr(len.18S, output.color = "#E76BF3", "Mapping to 18S rRNA")
-      }
-    }else if(temp.length[1] == "25S"){
-      len.25S.match <- match.stat(rRNA.match, "25S", temp.length[2], total.reads)
-      len.25S.unmatch <- match.stat(rRNA.unmatch, "25S", temp.length[2], total.reads)
-      len.25S <- data.frame(length = len.25S.match$length, RPM = (len.25S.match$RPM + len.25S.unmatch$RPM))
-      RPM.25S <- sum(len.25S$RPM)
-      if(RPM.25S > 0){
-        j <- j+1
-        graph.25S <- graph.distr(len.25S, output.color = "#E76BF3", "Mapping to 25S rRNA")
-      }
-    }else if(temp.length[1] == "26S"){
-      len.26S.match <- match.stat(rRNA.match, "26S", temp.length[2], total.reads)
-      len.26S.unmatch <- match.stat(rRNA.unmatch, "26S", temp.length[2], total.reads)
-      len.26S <- data.frame(length = len.26S.match$length, RPM = (len.26S.match$RPM + len.26S.unmatch$RPM))
-      RPM.26S <- sum(len.26S$RPM)
-      if(RPM.26S > 0){
-        j <- j+1
-        graph.26S <- graph.distr(len.26S, output.color = "#E76BF3", "Mapping to 26S rRNA")
-      }
-    }else if(temp.length[1] == "28S"){
-      len.28S.match <- match.stat(rRNA.match, "28S", temp.length[2], total.reads)
-      len.28S.unmatch <- match.stat(rRNA.unmatch, "28S", temp.length[2], total.reads)
-      len.28S <- data.frame(length = len.28S.match$length, RPM = (len.28S.match$RPM + len.28S.unmatch$RPM))
-      RPM.28S <- sum(len.28S$RPM)
-      if(RPM.28S > 0){
-        j <- j+1
-        graph.28S <- graph.distr(len.28S, output.color = "#E76BF3", "Mapping to 28S rRNA")
-      }
-    }else if(temp.length[1] == "45S"){
-      len.45S.match <- match.stat(rRNA.match, "45S", temp.length[2], total.reads)
-      len.45S.unmatch <- match.stat(rRNA.unmatch, "45S", temp.length[2], total.reads)
-      len.45S <- data.frame(length = len.45S.match$length, RPM = (len.45S.match$RPM + len.45S.unmatch$RPM))
-      RPM.45S <- sum(len.45S$RPM)
-      if(RPM.45S > 0){
-        j <- j+1
-        graph.45S <- graph.distr(len.45S, output.color = "#E76BF3", "Mapping to 45S rRNA")
-      }
+    len.match <- match.stat(rRNA.match, paste(" ", temp.length[1], sep = ""), temp.length[2], total.reads)
+    len.unmatch <- match.stat(rRNA.unmatch, paste(" ", temp.length[1], sep = ""), temp.length[2], total.reads)
+    len <- data.frame(length = len.match$length, RPM = (len.match$RPM + len.unmatch$RPM))
+    RPM <- sum(len$RPM)
+    if(RPM > 0){
+  	  if (!grepl("RNY", temp.length[1])){
+  		  graph[[temp.length[1]]] <- graph.distr(len, output.color = "#E76BF3", paste("Mapping to ", temp.length[1], " rRNA", sep = ""))
+  	  }
     }
   }
-
-  if(j > 0){
-    pdf(paste(file.address, file.name, "_result/", file.name, "_rRNA_mapping.pdf", sep=""), width = 8, height = j*2)
+  
+  if(length(graph) > 0){
+    pdf(paste(file.address, file.name, "_result/", file.name, "_rRNA_mapping.pdf", sep=""), width = 8, height = length(graph)*2)
     grid.newpage()
-    pushViewport(viewport(layout = grid.layout(j+1 ,1, heights = unit(c(1, rep(4, j)), "null"))))
+    pushViewport(viewport(layout = grid.layout(length(graph)+1 ,1, heights = unit(c(1, rep(4, length(graph))), "null"))))
     pdf.title <- paste("rRNAs Mapping Result of ", file.name, sep = "")
     vplayout <- function(x,y)
-    	viewport(layout.pos.row = x, layout.pos.col = y)
-  grid.text(pdf.title, vp = vplayout(1, 1), gp = gpar(fontsize = 20))
-    k <- 2
-    if(RPM.2S > 0){
-      print(graph.2S, vp = vplayout(k, 1))
-      k <- k+1
+      viewport(layout.pos.row = x, layout.pos.col = y)
+    grid.text(pdf.title, vp = vplayout(1, 1), gp = gpar(fontsize = 20))
+    for (i in 1:length(graph)){
+      print(graph[[i]], vp = vplayout(i+1, 1))
     }
-    if(RPM.4.5S > 0){
-      print(graph.4.5S, vp = vplayout(k, 1))
-      k <- k+1
-    }
-    if(RPM.5S > 0){
-      print(graph.5S, vp = vplayout(k, 1))
-      k <- k+1
-    }
-    if(RPM.5.3S > 0){
-      print(graph.5.3S, vp = vplayout(k, 1))
-      k <- k+1
-    }
-    if(RPM.5.8S > 0){
-      print(graph.5.8S, vp = vplayout(k, 1))
-      k <- k+1
-    }
-    if(RPM.12S > 0){
-      print(graph.12S, vp = vplayout(k, 1))
-      k <- k+1
-    }
-    if(RPM.16S > 0){
-      print(graph.16S, vp = vplayout(k, 1))
-      k <- k+1
-    }
-    if(RPM.17S > 0){
-      print(graph.17S, vp = vplayout(k, 1))
-      k <- k+1
-    }
-    if(RPM.18S > 0){
-      print(graph.18S, vp = vplayout(k, 1))
-      k <- k+1
-    }
-    if(RPM.25S > 0){
-      print(graph.25S, vp = vplayout(k, 1))
-      k <- k+1
-    }
-    if(RPM.26S > 0){
-      print(graph.26S, vp = vplayout(k, 1))
-      k <- k+1
-    }
-    if(RPM.28S > 0){
-      print(graph.28S, vp = vplayout(k, 1))
-      k <- k+1
-    }
-    if(RPM.45S > 0){
-      print(graph.45S, vp = vplayout(k, 1))
-      k <- k+1
-    }
+    invisible(dev.off())
   }
-  invisible(dev.off())
 }
 
 match.stat <- function(input, RNA.name, RNA.length, total.reads){
@@ -271,9 +99,9 @@ match.stat <- function(input, RNA.name, RNA.length, total.reads){
   
   if(nrow(rRNA.sub) != 0){ 
     for(i in 1:length(rRNA.sub$reads)){
-      for(j in 1:nchar(as.character(rRNA.sub$seq[i]))){
-        len$RPM[rRNA.sub$start.site.1[i]+j+1] <- len$RPM[rRNA.sub$start.site.1[i]+j+1] + rRNA.sub$reads[i]/total.reads*1000000
-      }
+      start <- rRNA.sub$start.site.1[i]+2
+      end <- rRNA.sub$start.site.1[i]+nchar(as.character(rRNA.sub$seq[i]))+1
+      len$RPM[start:end] <- len$RPM[start:end] + rRNA.sub$reads[i]/total.reads*10^6
     }
   }
   return(len)

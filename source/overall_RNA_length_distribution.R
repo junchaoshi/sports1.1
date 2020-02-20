@@ -28,75 +28,67 @@ length.stack <- function(file.address, file.name){
   length.dis <- data.frame(length.dis[ ,1:2], reads = length.dis$reads * 1000000 / sum.clean)
   
   dis.clean  <- length.dis[which(length.dis$name == "Clean_Reads"), 2:3]
-  dis.miRNA  <- length.dis[grep("mir", length.dis$name, ignore.case = TRUE), 2:3]
-  dis.tRNA   <- rbind(length.dis[grep("tRNA_Match_Genome", length.dis$name, ignore.case = TRUE), 2:3],
-                      length.dis[grep("tRNA_Unmatch_Genome", length.dis$name, ignore.case = TRUE), 2:3]
-                      #length.dis[grep("tRNA_CCA_end", length.dis$name, ignore.case = TRUE), 2:3],
-                      #length.dis[grep("Mt_tRNA", length.dis$name, ignore.case = TRUE), 2:3]
-                      )
-
-  dis.tRNA.5.end    <- length.dis[grep("tRNA_5_end", length.dis$name, ignore.case = TRUE), 2:3]
-  dis.tRNA.3.end    <- length.dis[grep("tRNA_3_end", length.dis$name, ignore.case = TRUE), 2:3]
-  dis.tRNA.CCA.end  <- length.dis[grep("tRNA_CCA_end", length.dis$name, ignore.case = TRUE), 2:3]
-
-  dis.rRNA   <- rbind(length.dis[grep("rRNAdb-rRNA", length.dis$name, ignore.case = TRUE), 2:3],
-                      length.dis[grep("ensembl-Mt_rRNA", length.dis$name, ignore.case = TRUE), 2:3],
-                      length.dis[grep("ensembl-rRNA", length.dis$name, ignore.case = TRUE), 2:3],
-                      length.dis[grep("Rfam-rRNA", length.dis$name, ignore.case = TRUE), 2:3]
-                     )
-  dis.piRNA  <- length.dis[grep("piRNA", length.dis$name, ignore.case = TRUE), 2:3]
+  
+  dis.miRNA  <- length.dis[grep("mir", length.dis$name, ignore.case = TRUE), ]
+  dis.miRNA  <- dis.miRNA[!grepl("antisense", dis.miRNA$name, ignore.case = TRUE), 2:3]
+  
+  dis.tRNA   <- length.dis[grep("tRNA_Match_Genome|tRNA_Unmatch_Genome", length.dis$name, ignore.case = TRUE), 2:3]
+  dis.tRNA.5.end    <- length.dis[grep("tRNA_5_end_Match_Genome|tRNA_5_end_Unmatch_Genome", length.dis$name, ignore.case = TRUE), 2:3]
+  dis.tRNA.3.end    <- length.dis[grep("tRNA_3_end_Match_Genome|tRNA_3_end_Unmatch_Genome", length.dis$name, ignore.case = TRUE), 2:3]
+  dis.tRNA.CCA.end  <- length.dis[grep("tRNA_CCA_end_Match_Genome|tRNA_CCA_end_Unmatch_Genome", length.dis$name, ignore.case = TRUE), 2:3]
+  
+  dis.rRNA   <- length.dis[grep("-rRNA|_rRNA|-YRNA", length.dis$name, ignore.case = TRUE), ]
+  dis.rRNA	 <- dis.rRNA[!grepl("antisense|S-rRNA|other-rRNA|YRNA", dis.rRNA$name, ignore.case = TRUE), ]
+  dis.rRNA.match <- dis.rRNA[grepl("_Match_genome", dis.rRNA$name, ignore.case = TRUE), 2:3]
+  dis.rRNA.unmatch <- dis.rRNA[grepl("_Unmatch_genome", dis.rRNA$name, ignore.case = TRUE), 2:3]
+  dis.rRNA <- dis.rRNA[,2:3]
+  
+  dis.piRNA  <- length.dis[grep("piRNA", length.dis$name, ignore.case = TRUE), ]
+  dis.piRNA  <-  dis.piRNA[!grepl("antisense",  dis.piRNA$name, ignore.case = TRUE), 2:3]
+  
+  dis.antisense <- length.dis[grep("antisense", length.dis$name, ignore.case = TRUE), ]
+  dis.antisense <- dis.antisense[!grepl("_end|S-rRNA|other-rRNA", dis.antisense$name, ignore.case = TRUE), 2:3]
+  
   dis.unanno.match <- length.dis[grep("Unannotated_Match_Genome", length.dis$name, ignore.case = TRUE), 2:3]
   dis.unanno.unmatch <- length.dis[grep("Unannotated_Unmatch_Genome", length.dis$name, ignore.case = TRUE), 2:3]
   
   dis.clean  <- length.combine(dis.clean, len)
+  
   dis.miRNA  <- data.frame(name = "miRNA", length.combine(dis.miRNA, len))
+  
   dis.tRNA   <- data.frame(name = "tsRNA", length.combine(dis.tRNA, len))
-
   dis.tRNA.5.end   <- data.frame(name = "tsRNA-5'end", length.combine(dis.tRNA.5.end, len))
   dis.tRNA.3.end   <- data.frame(name = "tsRNA-3'end", length.combine(dis.tRNA.3.end, len))
   dis.tRNA.CCA.end <- data.frame(name = "tsRNA-CCA end", length.combine(dis.tRNA.CCA.end, len))
   dis.tRNA.other   <- data.frame(name = "tsRNA-other", length = len, reads = dis.tRNA$reads - dis.tRNA.5.end$reads - dis.tRNA.3.end$reads - dis.tRNA.CCA.end$reads)
 
-
   dis.rRNA   <- data.frame(name = "rsRNA", length.combine(dis.rRNA, len))
   dis.piRNA  <- data.frame(name = "piRNA", length.combine(dis.piRNA, len))
+  dis.antisense <- data.frame(name = "antisense", length.combine(dis.antisense, len))
   dis.unanno.match <- data.frame(name = "unanno MG", length.combine(dis.unanno.match, len))
   dis.unanno.unmatch <- data.frame(name = "unanno UMG", length.combine(dis.unanno.unmatch, len))
+  
   dis.other  <- data.frame(name = "other", length = len, 
-                           reads = dis.clean$reads - dis.miRNA$reads - dis.tRNA$reads - dis.rRNA$reads - dis.piRNA$reads - dis.unanno.match$reads - dis.unanno.unmatch$reads)
-
-  dis.rRNA.match <- rbind(length.dis[grep("rRNAdb-rRNA_Match_Genome", length.dis$name, ignore.case = TRUE), 2:3],
-                            length.dis[grep("ensembl-Mt_rRNA_Match_Genome", length.dis$name, ignore.case = TRUE), 2:3],
-                            length.dis[grep("ensembl-rRNA_Match_Genome", length.dis$name, ignore.case = TRUE), 2:3],
-                            length.dis[grep("Rfam-rRNA_Match_Genome", length.dis$name, ignore.case = TRUE), 2:3]
-                           )
+                           reads = dis.clean$reads - dis.miRNA$reads - dis.tRNA$reads - dis.rRNA$reads - dis.piRNA$reads - dis.antisense$reads - dis.unanno.match$reads - dis.unanno.unmatch$reads)
+  
   dis.rRNA.match <- data.frame(name = "rsRNA.match", length.combine(dis.rRNA.match, len))
  
-  dis.rRNA.unmatch <- rbind(length.dis[grep("rRNAdb-rRNA_Unmatch_Genome", length.dis$name, ignore.case = TRUE), 2:3],
-                            length.dis[grep("ensembl-Mt_rRNA_Unmatch_Genome", length.dis$name, ignore.case = TRUE), 2:3],
-                            length.dis[grep("ensembl-rRNA_Unmatch_Genome", length.dis$name, ignore.case = TRUE), 2:3],
-                            length.dis[grep("Rfam-rRNA_Unmatch_Genome", length.dis$name, ignore.case = TRUE), 2:3]
-                           )
   dis.rRNA.unmatch <- data.frame(name = "rsRNA.unmatch", length.combine(dis.rRNA.unmatch, len))
   
   sum.rRNA.match   <- data.frame(name = "rRNA MG", RPM = sum(dis.rRNA.match[ ,3]))
   sum.rRNA.unmatch <- data.frame(name = "rRNA UMG", RPM = sum(dis.rRNA.unmatch[ ,3]))
   sum.rRNA <- rbind(sum.rRNA.match, sum.rRNA.unmatch)
 
-
   myLabel.rRNA     <- paste(round(sum.rRNA$RPM / sum(sum.rRNA$RPM) * 100, 1), "%", sep = "")
   sum.rRNA.match   <- data.frame(name = paste("rRNA MG (", myLabel.rRNA[1], ")" , sep = ""), RPM = sum(dis.rRNA.match[ ,3]))
   sum.rRNA.unmatch <- data.frame(name = paste("rRNA UMG (", myLabel.rRNA[2], ")" , sep = ""), RPM = sum(dis.rRNA.unmatch[ ,3]))
   sum.rRNA         <- rbind(sum.rRNA.match, sum.rRNA.unmatch)
-
-
 
   sum.tRNA.5.end   <- data.frame(name = "tsRNA 5' end", RPM = sum(dis.tRNA.5.end[ ,3]))
   sum.tRNA.3.end   <- data.frame(name = "tsRNA 3' end", RPM = sum(dis.tRNA.3.end[ ,3]))
   sum.tRNA.CCA.end <- data.frame(name = "tsRNA CCA end", RPM = sum(dis.tRNA.CCA.end[ ,3]))
   sum.tRNA.other   <- data.frame(name = "tsRNA other", RPM = sum(dis.tRNA.other[ ,3]))
   sum.tRNA         <- rbind(sum.tRNA.5.end, sum.tRNA.3.end, sum.tRNA.CCA.end, sum.tRNA.other)
-
 
   myLabel.tRNA     <- paste(round(sum.tRNA$RPM / sum(sum.tRNA$RPM) * 100, 1), "%", sep = "")
   sum.tRNA.5.end   <- data.frame(name = paste("tRNA-5' (", myLabel.tRNA[1], ")" , sep = ""), RPM = sum(dis.tRNA.5.end[ ,3]))
@@ -105,11 +97,11 @@ length.stack <- function(file.address, file.name){
   sum.tRNA.other   <- data.frame(name = paste("tRNA-other (", myLabel.tRNA[4], ")" , sep = ""), RPM = sum(dis.tRNA.other[ ,3]))
   sum.tRNA         <- rbind(sum.tRNA.5.end, sum.tRNA.3.end, sum.tRNA.CCA.end, sum.tRNA.other)
 
-
   sum.rsRNA <- sum(dis.rRNA$reads)
   sum.piRNA <- sum(dis.piRNA$reads)
   sum.miRNA <- sum(dis.miRNA$reads)
   sum.tsRNA <- sum(dis.tRNA$reads)
+  sum.antisense <- sum(dis.antisense$reads)
   sum.other <- sum(dis.other$reads)
   sum.unanno.match <- sum(dis.unanno.match$reads)
   sum.unanno.unmatch <- sum(dis.unanno.unmatch$reads)
@@ -127,6 +119,9 @@ length.stack <- function(file.address, file.name){
   if(sum.rsRNA > 0){
 	stack.all <- rbind(stack.all, dis.rRNA)
   }
+  if(sum.antisense > 0){
+	stack.all <- rbind(stack.all, dis.antisense)
+  }
   #if(sum.other > 0){
 	stack.all <- rbind(stack.all, dis.other)
   #}
@@ -139,20 +134,22 @@ length.stack <- function(file.address, file.name){
 
 
 
-  stack.sep <- ggplot(stack.all, aes(x = length, y = reads)) + 
+  stack.sep <- ggplot(stack.all, aes(x = length, y = reads, fill = name)) + 
                     geom_bar(stat = "identity") + 
                     facet_grid(. ~ name) +
 		    labs(x = "length", y = "RPM", title = "") + 
 		    theme(axis.line = element_line()
 			, panel.grid.minor = element_blank() 
 			, panel.grid.major = element_blank()
-			, panel.background = element_blank()
-			, panel.border = element_rect(fill = "transparent")		
+			, panel.background = element_rect(fill = "transparent", colour = NA)
+			, plot.background = element_rect(fill = "transparent", colour = NA)
+			, panel.border = element_rect(fill = "transparent")
 			, text = element_text(size = 15, color = "black")
 			, axis.text.x = element_text(size = 11, color = "black")
 			, axis.text.y = element_text(size = 15, color = "black")					
-			)
-
+			) +
+			scale_fill_brewer(palette = "Paired") + guides(fill=FALSE)
+			
 				
   
   stack.pic <- ggplot(stack.all, aes(x = length, y = reads, fill = name)) + 
@@ -160,9 +157,12 @@ length.stack <- function(file.address, file.name){
 			theme(axis.line = element_line()
 			, panel.grid.minor = element_blank() 
 			, panel.grid.major = element_blank()
-			, panel.background = element_rect(fill = "transparent")
-			, plot.background = element_rect(fill = "transparent")
-			, legend.title = element_blank(), legend.position = "top"
+			, panel.background = element_rect(fill = "transparent", colour = NA)
+			, plot.background = element_rect(fill = "transparent", colour = NA)
+			, legend.title = element_blank()
+			, legend.background = element_rect(fill = "transparent", colour = NA)
+			, legend.box.background = element_rect(fill = "transparent", colour = NA)
+			, legend.position = "top"
 			, legend.direction =  "horizontal"
 			, text = element_text(size = 15, color = "black")
 			, axis.text = element_text(size = 15, color = "black")
@@ -176,42 +176,46 @@ length.stack <- function(file.address, file.name){
 						 
   myLabel.rRNA  <- paste(round(sum.rRNA$RPM / sum(sum.rRNA$RPM) * 100, 1), "%", sep = "")
   rRNA.pie <- ggplot(sum.rRNA, aes(x = "", y = RPM, fill = name)) + 
-                     geom_bar(stat = "identity", width = 1) + 
-                     coord_polar(theta = "y") + 
+					geom_bar(stat = "identity", width = 1) + 
+                    coord_polar(theta = "y") + 
 			        labs(x = "", y = "", title = "") + 
-                                theme(panel.background = element_rect(fill = "transparent")
-				, plot.background = element_rect(fill = "transparent")
+					theme(panel.background = element_rect(fill = "transparent", colour = NA)
+					, plot.background = element_rect(fill = "transparent", colour = NA)
 			    	, axis.ticks = element_blank() 
-				, panel.grid = element_blank() 
-				, panel.border = element_blank()
-                                , axis.text.x = element_blank()
-				, text = element_text(size = 15, color = "black")
-                    		, legend.title = element_blank()
-				, legend.position = "bottom"
-				, legend.direction =  "vertical"
-				, plot.margin = margin(-80, 10, -30, 10)
-				, legend.margin = margin(-50, 0, -30, 0)
-				) 
+					, panel.grid = element_blank() 
+					, panel.border = element_blank()
+                    , axis.text.x = element_blank()
+					, text = element_text(size = 15, color = "black")
+					, legend.title = element_blank()
+					, legend.background = element_rect(fill = "transparent", colour = NA)
+					, legend.box.background = element_rect(fill = "transparent", colour = NA)
+					, legend.position = "bottom"
+					, legend.direction =  "vertical"
+					, plot.margin = margin(-80, 10, -30, 10)
+					, legend.margin = margin(-50, 0, -30, 0)
+					) 
 
 					
   myLabel.tRNA  <- paste(round(sum.tRNA$RPM / sum(sum.tRNA$RPM) * 100, 1), "%", sep = "")
   tRNA.pie <- ggplot(sum.tRNA, aes(x = "", y = RPM, fill = name)) + 
-                     geom_bar(stat = "identity", width = 1) + 
-                     coord_polar(theta = "y") + 
+                    geom_bar(stat = "identity", width = 1) + 
+                    coord_polar(theta = "y") + 
 			        labs(x = "", y = "", title = "") + 
-                                theme(panel.background = element_rect(fill = "transparent")
-				, plot.background = element_rect(fill = "transparent")
+					theme(panel.background = element_rect(fill = "transparent", colour = NA)
+					, plot.background = element_rect(fill = "transparent", colour = NA)
 			    	, axis.ticks = element_blank() 
-				, panel.grid = element_blank() 
-				, panel.border = element_blank()
-                                , axis.text.x = element_blank()
-				, text = element_text(size = 15, color = "black")
-                    		, legend.title = element_blank()
-				, legend.position = "bottom"
-				, legend.direction =  "vertical"
-				, plot.margin = margin(-80, 10, 0, 10)
-				, legend.margin = margin(-50, 0, 0, 0)
-				) 
+					, panel.grid = element_blank() 
+					, panel.border = element_blank()
+                    , axis.text.x = element_blank()
+					, text = element_text(size = 15, color = "black")
+                    , legend.title = element_blank()
+					, legend.background = element_rect(fill = "transparent", colour = NA)
+					, legend.box.background = element_rect(fill = "transparent", colour = NA)
+					, legend.position = "bottom"
+					, legend.direction =  "vertical"
+					, plot.margin = margin(-80, 10, 0, 10)
+					, legend.margin = margin(-50, 0, 0, 0)
+					) 
   
   
   pdf(paste(file.address, file.name, "_result/", file.name, "_sncRNA_distribution.pdf", sep=""), width = 9, height = 12)

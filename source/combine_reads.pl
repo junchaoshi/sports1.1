@@ -7,7 +7,7 @@ my $usage = <<"USAGE";
 
 Description: This script combine reads in the fasta file to get unique sequence and its reads number. output format:
 
->t00000001 1234567
+>t00000001	1234567
 TCCCTGGTGGTCTAGTGGTTAGGATTCGGCGC
 
 't00000001' represents the abundance ranking among all the sequences. In this case, the abundance of this sequence is the highest. 

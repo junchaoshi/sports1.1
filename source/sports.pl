@@ -4,8 +4,8 @@ use strict;
 use warnings;
 use Cwd 'abs_path';
 use Getopt::Std;
-use vars qw($opt_i $opt_a $opt_b $opt_x $opt_y $opt_l $opt_L $opt_M $opt_p $opt_g $opt_m $opt_r $opt_t $opt_e $opt_f $opt_w $opt_o $opt_k $opt_v $opt_h);
-getopts('i:f:abx:y:l:L:M:p:s:g:m:r:t:e:f:w:o:kvh');
+use vars qw($opt_i $opt_a $opt_b $opt_x $opt_y $opt_l $opt_L $opt_M $opt_s $opt_p $opt_g $opt_m $opt_r $opt_t $opt_e $opt_f $opt_w $opt_o $opt_k $opt_z $opt_v $opt_h);
+getopts('i:abx:y:l:L:M:sp:g:m:r:t:e:f:w:o:kzvh');
 my $input_file		= $opt_i;
 my $opt_adapter		= $opt_a ? 1 : 0;
 my $opt_format		= $opt_b ? 1 : 0;
@@ -14,6 +14,7 @@ my $adapter_3		= $opt_y ? $opt_y : "default";
 my $min_length		= $opt_l ? $opt_l : 15;
 my $max_length		= $opt_L ? $opt_L : 45;
 my $mismatch		= $opt_M ? $opt_M : 0;
+my $sense			= $opt_s ? 1 : 0;
 my $thread		= $opt_p ? $opt_p : 1;
 my $genome_address	= $opt_g;
 my $miRNA_db_address	= $opt_m ? $opt_m : "NULL";
@@ -24,13 +25,14 @@ my $rfam_address	= $opt_f ? $opt_f : "NULL";
 my $piRNA_db_address	= $opt_w ? $opt_w : "NULL";
 my $output_address	= $opt_o;
 my $keep_all		= $opt_k;
+my $mismatch_stat	= $opt_z;
 my $version		= $opt_v ? 1 : 0;
 my $help		= $opt_h ? 1 : 0;
 
 my $threshold = 10;
 my $seq_err = 0.01;
 
-my $version_info = "1.0.5";
+my $version_info = "1.1.0";
 
 my $usage = <<"USAGE";
 Description:	Perl script used to annotate small RNA sequences in batch.
@@ -39,9 +41,9 @@ Description:	Perl script used to annotate small RNA sequences in batch.
 
 Usage Examples:	sports.pl -i reads.fa -g /foo/bar/Genome/Mouse/UCSC/mm10/Sequence/BowtieIndex/Genome
 		or: 
-		sports.pl -i seq_address.txt -p 4 -g /foo/bar/Genome/Human/UCSC/hg38/Sequence/BowtieIndex/Genome -m /foo/bar/Database/Human/miRBase_21/miRbase_21 -r /foo/bar/Database/Human/rRNAdb/human_rRNA -t /foo/bar/Database/Human/GtRNAdb/hg19-tRNAs -w /foo/bar/Database/Human/piRBase/piR_human_v1.0 -o /foo/bar/output/
+		sports.pl -i seq_address.txt -p 4 -g /foo/bar/Genome/Human/UCSC/hg38/Sequence/BowtieIndex/Genome -m /foo/bar/Database/Human/miRBase_21/miRbase_21 -r /foo/bar/Database/Human/rRNA_db/human_rRNA -t /foo/bar/Database/Human/GtRNAdb/hg19-tRNAs -w /foo/bar/Database/Human/piRBase/piR_human_v1.0 -o /foo/bar/output/
 		or:
-		sports.pl -i /foo/bar/download_seq/ -p 4 -g /foo/bar/Genome/rat/UCSC/rn6/Sequence/BowtieIndex/Genome -m /foo/bar/Database/Rat/miRBase_21/miRbase_21 -r /foo/bar/Database/Rat/rRNAdb/rat_rRNA -t /foo/bar/Database/Rat/GtRNAdb/rn5-tRNAs -w /foo/bar/Database/Rat/piRBase/piR_rat_v1.0 -e /foo/bar/Database/Rat/Ensembl/release-89/Rattus_norvegicus.Rnor_6.0.ncrna -f /foo/bar/Database/Rat/Rfam_12.3/Rfam-12.3-rat -o /foo/bar/output/ -k
+		sports.pl -i /foo/bar/download_seq/ -p 4 -g /foo/bar/Genome/rat/UCSC/rn6/Sequence/BowtieIndex/Genome -m /foo/bar/Database/Rat/miRBase_21/miRbase_21 -r /foo/bar/Database/Rat/rRNA_db/rat_rRNA -t /foo/bar/Database/Rat/GtRNAdb/rn5-tRNAs -w /foo/bar/Database/Rat/piRBase/piR_rat_v1.0 -e /foo/bar/Database/Rat/Ensembl/release-89/Rattus_norvegicus.Rnor_6.0.ncrna -f /foo/bar/Database/Rat/Rfam_12.3/Rfam-12.3-rat -o /foo/bar/output/ -k
 
 Input:
   -i <file>	Input could be: 
@@ -53,9 +55,9 @@ Input:
 
 Index:
   -g <str>	reference genome bowtie index
-  -m <str>	miRNA database bowtie index
-  -r <str>	rRNA database bowtie index
-  -t <str>	tRNA database bowtie index
+  -m <str>	miRNA database bowtie index (optional)
+  -r <str>	rRNA database bowtie index (optional)
+  -t <str>	tRNA database bowtie index (optional)
   -e <str>	ensembl noncoding RNA database bowtie index (optional)
   -f <str>	rfam database bowtie index (optional)
   -w <str>	piRNA database bowtie index (optional)
@@ -63,14 +65,16 @@ Index:
 Output:
   -o <str>	output address of annotation results (default: input address)
   -k		keep all the intermediate files generated during the running progress
-
+  -z		output mismatch statistics (optional, -M should larger than 0)
+  
 Alignment:
   -l <int>	the minimal length of the output sequences (default = 15)
   -L <int>	the maximal length of the output sequences (default = 45)
   -M <int>	the total number of mismatches in the entire alignment (default = 0)
+  -s 		align to forward/reverse-complement reference strand of annotation database
   -a		Remove 5\'/3\' adapters
-  -x <str>	(When -a is selected) Your 5\' adapter sequence or use "default". Default = "GTTCAGAGTTCTACAGTCCGACGATC"
-  -y <str>	(When -a is selected) Your 3\' adapter sequence or use "default". Default = "TGGAATTCTCGGGTGCCAAGG"
+  -x <str>	(When -a is selected) Your 5\' adapter sequence or use "default" adapter. Default = "GTTCAGAGTTCTACAGTCCGACGATC"
+  -y <str>	(When -a is selected) Your 3\' adapter sequence or use "default" adapter. Default = "TGGAATTCTCGGGTGCCAAGG"
 
 Others:
   -v		print version information
@@ -126,19 +130,92 @@ my @tmp_filelist;
 my $input_query_address;
 my $input_query_name;
 my $input_query_suffix;
+my $strand;
 
 my $script_address = `which sports.pl`;
    @input = split(/\//, $script_address);
    pop @input;
    $script_address = join('/', @input) . '/';
 
-##generate tRNA unmatch genome database
+##generate genome bowtie index
+my $genome_bowtie_file = $genome_address . ".1.ebwt";
+unless (-e $genome_bowtie_file){
+	print "\n\nGenerating genome bowtie index...\n\n";
+	system ("bowtie-build -q ${genome_address}.fa ${genome_address}");
+}
+
+##generate miRNA database bowtie index
+my $miRNA_db_bowtie_file = $miRNA_db_address . ".1.ebwt";
+unless($miRNA_db_address eq "NULL"){
+	unless (-e $miRNA_db_bowtie_file){
+		print "\n\nGenerating miRNA database bowtie index...\n\n";
+		system ("bowtie-build -q ${miRNA_db_address}.fa ${miRNA_db_address}");
+	}
+}
+
+##generate ensembl noncoding RNA database bowtie index
+my $ensembl_nc_bowtie_file = $ensembl_nc_address . ".1.ebwt";
+unless($ensembl_nc_address eq "NULL"){
+	unless (-e $ensembl_nc_bowtie_file){
+		print "\n\nGenerating ensembl database bowtie index...\n\n";
+		system ("bowtie-build -q ${ensembl_nc_address}.fa ${ensembl_nc_address}");
+	}
+}
+
+##generate rfam database bowtie index
+my $rfam_bowtie_file = $rfam_address . ".1.ebwt";
+unless($rfam_address eq "NULL"){
+	unless (-e $rfam_bowtie_file){
+		print "\n\nGenerating rfam database bowtie index...\n\n";
+		system ("bowtie-build -q ${rfam_address}.fa ${rfam_address}");
+	}
+}
+
+##generate piRNA database bowtie index
+my $piRNA_db_bowtie_file = $piRNA_db_address . ".1.ebwt";
+unless($piRNA_db_address eq "NULL"){
+	unless (-e $piRNA_db_bowtie_file){
+		print "\n\nGenerating piRNA database bowtie index...\n\n";
+		system ("bowtie-build -q ${piRNA_db_address}.fa ${piRNA_db_address}");
+	}
+}
+
+##generate mature tRNA database and bowtie index
+my $tRNA_db_mature_tRNA_file = $tRNA_db_address;
+$tRNA_db_mature_tRNA_file =~ s/-tRNAs$//;
+$tRNA_db_mature_tRNA_file = $tRNA_db_mature_tRNA_file . "-mature-tRNAs.fa";
+
+my $tRNA_db_mito_tRNA_file = $tRNA_db_address;
+$tRNA_db_mito_tRNA_file =~ s/-tRNAs$//;
+$tRNA_db_mito_tRNA_file = $tRNA_db_mito_tRNA_file . "-mt_tRNAs";
+
 unless($tRNA_db_address eq "NULL"){
-	my $tRNA_db_UMG_file = $tRNA_db_address . "_mature.1.ebwt";
-	unless (-e $tRNA_db_UMG_file){
-		system ("perl ${script_address}tRNA_db_processing.pl ${tRNA_db_address}.fa");
-		print "\n\nGenerating tRNA (unmatch genome) database bowtie index...\n\n";
-		system ("bowtie-build -q ${tRNA_db_address}_mature.fa ${tRNA_db_address}_mature");
+	##genomic-tRNA-bowtie-build
+	my $tRNA_db_tRNA_pre_file = $tRNA_db_address. ".1.ebwt";
+	unless (-e $tRNA_db_tRNA_pre_file){
+		print "\n\nGenerating pre-tRNA database bowtie index...\n\n";
+		system ("bowtie-build -q ${tRNA_db_address}.fa ${tRNA_db_address}");
+	}
+	my $tRNA_db_tRNA_CCA_file = $tRNA_db_address;
+	$tRNA_db_tRNA_CCA_file = $tRNA_db_address . "_CCA.1.ebwt";
+	unless (-e $tRNA_db_tRNA_CCA_file){
+		if (-e $tRNA_db_mature_tRNA_file){
+			system ("perl ${script_address}tRNA_db_processing.pl ${tRNA_db_mature_tRNA_file}");
+			$tRNA_db_mature_tRNA_file =~ s/\.fa$//;
+			system ("mv ${tRNA_db_mature_tRNA_file}_CCA.fa ${tRNA_db_address}_CCA.fa");
+			$tRNA_db_mature_tRNA_file = $tRNA_db_mature_tRNA_file . ".fa";
+		}else{
+			system ("perl ${script_address}tRNA_db_processing.pl ${tRNA_db_address}.fa");
+		}
+		print "\n\nGenerating mature-tRNA database bowtie index...\n\n";
+		system ("bowtie-build -q ${tRNA_db_address}_CCA.fa ${tRNA_db_address}_CCA");
+	}
+	##mito-tRNA-bowtie-build
+	my $tRNA_db_mito_tRNA_bowtie_file = $tRNA_db_mito_tRNA_file . ".1.ebwt";
+	unless (-e $tRNA_db_mito_tRNA_bowtie_file){
+		print "\n\nGenerating mito-tRNA database bowtie index...\n\n";
+		system ("bowtie-build -q ${tRNA_db_mito_tRNA_file}.fa ${tRNA_db_mito_tRNA_file}");
+		system ("bowtie-build -q ${tRNA_db_mito_tRNA_file}_CCA.fa ${tRNA_db_mito_tRNA_file}_CCA");
 	}
 }
 
@@ -293,18 +370,23 @@ my $count = 0;
 my @rRNA_length;
 
 unless ($rRNA_db_address eq "NULL"){
-	my @rRNA = ('2S', '4.5S', '5S', '5.3S', '5.8S', '12S', '16S', '17S', '18S', '25S', '26S', '28S', '45S');
+	my @rRNA = ('2S', '4.5S', '5S', '5.3S', '5.8S', '12S', '16S', '17S', '18S', '25S', '26S', '28S', '45S', 'RNY1', 'RNY3', 'RNY4', 'RNY5');
 	my $bowtie_fa;
+	my $bowtie_index;
 	my $temp_length;
 	foreach (@rRNA){
 		$bowtie_fa = "${rRNA_db_address}_${_}.fa";
+		$bowtie_index = "${rRNA_db_address}_${_}.1.ebwt";
 		if (-e $bowtie_fa){
+			unless (-e $bowtie_index){
+				print "\n\nGenerating ${_} rRNA database bowtie index...\n\n";
+				system ("bowtie-build -q ${rRNA_db_address}_${_}.fa ${rRNA_db_address}_${_}");
+			}
 			$temp_length = `grep -v '>' $bowtie_fa | wc -m` - `grep -v '>' $bowtie_fa | wc -w`;
 			push (@rRNA_length, "${_}=${temp_length}");
 		}
 	}
 }
-
 
 while (@tmp_filelist){
 	my $tmp_f = $tmp_filelist[0];
@@ -324,24 +406,25 @@ while (@tmp_filelist){
 	unless (-e $tmp_repo){
 	`mkdir -p $tmp_repo`;
 	}
-	print FILE_OUT "echo $input_query_address$input_query_name.$input_query_suffix\n";
-	print FILE_OUT "sh ${tmp_sh}/${count}_$input_query_name.sh > $tmp_repo${count}_${input_query_name}.txt 2>&1\n";
+	print FILE_OUT "echo \"$input_query_address$input_query_name.$input_query_suffix\"\n";
+	print FILE_OUT "sh \"${tmp_sh}/${count}_$input_query_name.sh\" > \"$tmp_repo${count}_${input_query_name}.txt\" 2>&1\n";
 	open FILE, '>',"${tmp_sh}/${count}_$input_query_name.sh"
-		or die "can not open '${tmp_sh}/${count}_$input_query_name.sh";
+		or die "can not open '${tmp_sh}/${count}_$input_query_name.sh'";
 	print FILE '#!/bin/bash	
 ##This script uses to annotate small RNA
 date
-thread=' . $thread . '
-adapter5=' . $adapter_5 . '
-adapter3=' . $adapter_3 . '
-min_length=' . $min_length . '
-max_length=' . $max_length . '
-mismatch=' . $mismatch . '
-input_query_address=' . $input_query_address . '
-input_query_name=' . $input_query_name . '
-input_query_suffix=' . $input_query_suffix . '
-output_address=' . $output_address . ${count} . '_${input_query_name}/
-script_address=' . $script_address . '
+echo ""
+thread="' . $thread . '"
+adapter5="' . $adapter_5 . '"
+adapter3="' . $adapter_3 . '"
+min_length="' . $min_length . '"
+max_length="' . $max_length . '"
+mismatch="' . $mismatch . '"
+input_query_address="' . $input_query_address . '"
+input_query_name="' . $input_query_name . '"
+input_query_suffix="' . $input_query_suffix . '"
+output_address="' . $output_address . ${count} . '_${input_query_name}/"
+script_address="' . $script_address . '"
 
 
 if [ ! -d "${output_address}" ]; then
@@ -449,7 +532,7 @@ rm ${output_address}${input_query_name}_trim_2.${input_query_suffix}
 		';
 	}
 
-###annotation process
+###annotation process - genome
 	my $step_number = 1;
 	print FILE '
 
@@ -469,26 +552,7 @@ bowtie ${bowtie_address} -f ${input} -v ${mismatch} -k 1 -p ${thread} --al ${out
 input_match=${output_address}${input_query_name}_match_genome.fa
 input_unmatch=${output_address}${input_query_name}_unmatch_genome.fa';
 
-	unless ($miRNA_db_address eq "NULL"){
-		$step_number += 1;
-		print FILE '
-###step' . $step_number . ': match to microRNA database
-echo ""
-echo "match to microRNA database"
-output_detail_match_genome=${output_address}${input_query_name}_output_miRNA_match_genome
-output_detail_unmatch_genome=${output_address}${input_query_name}_output_miRNA_unmatch_genome
-
-if [ -e "${output_detail_match_genome}" ]; then
-rm ${output_detail_match_genome}
-fi
-if [ -e "${output_detail_unmatch_genome}" ]; then
-rm ${output_detail_unmatch_genome}
-fi
-touch ${output_detail_match_genome}
-touch ${output_detail_unmatch_genome}';
-		BowtiePrint('miRNA', $miRNA_db_address);
-	}
-	
+###annotation process - rRNA
 	unless ($rRNA_db_address eq "NULL"){
 		$step_number += 1;
 		print FILE '
@@ -496,7 +560,7 @@ touch ${output_detail_unmatch_genome}';
 echo ""
 echo "match to rRNA database"
 output_detail_match_genome=${output_address}${input_query_name}_output_rRNA_match_genome
-output_detail_unmatch_genome=${output_address}${input_query_name}_output_rRNA_unmatch_genome
+output_detail_unmatch_genome=${output_address}${input_query_name}_output_rRNA_unmatch_genome	
 if [ -e "${output_detail_match_genome}" ]; then
 rm ${output_detail_match_genome}
 fi
@@ -505,15 +569,18 @@ rm ${output_detail_unmatch_genome}
 fi
 touch ${output_detail_match_genome}
 touch ${output_detail_unmatch_genome}';
-		my @rRNA = ('2S', '4.5S', '5S', '5.3S', '5.8S', '12S', '16S', '17S', '18S', '25S', '26S', '28S', '45S', 'other');
+		my @rRNA = ('2S', '4.5S', '5S', '5.3S', '5.8S', '12S', '16S', '17S', '18S', '25S', '26S', '28S', '45S', 'other', 'RNY1', 'RNY3', 'RNY4', 'RNY5');
 		my $bowtie_fa;
+		$strand = 0;
 		foreach (@rRNA){
 			$bowtie_fa = "${rRNA_db_address}_${_}.fa";
 			if (-e $bowtie_fa){
-				BowtiePrint("rRNA_${_}", "${rRNA_db_address}_${_}");
+				BowtiePrint("rRNA_${_}", "${rRNA_db_address}_${_}", $strand);
 			}
 		}
 	}
+
+###annotation process - tRNA
 	unless ($tRNA_db_address eq "NULL"){
 		$step_number += 1;
 		print FILE '
@@ -521,8 +588,25 @@ touch ${output_detail_unmatch_genome}';
 echo ""
 echo "match to tRNA database"
 
+######match genome part - tRNA-mature
+name=tRNA_mature
+bowtie_address=' . $tRNA_db_address . '_CCA
+echo ""
+echo "match to tRNA_mature-match_genome"
+output_match_match_genome=${output_address}${input_query_name}_match_${name}_match_genome.fa
+output_unmatch_match_genome=${output_address}${input_query_name}_unmatch_${name}_match_genome.fa
+output_detail_match_genome=${output_address}${input_query_name}_output_${name}_match_genome
+
+touch ${output_detail_match_genome}
+touch ${output_match_match_genome}
+touch ${output_unmatch_match_genome}
+
+bowtie ${bowtie_address} -f ${input_match} -v ${mismatch} -a -p ${thread} --fullref --norc --al ${output_match_match_genome} --un ${output_unmatch_match_genome} > ${output_detail_match_genome}
+
+input_match=${output_unmatch_match_genome}
+
 ######match genome part - tRNA
-name=tRNA
+name=tRNA_pre
 bowtie_address=' . $tRNA_db_address . '
 echo ""
 echo "match to tRNA-match_genome"
@@ -534,27 +618,27 @@ touch ${output_detail_match_genome}
 touch ${output_match_match_genome}
 touch ${output_unmatch_match_genome}
 
-bowtie ${bowtie_address} -f ${input_match} -v ${mismatch} -k 10000 -p ${thread} --fullref --norc --al ${output_match_match_genome} --un ${output_unmatch_match_genome} > ${output_detail_match_genome}
+bowtie ${bowtie_address} -f ${input_match} -v ${mismatch} -a -p ${thread} --fullref --norc --al ${output_match_match_genome} --un ${output_unmatch_match_genome} > ${output_detail_match_genome}
 
-input_match=${output_unmatch_match_genome}
-
-######match genome part - tRNA-mature
+######unmatch genome part - tRNA-mature
 name=tRNA_mature
-bowtie_address=' . $tRNA_db_address . '_mature
+bowtie_address=' . $tRNA_db_address . '_CCA
 echo ""
-echo "match to tRNA_mature-match_genome"
-output_match_match_genome=${output_address}${input_query_name}_match_${name}_match_genome.fa
-output_unmatch_match_genome=${output_address}${input_query_name}_unmatch_${name}_match_genome.fa
-output_detail_match_genome=${output_address}${input_query_name}_output_${name}_match_genome
+echo "match to tRNA_mature-unmatch_genome"
+output_match_unmatch_genome=${output_address}${input_query_name}_match_${name}_unmatch_genome.fa
+output_unmatch_unmatch_genome=${output_address}${input_query_name}_unmatch_${name}_ummatch_genome.fa
+output_detail_unmatch_genome=${output_address}${input_query_name}_output_${name}_unmatch_genome
 
-touch ${output_detail_match_genome}
-touch ${output_match_match_genome}
-touch ${output_unmatch_match_genome}
+touch ${output_detail_unmatch_genome}
+touch ${output_match_unmatch_genome}
+touch ${output_unmatch_unmatch_genome}
 
-bowtie ${bowtie_address} -f ${input_match} -v ${mismatch} -k 10000 -p ${thread} --fullref --norc --al ${output_match_match_genome} --un ${output_unmatch_match_genome} > ${output_detail_match_genome}
+bowtie ${bowtie_address} -f ${input_unmatch} -v ${mismatch} -a -p ${thread} --fullref --norc --al ${output_match_unmatch_genome} --un ${output_unmatch_unmatch_genome} > ${output_detail_unmatch_genome}
+
+input_unmatch=${output_unmatch_unmatch_genome}
 
 ######unmatch genome part - tRNA
-name=tRNA
+name=tRNA_pre
 bowtie_address=' . $tRNA_db_address . '
 echo ""
 echo "match to tRNA-unmatch_genome"
@@ -566,15 +650,207 @@ touch ${output_detail_unmatch_genome}
 touch ${output_match_unmatch_genome}
 touch ${output_unmatch_unmatch_genome}
 
-bowtie ${bowtie_address} -f ${input_unmatch} -v ${mismatch} -k 10000 -p ${thread} --fullref --norc --al ${output_match_unmatch_genome} --un ${output_unmatch_unmatch_genome} > ${output_detail_unmatch_genome}
+bowtie ${bowtie_address} -f ${input_unmatch} -v ${mismatch} -a -p ${thread} --fullref --norc --al ${output_match_unmatch_genome} --un ${output_unmatch_unmatch_genome} > ${output_detail_unmatch_genome}
 
-input_unmatch=${output_unmatch_unmatch_genome}
+######define next input
+input_match=${output_unmatch_match_genome}
+input_unmatch=${output_unmatch_unmatch_genome}';
+	}
 
-######unmatch genome part - tRNA-mature
-name=tRNA_mature
-bowtie_address=' . $tRNA_db_address . '_mature
+###annotation process - mito_tRNA
+	if (-e "${tRNA_db_mito_tRNA_file}.fa"){
+		$step_number += 1;
+		print FILE '
+###step' . $step_number . ': match to mito_tRNA database
 echo ""
-echo "match to tRNA_mature-unmatch_genome"
+echo "match to mito_tRNA database"
+output_detail_match_genome=${output_address}${input_query_name}_output_mt_tRNA_mature_match_genome
+output_detail_unmatch_genome=${output_address}${input_query_name}_output_mt_tRNA_mature_unmatch_genome
+	
+if [ -e "${output_detail_match_genome}" ]; then
+rm ${output_detail_match_genome}
+fi
+if [ -e "${output_detail_unmatch_genome}" ]; then
+rm ${output_detail_unmatch_genome}
+fi
+touch ${output_detail_match_genome}
+touch ${output_detail_unmatch_genome}';
+		$strand = 0;
+  BowtiePrint('mt_tRNA_mature', "${tRNA_db_mito_tRNA_file}_CCA", $strand);
+		print FILE '
+echo ""
+output_detail_match_genome=${output_address}${input_query_name}_output_mt_tRNA_pre_match_genome
+output_detail_unmatch_genome=${output_address}${input_query_name}_output_mt_tRNA_pre_unmatch_genome
+
+if [ -e "${output_detail_match_genome}" ]; then
+rm ${output_detail_match_genome}
+fi
+if [ -e "${output_detail_unmatch_genome}" ]; then
+rm ${output_detail_unmatch_genome}
+fi
+touch ${output_detail_match_genome}
+touch ${output_detail_unmatch_genome}';
+		$strand = 0;
+  BowtiePrint('mt_tRNA_pre', ${tRNA_db_mito_tRNA_file}, $strand);
+	}
+
+###annotation process - miRNA
+	unless ($miRNA_db_address eq "NULL"){
+		$step_number += 1;
+		print FILE '
+###step' . $step_number . ': match to microRNA database
+echo ""
+echo "match to microRNA database"
+output_detail_match_genome=${output_address}${input_query_name}_output_miRNA_match_genome
+output_detail_unmatch_genome=${output_address}${input_query_name}_output_miRNA_unmatch_genome
+	
+if [ -e "${output_detail_match_genome}" ]; then
+rm ${output_detail_match_genome}
+fi
+if [ -e "${output_detail_unmatch_genome}" ]; then
+rm ${output_detail_unmatch_genome}
+fi
+touch ${output_detail_match_genome}
+touch ${output_detail_unmatch_genome}';
+		$strand = 0;
+  BowtiePrint('miRNA', $miRNA_db_address, $strand);
+	}
+
+###annotation process - ensembl
+	unless ($ensembl_nc_address eq "NULL"){
+		$step_number += 1;
+		print FILE '
+###step' . $step_number . ': match to ensembl database
+echo ""
+echo "match to ensembl database"
+output_detail_match_genome=${output_address}${input_query_name}_output_ensembl_match_genome
+output_detail_unmatch_genome=${output_address}${input_query_name}_output_ensembl_unmatch_genome	
+if [ -e "${output_detail_match_genome}" ]; then
+rm ${output_detail_match_genome}
+fi
+if [ -e "${output_detail_unmatch_genome}" ]; then
+rm ${output_detail_unmatch_genome}
+fi
+touch ${output_detail_match_genome}
+touch ${output_detail_unmatch_genome}';
+		$strand = 0;
+		BowtiePrint('ensembl', $ensembl_nc_address, $strand);
+	}
+
+###annotation process - rfam
+	unless ($rfam_address eq "NULL"){
+		$step_number += 1;
+		print FILE '
+###step' . $step_number . ': match to rfam database
+echo ""
+echo "match to rfam database"
+output_detail_match_genome=${output_address}${input_query_name}_output_rfam_match_genome
+output_detail_unmatch_genome=${output_address}${input_query_name}_output_rfam_unmatch_genome	
+if [ -e "${output_detail_match_genome}" ]; then
+rm ${output_detail_match_genome}
+fi
+if [ -e "${output_detail_unmatch_genome}" ]; then
+rm ${output_detail_unmatch_genome}
+fi
+touch ${output_detail_match_genome}
+touch ${output_detail_unmatch_genome}';
+		$strand = 0;
+		BowtiePrint('rfam', $rfam_address, $strand);
+	}
+
+###annotation process - piRNA
+	unless ($piRNA_db_address eq "NULL"){
+		$step_number += 1;
+		print FILE '
+###step' . $step_number . ': match to piRNA database
+echo ""
+echo "match to piRNA database"
+output_detail_match_genome=${output_address}${input_query_name}_output_piRNA_match_genome
+output_detail_unmatch_genome=${output_address}${input_query_name}_output_piRNA_unmatch_genome	
+if [ -e "${output_detail_match_genome}" ]; then
+rm ${output_detail_match_genome}
+fi
+if [ -e "${output_detail_unmatch_genome}" ]; then
+rm ${output_detail_unmatch_genome}
+fi
+touch ${output_detail_match_genome}
+touch ${output_detail_unmatch_genome}';
+		$strand = 0;
+		BowtiePrint('piRNA', $piRNA_db_address, $strand);
+	}
+
+###annotation process - antisense
+	if ($sense){
+		unless ($rRNA_db_address eq "NULL"){
+			$step_number += 1;
+			print FILE '
+###step' . $step_number . ': match to rRNA database - antisense
+echo ""
+echo "match to rRNA database - antisense"
+output_detail_match_genome=${output_address}${input_query_name}_output_rRNA-antisense_match_genome
+output_detail_unmatch_genome=${output_address}${input_query_name}_output_rRNA-antisense_unmatch_genome	
+if [ -e "${output_detail_match_genome}" ]; then
+rm ${output_detail_match_genome}
+fi
+if [ -e "${output_detail_unmatch_genome}" ]; then
+rm ${output_detail_unmatch_genome}
+fi
+touch ${output_detail_match_genome}
+touch ${output_detail_unmatch_genome}';
+			my @rRNA = ('2S', '4.5S', '5S', '5.3S', '5.8S', '12S', '16S', '17S', '18S', '25S', '26S', '28S', '45S', 'other', 'RNY1', 'RNY3', 'RNY4', 'RNY5');
+			my $bowtie_fa;
+			$strand = 1;
+			foreach (@rRNA){
+				$bowtie_fa = "${rRNA_db_address}_${_}.fa";
+				if (-e $bowtie_fa){
+					BowtiePrint("rRNA_${_}", "${rRNA_db_address}_${_}", $strand);
+				}
+			}
+		}
+		unless ($tRNA_db_address eq "NULL"){
+			$step_number += 1;
+			print FILE '
+###step' . $step_number . ': match to tRNA database - antisense
+echo ""
+echo "match to tRNA database - antisense"
+
+######match genome part - tRNA-mature - antisense
+name=tRNA-antisense_mature
+bowtie_address=' . $tRNA_db_address . '_CCA
+echo ""
+echo "match to tRNA_mature-match_genome - antisense"
+output_match_match_genome=${output_address}${input_query_name}_match_${name}_match_genome.fa
+output_unmatch_match_genome=${output_address}${input_query_name}_unmatch_${name}_match_genome.fa
+output_detail_match_genome=${output_address}${input_query_name}_output_${name}_match_genome
+
+touch ${output_detail_match_genome}
+touch ${output_match_match_genome}
+touch ${output_unmatch_match_genome}
+
+bowtie ${bowtie_address} -f ${input_match} -v ${mismatch} -a -p ${thread} --fullref --al ${output_match_match_genome} --un ${output_unmatch_match_genome} > ${output_detail_match_genome}
+
+input_match=${output_unmatch_match_genome}
+
+######match genome part - tRNA_antisense
+name=tRNA-antisense_pre
+bowtie_address=' . $tRNA_db_address . '
+echo ""
+echo "match to tRNA_antisense-match_genome"
+output_match_match_genome=${output_address}${input_query_name}_match_${name}_match_genome.fa
+output_unmatch_match_genome=${output_address}${input_query_name}_unmatch_${name}_match_genome.fa
+output_detail_match_genome=${output_address}${input_query_name}_output_${name}_match_genome
+
+touch ${output_detail_match_genome}
+touch ${output_match_match_genome}
+touch ${output_unmatch_match_genome}
+
+bowtie ${bowtie_address} -f ${input_match} -v ${mismatch} -a -p ${thread} --fullref --al ${output_match_match_genome} --un ${output_unmatch_match_genome} > ${output_detail_match_genome}
+
+######unmatch genome part - tRNA-mature - antisense
+name=tRNA-antisense_mature
+bowtie_address=' . $tRNA_db_address . '_CCA
+echo ""
+echo "match to tRNA_mature-unmatch_genome - antisense"
 output_match_unmatch_genome=${output_address}${input_query_name}_match_${name}_unmatch_genome.fa
 output_unmatch_unmatch_genome=${output_address}${input_query_name}_unmatch_${name}_ummatch_genome.fa
 output_detail_unmatch_genome=${output_address}${input_query_name}_output_${name}_unmatch_genome
@@ -583,21 +859,37 @@ touch ${output_detail_unmatch_genome}
 touch ${output_match_unmatch_genome}
 touch ${output_unmatch_unmatch_genome}
 
-bowtie ${bowtie_address} -f ${input_unmatch} -v ${mismatch} -k 10000 -p ${thread} --fullref --norc --al ${output_match_unmatch_genome} --un ${output_unmatch_unmatch_genome} > ${output_detail_unmatch_genome}
+bowtie ${bowtie_address} -f ${input_unmatch} -v ${mismatch} -a -p ${thread} --fullref --al ${output_match_unmatch_genome} --un ${output_unmatch_unmatch_genome} > ${output_detail_unmatch_genome}
+
+input_unmatch=${output_unmatch_unmatch_genome}
+
+######unmatch genome part - tRNA - antisense
+name=tRNA-antisense_pre
+bowtie_address=' . $tRNA_db_address . '
+echo ""
+echo "match to tRNA-unmatch_genome - antisense"
+output_match_unmatch_genome=${output_address}${input_query_name}_match_${name}_unmatch_genome.fa
+output_unmatch_unmatch_genome=${output_address}${input_query_name}_unmatch_${name}_ummatch_genome.fa
+output_detail_unmatch_genome=${output_address}${input_query_name}_output_${name}_unmatch_genome
+
+touch ${output_detail_unmatch_genome}
+touch ${output_match_unmatch_genome}
+touch ${output_unmatch_unmatch_genome}
+
+bowtie ${bowtie_address} -f ${input_unmatch} -v ${mismatch} -a -p ${thread} --fullref --al ${output_match_unmatch_genome} --un ${output_unmatch_unmatch_genome} > ${output_detail_unmatch_genome}
 
 ######define next input
 input_match=${output_unmatch_match_genome}
 input_unmatch=${output_unmatch_unmatch_genome}';
-	}
-
-	unless ($ensembl_nc_address eq "NULL"){
+		}
+	if (-e "${tRNA_db_mito_tRNA_file}.fa"){
 		$step_number += 1;
 		print FILE '
-###step' . $step_number . ': match to ensembl database
+###step' . $step_number . ': match to mito_tRNA database - antisense
 echo ""
-echo "match to ensembl database"
-output_detail_match_genome=${output_address}${input_query_name}_output_ensembl_match_genome
-output_detail_unmatch_genome=${output_address}${input_query_name}_output_ensembl_unmatch_genome
+echo "match to mito_tRNA database - antisense"
+output_detail_match_genome=${output_address}${input_query_name}_output_mt_tRNA_mature-antisense_match_genome
+output_detail_unmatch_genome=${output_address}${input_query_name}_output_mt_tRNA_mature-antisense_unmatch_genome
 if [ -e "${output_detail_match_genome}" ]; then
 rm ${output_detail_match_genome}
 fi
@@ -606,17 +898,11 @@ rm ${output_detail_unmatch_genome}
 fi
 touch ${output_detail_match_genome}
 touch ${output_detail_unmatch_genome}';
-		BowtiePrint('ensembl', $ensembl_nc_address);
-	}
-
-	unless ($rfam_address eq "NULL"){
-		$step_number += 1;
-		print FILE '
-###step' . $step_number . ': match to rfam database
-echo ""
-echo "match to rfam database"
-output_detail_match_genome=${output_address}${input_query_name}_output_rfam_match_genome
-output_detail_unmatch_genome=${output_address}${input_query_name}_output_rfam_unmatch_genome
+			$strand = 1;
+			BowtiePrint('mt_tRNA_mature', "${tRNA_db_mito_tRNA_file}_CCA", $strand);
+			print FILE '
+output_detail_match_genome=${output_address}${input_query_name}_output_mt_tRNA_pre-antisense_match_genome
+output_detail_unmatch_genome=${output_address}${input_query_name}_output_mt_tRNA_pre-antisense_unmatch_genome
 if [ -e "${output_detail_match_genome}" ]; then
 rm ${output_detail_match_genome}
 fi
@@ -625,18 +911,17 @@ rm ${output_detail_unmatch_genome}
 fi
 touch ${output_detail_match_genome}
 touch ${output_detail_unmatch_genome}';
-		BowtiePrint('rfam', $rfam_address);
-	}
-
-
-	unless ($piRNA_db_address eq "NULL"){
-		$step_number += 1;
-		print FILE '
-###step' . $step_number . ': match to piRNA database
+			$strand = 1;
+			BowtiePrint('mt_tRNA_pre', ${tRNA_db_mito_tRNA_file}, $strand);
+		}
+		unless ($miRNA_db_address eq "NULL"){
+			$step_number += 1;
+			print FILE '
+###step' . $step_number . ': match to microRNA database - antisense
 echo ""
-echo "match to piRNA database"
-output_detail_match_genome=${output_address}${input_query_name}_output_piRNA_match_genome
-output_detail_unmatch_genome=${output_address}${input_query_name}_output_piRNA_unmatch_genome
+echo "match to microRNA database - antisense"
+output_detail_match_genome=${output_address}${input_query_name}_output_miRNA-antisense_match_genome
+output_detail_unmatch_genome=${output_address}${input_query_name}_output_miRNA-antisense_unmatch_genome
 if [ -e "${output_detail_match_genome}" ]; then
 rm ${output_detail_match_genome}
 fi
@@ -645,10 +930,69 @@ rm ${output_detail_unmatch_genome}
 fi
 touch ${output_detail_match_genome}
 touch ${output_detail_unmatch_genome}';
-		BowtiePrint('piRNA', $piRNA_db_address);
+			$strand = 1;
+			BowtiePrint('miRNA', $miRNA_db_address, $strand);
+			}
+		unless ($ensembl_nc_address eq "NULL"){
+			$step_number += 1;
+			print FILE '
+###step' . $step_number . ': match to ensembl database - antisense
+echo ""
+echo "match to ensembl database - antisense"
+output_detail_match_genome=${output_address}${input_query_name}_output_ensembl-antisense_match_genome
+output_detail_unmatch_genome=${output_address}${input_query_name}_output_ensembl-antisense_unmatch_genome	
+if [ -e "${output_detail_match_genome}" ]; then
+rm ${output_detail_match_genome}
+fi
+if [ -e "${output_detail_unmatch_genome}" ]; then
+rm ${output_detail_unmatch_genome}
+fi
+touch ${output_detail_match_genome}
+touch ${output_detail_unmatch_genome}';
+			$strand = 1;
+			BowtiePrint('ensembl', $ensembl_nc_address, $strand);
+		}
+		unless ($rfam_address eq "NULL"){
+			$step_number += 1;
+			print FILE '
+###step' . $step_number . ': match to rfam database - antisense
+echo ""
+echo "match to rfam database - antisense"
+output_detail_match_genome=${output_address}${input_query_name}_output_rfam-antisense_match_genome
+output_detail_unmatch_genome=${output_address}${input_query_name}_output_rfam-antisense_unmatch_genome	
+if [ -e "${output_detail_match_genome}" ]; then
+rm ${output_detail_match_genome}
+fi
+if [ -e "${output_detail_unmatch_genome}" ]; then
+rm ${output_detail_unmatch_genome}
+fi
+touch ${output_detail_match_genome}
+touch ${output_detail_unmatch_genome}';
+			$strand = 1;
+			BowtiePrint('rfam', $rfam_address, $strand);
+		}
+		unless ($piRNA_db_address eq "NULL"){
+			$step_number += 1;
+			print FILE '
+###step' . $step_number . ': match to piRNA database - antisense
+echo ""
+echo "match to piRNA database - antisense"
+output_detail_match_genome=${output_address}${input_query_name}_output_piRNA-antisense_match_genome
+output_detail_unmatch_genome=${output_address}${input_query_name}_output_piRNA-antisense_unmatch_genome	
+if [ -e "${output_detail_match_genome}" ]; then
+rm ${output_detail_match_genome}
+fi
+if [ -e "${output_detail_unmatch_genome}" ]; then
+rm ${output_detail_unmatch_genome}
+fi
+touch ${output_detail_match_genome}
+touch ${output_detail_unmatch_genome}';
+			$strand = 1;
+			BowtiePrint('piRNA', $piRNA_db_address, $strand);
+		}
 	}
-
-
+	
+###annotation process - annotation summary
 	print FILE '
 perl ${script_address}annotation.pl ${output_address}${input_query_name}
 
@@ -666,32 +1010,36 @@ fi
 
 mv ${output_address}${input_query_name}_*.txt ${output_address}${input_query_name}_result
 mv ${output_address}${input_query_name}_output_* ${output_address}${input_query_name}_processed
-mv ${output_address}${input_query_name}*.fa* ${output_address}${input_query_name}_fa';
+mv ${output_address}${input_query_name}*.f* ${output_address}${input_query_name}_fa';
 
 ###mismatch statistics
-	if($mismatch > 0){
-		if ($miRNA_db_address ne "NULL" || 
-		    $rRNA_db_address ne "NULL" || 
-		    $tRNA_db_address ne "NULL" || 
-		    $ensembl_nc_address ne "NULL" || 
-		    $rfam_address ne "NULL"  || 
-		    $piRNA_db_address ne "NULL"){
-			print FILE '
+	if($mismatch_stat){
+		if($mismatch > 0){
+			if ($miRNA_db_address ne "NULL" || 
+				$rRNA_db_address ne "NULL" || 
+				$tRNA_db_address ne "NULL" || 
+				$ensembl_nc_address ne "NULL" || 
+				$rfam_address ne "NULL"  || 
+				$piRNA_db_address ne "NULL"){
+				print FILE '
 echo ""
 echo "mismatch loci statistics"
 if [ -f "${output_address}${input_query_name}_result/${input_query_name}_mismatch_summary.txt" ]; then
 	echo > ${output_address}${input_query_name}_result/${input_query_name}_mismatch_summary.txt
 fi
-for file in ${output_address}${input_query_name}_processed/*
+for file in ${output_address}${input_query_name}_processed/*match_genome
 do
-	if [ -f ${file} ] && [ ${file} != "${output_address}${input_query_name}_processed/${input_query_name}_output_match_genome" ]; then
+	if [ -s ${file} ] && [ ${file} != "${output_address}${input_query_name}_processed/${input_query_name}_output_match_genome" ]; then
 		perl ${script_address}mismatch_summary.pl ${file} ' . $threshold .' >> ${output_address}${input_query_name}_result/${input_query_name}_mismatch_summary.txt
 	fi
 done
-
-Rscript --vanilla ${script_address}mismatch_stat.R ${output_address}${input_query_name}_result/${input_query_name}_mismatch_summary.txt ' . $seq_err . '';
+if [ -s ${output_address}${input_query_name}_result/${input_query_name}_mismatch_summary.txt ]; then
+	Rscript --vanilla ${script_address}mismatch_stat.R ${output_address}${input_query_name}_result/${input_query_name}_mismatch_summary.txt ' . $seq_err . '
+fi';
+			}
 		}
 	}
+
 
 ###generate output figures
 	unless ($miRNA_db_address eq "NULL" && 
@@ -701,31 +1049,50 @@ Rscript --vanilla ${script_address}mismatch_stat.R ${output_address}${input_quer
 		print FILE '
 echo ""
 echo "generating graph"
-Rscript --vanilla ${script_address}overall_RNA_length_distribution.R ${output_address} ${input_query_name}';
+echo ""
+######overall length distribution figure
+Rscript --vanilla ${script_address}overall_RNA_length_distribution.R ${output_address} ${input_query_name}
+echo "overall length distribution figure generated"
+';
 	}
 	unless ($tRNA_db_address eq "NULL"){
 		print FILE '
-cat ${output_address}${input_query_name}_processed/${input_query_name}_output_tRNA_*_genome > ${output_address}${input_query_name}_processed/${input_query_name}_output_tRNA
-perl ${script_address}tRNA_mapping.pl ${output_address}${input_query_name}_processed/${input_query_name}_output_tRNA ${output_address}${input_query_name}_result/${input_query_name}_summary.txt > ${output_address}${input_query_name}_processed/${input_query_name}_tRNA_mapping.txt
-Rscript --vanilla ${script_address}tRNA_mapping.R ${output_address}${input_query_name}_processed/${input_query_name}_tRNA_mapping.txt ${output_address}${input_query_name}_result/${input_query_name}_tRNA_mapping.pdf
-rm ${output_address}${input_query_name}_processed/${input_query_name}_output_tRNA
-rm ${output_address}${input_query_name}_processed/${input_query_name}_tRNA_mapping.txt
-';
+######pre-tRNA mapping figure
+cat ${output_address}${input_query_name}_processed/${input_query_name}_output_*tRNA_pre_*_genome > ${output_address}${input_query_name}_processed/${input_query_name}_output_tRNA_pre
+if [ -s ${output_address}${input_query_name}_processed/${input_query_name}_output_tRNA_pre ]; then
+	perl ${script_address}tRNA_mapping.pl ${output_address}${input_query_name}_processed/${input_query_name}_output_tRNA_pre ${output_address}${input_query_name}_result/${input_query_name}_summary.txt > ${output_address}${input_query_name}_processed/${input_query_name}_tRNA_pre_mapping.txt
+	Rscript --vanilla ${script_address}tRNA_mapping.R ${output_address}${input_query_name}_processed/${input_query_name}_tRNA_pre_mapping.txt ${output_address}${input_query_name}_result/${input_query_name}_tRNA_pre_mapping.pdf
+	echo "pre-tRNA mapping figure generated"
+fi
 
+######mature-tRNA mapping figure
+cat ${output_address}${input_query_name}_processed/${input_query_name}_output_*tRNA_mature_*_genome > ${output_address}${input_query_name}_processed/${input_query_name}_output_tRNA_mature
+if [ -s ${output_address}${input_query_name}_processed/${input_query_name}_output_tRNA_mature ]; then
+	perl ${script_address}tRNA_mapping.pl ${output_address}${input_query_name}_processed/${input_query_name}_output_tRNA_mature ${output_address}${input_query_name}_result/${input_query_name}_summary.txt > ${output_address}${input_query_name}_processed/${input_query_name}_tRNA_mature_mapping.txt
+	Rscript --vanilla ${script_address}tRNA_mapping.R ${output_address}${input_query_name}_processed/${input_query_name}_tRNA_mature_mapping.txt ${output_address}${input_query_name}_result/${input_query_name}_tRNA_mature_mapping.pdf
+	echo "mature-tRNA mapping figure generated"
+fi';
 	}
 	unless ($rRNA_db_address eq "NULL"){
 		print FILE '
 temp_length=' . join(',', @rRNA_length) . '
+######rRNA length distribution figure
 Rscript --vanilla ${script_address}rRNA_length_distribution.R ${output_address} ${input_query_name} ${temp_length}
-Rscript --vanilla ${script_address}rRNA_mapping.R ${output_address} ${input_query_name} ${temp_length}';
+echo "rRNA length distribution figure generated"
+
+######rRNA mapping figure
+Rscript --vanilla ${script_address}rRNA_mapping.R ${output_address} ${input_query_name} ${temp_length}
+echo "rRNA mapping figure generated"';
 	}
 	unless ($keep_all){
 		print FILE '
+rm ${output_address}${input_query_name}_processed/${input_query_name}_output_tRNA
+rm ${output_address}${input_query_name}_processed/${input_query_name}_tRNA_mapping.txt
 rm -rf ${output_address}${input_query_name}_fa
 rm -rf ${output_address}${input_query_name}_processed';
 	}
 	print FILE '
-
+echo ""
 date';
 
 	shift @tmp_filelist;
@@ -749,10 +1116,10 @@ unless ($keep_all){
 print "Done!\n";
 
 sub BowtiePrint{
-	print FILE '
+	if ($_[2] == 0){
+		print FILE '
 name=' . $_[0] . '
 bowtie_address=' . $_[1] . '
-
 
 ######match genome part
 echo ""
@@ -762,7 +1129,7 @@ output_unmatch_match_genome=${output_address}${input_query_name}_unmatch_${name}
 touch ${output_match_match_genome}
 touch ${output_unmatch_match_genome}
 
-bowtie ${bowtie_address} -f ${input_match} -v ${mismatch} -k 10000 -p ${thread} --fullref --norc --al ${output_match_match_genome} --un ${output_unmatch_match_genome} >> ${output_detail_match_genome}
+bowtie ${bowtie_address} -f ${input_match} -v ${mismatch} -a -p ${thread} --fullref --norc --al ${output_match_match_genome} --un ${output_unmatch_match_genome} >> ${output_detail_match_genome}
 
 ######unmatch genome part
 echo ""
@@ -772,9 +1139,39 @@ output_unmatch_unmatch_genome=${output_address}${input_query_name}_unmatch_${nam
 touch ${output_match_unmatch_genome}
 touch ${output_unmatch_unmatch_genome}
 
-bowtie ${bowtie_address} -f ${input_unmatch} -v ${mismatch} -k 10000 -p ${thread} --fullref --norc --al ${output_match_unmatch_genome} --un ${output_unmatch_unmatch_genome} >> ${output_detail_unmatch_genome}
+bowtie ${bowtie_address} -f ${input_unmatch} -v ${mismatch} -a -p ${thread} --fullref --norc --al ${output_match_unmatch_genome} --un ${output_unmatch_unmatch_genome} >> ${output_detail_unmatch_genome}
 
 ######define next input
 input_match=${output_unmatch_match_genome}
 input_unmatch=${output_unmatch_unmatch_genome}';
+	}
+	elsif ($_[2] == 1){
+		print FILE '
+name=' . $_[0] . '
+bowtie_address=' . $_[1] . '
+
+######match genome part
+echo ""
+echo "match to ${name}_antisense-match_genome"
+output_match_match_genome=${output_address}${input_query_name}_match_${name}-antisense_match_genome.fa
+output_unmatch_match_genome=${output_address}${input_query_name}_unmatch_${name}-antisense_match_genome.fa
+touch ${output_match_match_genome}
+touch ${output_unmatch_match_genome}
+
+bowtie ${bowtie_address} -f ${input_match} -v ${mismatch} -a -p ${thread} --fullref --al ${output_match_match_genome} --un ${output_unmatch_match_genome} >> ${output_detail_match_genome}
+
+######unmatch genome part
+echo ""
+echo "match to ${name}_antisense-unmatch_genome"
+output_match_unmatch_genome=${output_address}${input_query_name}_match_${name}-antisense_unmatch_genome.fa
+output_unmatch_unmatch_genome=${output_address}${input_query_name}_unmatch_${name}-antisense_ummatch_genome.fa
+touch ${output_match_unmatch_genome}
+touch ${output_unmatch_unmatch_genome}
+
+bowtie ${bowtie_address} -f ${input_unmatch} -v ${mismatch} -a -p ${thread} --fullref --al ${output_match_unmatch_genome} --un ${output_unmatch_unmatch_genome} >> ${output_detail_unmatch_genome}
+
+######define next input
+input_match=${output_unmatch_match_genome}
+input_unmatch=${output_unmatch_unmatch_genome}';
+	}
 }

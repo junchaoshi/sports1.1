@@ -14,14 +14,17 @@ library(stringr)
 bar.chart <- function(input, name){
   p <- ggplot(input, aes(x = length, y = RPM)) + 
     geom_area(fill = "#E76BF3") + 
-    theme(axis.line = element_line() , 
-          panel.grid.minor = element_blank() ,
-          panel.grid.major = element_blank() ,
-          panel.background = element_blank() ,
-          legend.title = element_blank() , 
-          axis.text = element_text(size = 15, color = "black") ,
-          axis.title = element_text(size = 15) ,
-          plot.title = element_text(hjust = 0.5)) +
+    theme(axis.line = element_line()
+          , panel.grid.minor = element_blank()
+		  , panel.grid.major = element_blank()
+		  , panel.background = element_rect(fill = "transparent", colour = NA)
+		  , plot.background = element_rect(fill = "transparent", colour = NA)
+          , legend.title = element_blank()
+          , legend.background = element_rect(fill = "transparent", colour = NA)
+          , legend.box.background = element_rect(fill = "transparent", colour = NA)
+          , axis.text = element_text(size = 15, color = "black")
+          , axis.title = element_text(size = 15)
+          , plot.title = element_text(hjust = 0.5)) +
     labs(x = "Length", y = "RPM", title = name)
   return(p)
 }
