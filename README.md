@@ -1710,7 +1710,7 @@ To download annotation databases of mulitple species please use this link: https
 SPORTS1.1 is available under the GNU General Public License version 3 (GPLv3).
 
 ## Disclaimer <a id='disclaimer'></a>
-The SPORTS1.1 package is provided as is without any guarantees or warranty for correctness. The authors are not responsible for any damage or loss of any kind caused by the use or misuse of the scripts included in the software package. The authors are not under obligation to provide support, service, corrections, or upgrades to the package.
+The SPORTS1.X package is provided as is without any guarantees or warranty for correctness. The authors are not responsible for any damage or loss of any kind caused by the use or misuse of the scripts included in the software package. The authors are not under obligation to provide support, service, corrections, or upgrades to the package.
 
 ## Contact information <a id='contact'></a>
 Contact author: Junchao Shi
