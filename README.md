@@ -1659,11 +1659,9 @@ To download annotation databases of mulitple species please use this link: https
     
     6. Download the noncoding RNA sequences in .fa format from Ensembl database (http://ensemblgenomes.org/) and put the file X_ensembl_ncrna.fa into the defined folder address: \<your_defined_address\>; (optional)
     
-    7. Download and extract the noncoding RNA sequences in .fa format from Rfam database (http://ensemblgenomes.org/) and put the file X_rfam_ncrna.fa into the defined folder address: \<your_defined_address\>; (optional)
+    7. Download and extract the noncoding RNA sequences belong to the species in .fa format from Rfam database (https://rfam.xfam.org/) and put the file X_rfam.fa into the defined folder address: \<your_defined_address\>; (optional)
      
-    8. Download and extract the noncoding RNA sequences belong to the species in .fa format from Rfam database (https://rfam.xfam.org/) and put the file X_rfam.fa into the defined folder address: \<your_defined_address\>; (optional)
-     
-    9. Download piRNA sequences in .fa format from piRNA databases and put the file X_piRNA.fa into the defined folder address: \<your_defined_address\>. (optional)
+    8. Download piRNA sequences in .fa format from piRNA databases and put the file X_piRNA.fa into the defined folder address: \<your_defined_address\>. (optional)
     
 2. Type following command in terminal: 
     
