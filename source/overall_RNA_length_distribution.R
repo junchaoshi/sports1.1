@@ -47,7 +47,7 @@ length.stack <- function(file.address, file.name){
   dis.piRNA  <-  dis.piRNA[!grepl("antisense",  dis.piRNA$name, ignore.case = TRUE), 2:3]
   
   dis.antisense <- length.dis[grep("antisense", length.dis$name, ignore.case = TRUE), ]
-  dis.antisense <- dis.antisense[!grepl("_end|S-rRNA|other-rRNA", dis.antisense$name, ignore.case = TRUE), 2:3]
+  dis.antisense <- dis.antisense[!grepl("_end|S-rRNA|other-rRNA|YRNA", dis.antisense$name, ignore.case = TRUE), 2:3]
   
   dis.unanno.match <- length.dis[grep("Unannotated_Match_Genome", length.dis$name, ignore.case = TRUE), 2:3]
   dis.unanno.unmatch <- length.dis[grep("Unannotated_Unmatch_Genome", length.dis$name, ignore.case = TRUE), 2:3]
