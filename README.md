@@ -184,7 +184,7 @@ Linux system, enough disk space and Ram depending on the size of RNA deep sequen
 
             a directory (will run all qualified files in the directory recursively); 
 
-            a text document with absolute path information for each file/folder (when processing multiple data, input each file/folder path per line)
+            a text document (with suffix .txt) with absolute path information for each file/folder (when processing multiple data, input each file/folder path per line)
     
     --Output:
     
