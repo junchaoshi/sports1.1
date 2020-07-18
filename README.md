@@ -226,7 +226,7 @@ Linux system, enough disk space and Ram depending on the size of RNA deep sequen
     
     The user wants to map several already trimed human sequencing files to human reference genome, miRNA database, tRNA database, rRNA database and piRNA database by using 4 CPU threads, then to output the result to the address: '/foo/bar/output/'.
     
-    Write all the fastq files' addresses into a text document, e.g.:
+    Write all the fastq files' addresses into a text document with suffix .txt, e.g.:
     
     ```
     seq_address.txt
