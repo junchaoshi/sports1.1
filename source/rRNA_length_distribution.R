@@ -41,7 +41,7 @@ rRNA.stack <- function(file.address, file.name, rRNA.length){
   k <- 0
   for(i in 1:length(rRNA.length)){
     temp.length <- unlist(strsplit(rRNA.length[i], "="))
-    if (!grepl("RNY", temp.length[1])){
+    if (!grepl("RNY|other", temp.length[1])){
       dis.rRNA <- length.dis[grep(paste("-", temp.length[1], sep = ""), length.dis$name), 2:3]
       dis.rRNA <- data.frame(name = paste(temp.length[1], ".rRNA", sep = ""), length.combine(dis.rRNA, len))
       sum.rRNA <- sum(dis.rRNA$reads)
