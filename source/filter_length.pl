@@ -26,7 +26,7 @@ my $read;
 while (<IN_FILE>){
 	chomp;
 	if (/^>/){
-		($id, $read) = (split /\t/)[0, 1];
+		($id, $read) = (split /\s+/)[0, 1];
 		next;
 	}
 	$seq = $_;
