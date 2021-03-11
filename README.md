@@ -1680,6 +1680,10 @@ To download annotation databases of mulitple species please use this link: https
 10.	Nawrocki EP, Burge SW, Bateman A, Daub J, Eberhardt RY, Eddy SR, et al. Rfam 12.0: updates to the RNA families database. Nucleic acids research. 2015;43(Database issue):D130-7. doi: 10.1093/nar/gku1063. 
 
 ## Update history <a id='history'></a>
+1.1.1 - 03/10/2020
+1.  Now the parameters performed in the pipeline will be dislayed in the header of the output log; 
+2.  Fixed some bugs in the previous version.
+
 1.1.0 - 02/20/2020
 1.  The tsRNA annotation information has been refined to pre-tsRNA and mature-tsRNA based on updated tRNA database; 
 2.  Annotation for Mitocondrial tRNAs (obtained from mitotRNAdb http://mttrna.bioinf.uni-leipzig.de/mtDataOutput/) and yRNAs (obtained from https://www.ncbi.nlm.nih.gov/) are now available. Pre-compiled databases for mouse and human have been updated (databases for other species will updated soon if applicable), please re-download the databases for better results; 
