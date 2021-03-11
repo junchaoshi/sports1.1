@@ -32,7 +32,7 @@ my $help		= $opt_h ? 1 : 0;
 my $threshold = 10;
 my $seq_err = 0.01;
 
-my $version_info = "1.1.0";
+my $version_info = "1.1.1";
 
 my $usage = <<"USAGE";
 Description:	Perl script used to annotate small RNA sequences in batch.
@@ -64,15 +64,15 @@ Index:
 
 Output:
   -o <str>	output address of annotation results (default: input address)
-  -k		keep all the intermediate files generated during the running progress
-  -z		output mismatch statistics (optional, -M should larger than 0)
+  -k		debugging mode: keep all the intermediate files generated during the running progress (optional)
+  -z		summarize mismatch information (optional)
   
 Alignment:
   -l <int>	the minimal length of the output sequences (default = 15)
   -L <int>	the maximal length of the output sequences (default = 45)
   -M <int>	the total number of mismatches in the entire alignment (default = 0)
-  -s 		align to forward/reverse-complement reference strand of annotation database
-  -a		Remove 5\'/3\' adapters
+  -s 		align to forward/reverse-complement reference strand of annotation database (optional)
+  -a		Remove 5\'/3\' adapters (optional)
   -x <str>	(When -a is selected) Your 5\' adapter sequence or use "default" adapter. Default = "GTTCAGAGTTCTACAGTCCGACGATC"
   -y <str>	(When -a is selected) Your 3\' adapter sequence or use "default" adapter. Default = "TGGAATTCTCGGGTGCCAAGG"
 
@@ -83,7 +83,7 @@ USAGE
 
 
 if ($version) {
-	print "sports version : $version_info\n";
+	print "\nSPORTS version: $version_info\n";
 	exit;
 }elsif($help) {
 	print $usage;
@@ -94,13 +94,13 @@ if ($version) {
 unless (defined $input_file && 
 	defined $genome_address
 	){
-	print "Input file genome bowtie index should be specified!\n\n";
+	print "\nInput file genome bowtie index should be specified!\n\n";
 	print $usage;
 	exit;
 }
 
 unless (-e $input_file){
-	print "Input file is not exist!\n\n";
+	print "\nInput file is not exist!\n\n";
 	print $usage;
 	exit;
 }
@@ -108,12 +108,12 @@ unless (-e $input_file){
 ##determine if adapter sequences are valid
 if($opt_adapter){
 	unless ($adapter_5 =~ /^[atgcu]+$/i || $adapter_5 =~ /^default$/i ){
-	print "Invalid 5\' end adapter input!\n\n";
+	print "\nInvalid 5\' end adapter input!\n\n";
 	print $usage;
 	exit;
 	}
 	unless ($adapter_3 =~ /^[atgcu]+$/i || $adapter_3 =~ /^default$/i ){
-	print "Invalid 3\' end adapter input!\n\n";
+	print "\nInvalid 3\' end adapter input!\n\n";
 	print $usage;
 	exit;
 	}
@@ -136,6 +136,74 @@ my $script_address = `which sports.pl`;
    @input = split(/\//, $script_address);
    pop @input;
    $script_address = join('/', @input) . '/';
+
+
+##output parameters to STDOUT
+print "\nSPORTS version: $version_info\n\n";
+print "Citation: Junchao Shi, Eun-A Ko, Kenton M. Sanders, Qi Chen, Tong Zhou. “SPORTS1.0: a tool for annotating and profiling non-coding RNAs optimized for rRNA-and tRNA-derived small RNAs.” Genomics, Proteomics & Bioinformatics (2018) doi.org/10.1016/j.gpb.2018.04.004.\n\n";
+print "Input file address: $input_address\n";
+print "output file address: $output_address\n";
+print "Reference genome address: $genome_address\n";
+unless ($miRNA_db_address eq "NULL"){
+	print "Reference miRNA database address: $miRNA_db_address\n";
+}
+unless ($tRNA_db_address eq "NULL"){
+	print "Reference tRNA database address: $tRNA_db_address\n";
+}
+unless ($rRNA_db_address eq "NULL"){
+	print "Reference rRNA database address: $rRNA_db_address\n";
+}
+unless ($piRNA_db_address eq "NULL"){
+	print "Reference piRNA database address: $piRNA_db_address\n";
+}
+unless ($ensembl_nc_address eq "NULL"){
+	print "Reference ensembl ncRNA database address: $ensembl_nc_address\n";
+}
+unless ($rfam_address eq "NULL"){
+	print "Reference rfam ncRNA database address: $rfam_address\n";
+}
+
+if ($opt_adapter){
+	if ($adapter_5 =~ /^default$/i && 
+		$adapter_3 =~ /^default$/i){
+			print "Trimming 5\' adapter: GTTCAGAGTTCTACAGTCCGACGATC\n";
+			print "Trimming 3\' adapter: TGGAATTCTCGGGTGCCAAGG\n";
+		}
+	elsif ($adapter_5 !~ /^default$/i && 
+		   $adapter_3 =~ /^default$/i){
+			   print "Trimming 5\' adapter: $adapter_5\n";
+		   }
+	elsif ($adapter_5 =~ /^default$/i && 
+		   $adapter_3 !~ /^default$/i){
+			   print "Trimming 3\' adapter: $adapter_3\n";
+		   }
+	elsif ($adapter_5 !~ /^default$/i && 
+		   $adapter_3 !~ /^default$/i){
+			   print "Trimming 5\' adapter: $adapter_5\n";
+			   print "Trimming 3\' adapter: $adapter_3\n";
+		   }
+}
+print "Filtering min lenth: $min_length\n";
+print "Filtering max lenth: $max_length\n";
+print "Mapping mismatch tolerance: $mismatch\n";
+if ($sense){
+	print "Aligning to forward/reverse-complement reference strand: TRUE\n";
+}
+if ($mismatch_stat){
+	if($mismatch > 0){
+		if ($miRNA_db_address ne "NULL" || 
+			$rRNA_db_address ne "NULL" || 
+			$tRNA_db_address ne "NULL" || 
+			$ensembl_nc_address ne "NULL" || 
+			$rfam_address ne "NULL"  || 
+			$piRNA_db_address ne "NULL"){
+				print "Summarizing mismatch information: TRUE\n";
+		}
+	}
+}
+if ($keep_all){
+	print "Debugging mode ON: keep all the intermediate files generated during the running progress\n";
+}
 
 ##generate genome bowtie index
 my $genome_bowtie_file = $genome_address . ".1.ebwt";
@@ -370,7 +438,7 @@ my $count = 0;
 my @rRNA_length;
 
 unless ($rRNA_db_address eq "NULL"){
-	my @rRNA = ('2S', '4.5S', '5S', '5.3S', '5.8S', '12S', '16S', '17S', '18S', '25S', '26S', '28S', '45S', 'RNY1', 'RNY3', 'RNY4', 'RNY5', 'other');
+	my @rRNA = ('2S', '4.5S', '5S', '5.3S', '5.8S', '12S', '16S', '17S', '18S', '25S', '26S', '28S', '45S', 'other', 'RNY1', 'RNY3', 'RNY4', 'RNY5');
 	my $bowtie_fa;
 	my $bowtie_index;
 	my $temp_length;
@@ -456,8 +524,8 @@ rm -rf ${output_address}${input_query_name}.sra
 	if ($opt_adapter){
 		if ($adapter_5 =~ /^default$/i && 
 		    $adapter_3 =~ /^default$/i){
-my $adapter_5		= "GTTCAGAGTTCTACAGTCCGACGATC";
-my $adapter_3		= "TGGAATTCTCGGGTGCCAAGG";
+				my $adapter_5 = "GTTCAGAGTTCTACAGTCCGACGATC";
+				my $adapter_3 = "TGGAATTCTCGGGTGCCAAGG";
 		print FILE '
 echo ""
 echo "remove default 5\' and 3\' adapters"

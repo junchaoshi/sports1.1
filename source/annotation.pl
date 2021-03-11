@@ -273,6 +273,13 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 					$seq = $1;
 				}		
 			}
+			elsif (/^(t[0-9]+?)\s/){
+				$id = $1;
+				$anno = 'other-rRNA';
+				if (/([ATCGN]+?)\s[I]+/){
+					$seq = $1;
+				}
+			}
 			$sum{$anno} += ($reads{$id} / $repeat_num{$id});
 			$len = length $seq;
 			if ($annos{$id}){
@@ -410,7 +417,14 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 				$anno = $2 . '-rRNA';
 				if (/([ATCGN]+?)\s[I]+/){
 					$seq = $1;
-				}		
+				}
+			}
+			elsif (/^(t[0-9]+?)\s/){
+				$id = $1;
+				$anno = 'other-rRNA';
+				if (/([ATCGN]+?)\s[I]+/){
+					$seq = $1;
+				}
 			}
 			$sum{$anno} += ($reads{$id} / $repeat_num{$id});
 			$len = length $seq;
@@ -2047,6 +2061,13 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 					$seq = $1;
 				}		
 			}
+			elsif (/^(t[0-9]+?)\s/){
+				$id = $1;
+				$anno = 'other-rRNA-antisense';
+				if (/([ATCGN]+?)\s[I]+/){
+					$seq = $1;
+				}
+			}
 			$sum{$anno} += ($reads{$id} / $repeat_num{$id});
 			$len = length $seq;
 			if ($annos{$id}){
@@ -2185,6 +2206,13 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 				if (/([ATCGN]+?)\s[I]+/){
 					$seq = $1;
 				}		
+			}
+			elsif (/^(t[0-9]+?)\s/){
+				$id = $1;
+				$anno = 'other-rRNA-antisense';
+				if (/([ATCGN]+?)\s[I]+/){
+					$seq = $1;
+				}
 			}
 			$sum{$anno} += ($reads{$id} / $repeat_num{$id});
 			$len = length $seq;
