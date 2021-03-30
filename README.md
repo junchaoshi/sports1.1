@@ -1680,7 +1680,7 @@ To download annotation databases of mulitple species please use this link: https
 10.	Nawrocki EP, Burge SW, Bateman A, Daub J, Eberhardt RY, Eddy SR, et al. Rfam 12.0: updates to the RNA families database. Nucleic acids research. 2015;43(Database issue):D130-7. doi: 10.1093/nar/gku1063. 
 
 ## Update history <a id='history'></a>
-1.1.1 - 03/10/2020
+1.1.1 - 03/10/2021
 1.  Now the parameters performed in the pipeline will be dislayed in the header of the output log; 
 2.  Fixed some bugs in the previous version.
 
