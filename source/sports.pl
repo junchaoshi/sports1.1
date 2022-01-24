@@ -438,7 +438,7 @@ my $count = 0;
 my @rRNA_length;
 
 unless ($rRNA_db_address eq "NULL"){
-	my @rRNA = ('2S', '4.5S', '5S', '5.3S', '5.8S', '12S', '16S', '17S', '18S', '25S', '26S', '28S', '45S', 'other', 'RNY1', 'RNY3', 'RNY4', 'RNY5');
+	my @rRNA = ('2S', '4.5S', '5S', '5.3S', '5.8S', '12S', '16S', '17S', '18S', '23S', '25S', '26S', '28S', '45S', 'other', 'RNY1', 'RNY3', 'RNY4', 'RNY5');
 	my $bowtie_fa;
 	my $bowtie_index;
 	my $temp_length;
