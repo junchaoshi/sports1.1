@@ -637,7 +637,7 @@ rm ${output_detail_unmatch_genome}
 fi
 touch ${output_detail_match_genome}
 touch ${output_detail_unmatch_genome}';
-		my @rRNA = ('2S', '4.5S', '5S', '5.3S', '5.8S', '12S', '16S', '17S', '18S', '25S', '26S', '28S', '45S', 'other', 'RNY1', 'RNY3', 'RNY4', 'RNY5');
+		my @rRNA = ('2S', '4.5S', '5S', '5.3S', '5.8S', '12S', '16S', '17S', '18S', '23S', '25S', '26S', '28S', '45S', 'other', 'RNY1', 'RNY3', 'RNY4', 'RNY5');
 		my $bowtie_fa;
 		$strand = 0;
 		foreach (@rRNA){
@@ -865,7 +865,7 @@ rm ${output_detail_unmatch_genome}
 fi
 touch ${output_detail_match_genome}
 touch ${output_detail_unmatch_genome}';
-			my @rRNA = ('2S', '4.5S', '5S', '5.3S', '5.8S', '12S', '16S', '17S', '18S', '25S', '26S', '28S', '45S', 'other', 'RNY1', 'RNY3', 'RNY4', 'RNY5');
+			my @rRNA = ('2S', '4.5S', '5S', '5.3S', '5.8S', '12S', '16S', '17S', '18S', '23S', '25S', '26S', '28S', '45S', 'other', 'RNY1', 'RNY3', 'RNY4', 'RNY5');
 			my $bowtie_fa;
 			$strand = 1;
 			foreach (@rRNA){
