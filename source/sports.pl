@@ -207,15 +207,15 @@ if ($keep_all){
 
 ##generate genome bowtie index
 my $genome_bowtie_file = $genome_address . ".1.ebwt";
-unless (-e $genome_bowtie_file){
+unless (-e $genome_bowtie_file || -e $genome_bowtie_file . "l"){
 	print "\n\nGenerating genome bowtie index...\n\n";
-	system ("bowtie-build -q ${genome_address}.fa ${genome_address}");
+	system ("bowtie-build --threads $thread -q ${genome_address}.fa ${genome_address}");
 }
 
 ##generate miRNA database bowtie index
 my $miRNA_db_bowtie_file = $miRNA_db_address . ".1.ebwt";
 unless($miRNA_db_address eq "NULL"){
-	unless (-e $miRNA_db_bowtie_file){
+	unless (-e $miRNA_db_bowtie_file || -e $miRNA_db_bowtie_file . "l"){
 		print "\n\nGenerating miRNA database bowtie index...\n\n";
 		system ("bowtie-build -q ${miRNA_db_address}.fa ${miRNA_db_address}");
 	}
@@ -224,7 +224,7 @@ unless($miRNA_db_address eq "NULL"){
 ##generate ensembl noncoding RNA database bowtie index
 my $ensembl_nc_bowtie_file = $ensembl_nc_address . ".1.ebwt";
 unless($ensembl_nc_address eq "NULL"){
-	unless (-e $ensembl_nc_bowtie_file){
+	unless (-e $ensembl_nc_bowtie_file || -e $ensembl_nc_bowtie_file . "l"){
 		print "\n\nGenerating ensembl database bowtie index...\n\n";
 		system ("bowtie-build -q ${ensembl_nc_address}.fa ${ensembl_nc_address}");
 	}
@@ -233,7 +233,7 @@ unless($ensembl_nc_address eq "NULL"){
 ##generate rfam database bowtie index
 my $rfam_bowtie_file = $rfam_address . ".1.ebwt";
 unless($rfam_address eq "NULL"){
-	unless (-e $rfam_bowtie_file){
+	unless (-e $rfam_bowtie_file || -e $rfam_bowtie_file . "l"){
 		print "\n\nGenerating rfam database bowtie index...\n\n";
 		system ("bowtie-build -q ${rfam_address}.fa ${rfam_address}");
 	}
@@ -242,7 +242,7 @@ unless($rfam_address eq "NULL"){
 ##generate piRNA database bowtie index
 my $piRNA_db_bowtie_file = $piRNA_db_address . ".1.ebwt";
 unless($piRNA_db_address eq "NULL"){
-	unless (-e $piRNA_db_bowtie_file){
+	unless (-e $piRNA_db_bowtie_file || -e $piRNA_db_bowtie_file . "l"){
 		print "\n\nGenerating piRNA database bowtie index...\n\n";
 		system ("bowtie-build -q ${piRNA_db_address}.fa ${piRNA_db_address}");
 	}
@@ -260,13 +260,13 @@ $tRNA_db_mito_tRNA_file = $tRNA_db_mito_tRNA_file . "-mt_tRNAs";
 unless($tRNA_db_address eq "NULL"){
 	##genomic-tRNA-bowtie-build
 	my $tRNA_db_tRNA_pre_file = $tRNA_db_address. ".1.ebwt";
-	unless (-e $tRNA_db_tRNA_pre_file){
+	unless (-e $tRNA_db_tRNA_pre_file || -e $tRNA_db_tRNA_pre_file . "l"){
 		print "\n\nGenerating pre-tRNA database bowtie index...\n\n";
 		system ("bowtie-build -q ${tRNA_db_address}.fa ${tRNA_db_address}");
 	}
 	my $tRNA_db_tRNA_CCA_file = $tRNA_db_address;
 	$tRNA_db_tRNA_CCA_file = $tRNA_db_address . "_CCA.1.ebwt";
-	unless (-e $tRNA_db_tRNA_CCA_file){
+	unless (-e $tRNA_db_tRNA_CCA_file || -e $tRNA_db_tRNA_CCA_file . "l"){
 		if (-e $tRNA_db_mature_tRNA_file){
 			system ("perl ${script_address}tRNA_db_processing.pl ${tRNA_db_mature_tRNA_file}");
 			$tRNA_db_mature_tRNA_file =~ s/\.fa$//;
@@ -280,10 +280,12 @@ unless($tRNA_db_address eq "NULL"){
 	}
 	##mito-tRNA-bowtie-build
 	my $tRNA_db_mito_tRNA_bowtie_file = $tRNA_db_mito_tRNA_file . ".1.ebwt";
-	unless (-e $tRNA_db_mito_tRNA_bowtie_file){
-		print "\n\nGenerating mito-tRNA database bowtie index...\n\n";
-		system ("bowtie-build -q ${tRNA_db_mito_tRNA_file}.fa ${tRNA_db_mito_tRNA_file}");
-		system ("bowtie-build -q ${tRNA_db_mito_tRNA_file}_CCA.fa ${tRNA_db_mito_tRNA_file}_CCA");
+	unless (-e $tRNA_db_mito_tRNA_bowtie_file || -e $tRNA_db_mito_tRNA_bowtie_file . "l"){
+		if (-e "${tRNA_db_mito_tRNA_file}.fa"){
+			print "\n\nGenerating mito-tRNA database bowtie index...\n\n";
+			system ("bowtie-build -q ${tRNA_db_mito_tRNA_file}.fa ${tRNA_db_mito_tRNA_file}");
+			system ("bowtie-build -q ${tRNA_db_mito_tRNA_file}_CCA.fa ${tRNA_db_mito_tRNA_file}_CCA");
+		}
 	}
 }
 
