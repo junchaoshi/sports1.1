@@ -132,7 +132,7 @@ length.stack <- function(file.address, file.name){
 	stack.all <- rbind(stack.all, dis.unanno.unmatch)
   }
 
-
+  stack.all$name <- factor(stack.all$name, levels = unique(stack.all$name))
 
   stack.sep <- ggplot(stack.all, aes(x = length, y = reads, fill = name)) + 
                     geom_bar(stat = "identity") + 
