@@ -1047,14 +1047,22 @@ To download annotation databases of mulitple species please use this link: https
 
     1. annotation database: (We provide a download link for all databases listed below: https://ncrnainfo-my.sharepoint.com/personal/sports_ncrna_info/_layouts/15/guestaccess.aspx?docid=06a45d60105a04796b5e96a9417d86f4c&authkey=AY37yxKX-C5u9DG71tzrFEI)
         
-    2. SPORTS1.1 related parameters if you download recommended reference database:
+    2. SPORTS1.1 related parameters if you download recommended reference database (both UCSC and Ensembl genome sequences are provided):
     
         ```
         -g /<your_defined_address>/Canis_familiaris/UCSC/canFam3/Sequence/BowtieIndex/genome
-        -m /<your_defined_address>/Canis_familiaris/miRBase_21/miRBase_21-cfa
+	
+        or
+	
+        -g /<your_defined_address>/Canis_familiaris/Ensembl/Cfam_1.0/dna/genome
+	
+        -m /<your_defined_address>/Canis_familiaris/miRBase/22.1/miRBase-cfa
+        -r /<your_defined_address>/Canis_familiaris/rRNAdb/dog_rRNA
         -t /<your_defined_address>/Canis_familiaris/GtRNAdb/canFam3-tRNAs
-        -f /<your_defined_address>/Canis_familiaris/Rfam_12.3/Rfam-12.3-dog
+        -e /<your_defined_address>/Canis_familiaris/Ensembl/Cfam_1.0/rna/Canis_lupus_familiaris.ROS_Cfam_1.0.rna
+        -f /<your_defined_address>/Canis_familiaris/Rfam/14.7/Rfam
         ```
+
 
 27. Mustela putorius furo (Ferret)
     
