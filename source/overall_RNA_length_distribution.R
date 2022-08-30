@@ -171,10 +171,10 @@ length.stack <- function(file.address, file.name){
 			guides(fill=guide_legend(ncol=3, byrow=TRUE)) + 
 			scale_fill_brewer(palette = "Paired")
 
-
-
-						 
   myLabel.rRNA  <- paste(round(sum.rRNA$RPM / sum(sum.rRNA$RPM) * 100, 1), "%", sep = "")
+  
+  sum.rRNA$name <- factor(sum.rRNA$name, levels = unique(sum.rRNA$name))
+  
   rRNA.pie <- ggplot(sum.rRNA, aes(x = "", y = RPM, fill = name)) + 
 					geom_bar(stat = "identity", width = 1) + 
                     coord_polar(theta = "y") + 
@@ -197,6 +197,9 @@ length.stack <- function(file.address, file.name){
 
 					
   myLabel.tRNA  <- paste(round(sum.tRNA$RPM / sum(sum.tRNA$RPM) * 100, 1), "%", sep = "")
+  
+  sum.tRNA$name <- factor(sum.tRNA$name, levels = unique(sum.tRNA$name))
+  
   tRNA.pie <- ggplot(sum.tRNA, aes(x = "", y = RPM, fill = name)) + 
                     geom_bar(stat = "identity", width = 1) + 
                     coord_polar(theta = "y") + 

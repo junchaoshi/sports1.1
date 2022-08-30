@@ -54,7 +54,9 @@ rRNA.stack <- function(file.address, file.name, rRNA.length){
   }
   
   stack.all <- rbind(stack.all, dis.other.rRNA)
-    
+  
+  stack.all$name <- factor(stack.all$name, levels = unique(stack.all$name))
+  
   stack.sep <- ggplot(stack.all, aes(x = length, y = reads, fill = name)) + 
                     geom_bar(stat = "identity") + 
                     facet_grid(. ~ name) +

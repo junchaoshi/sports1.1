@@ -29,14 +29,14 @@ my @out_file = ($name . '_output_match_genome',
 		$name . '_output_miRNA-antisense_unmatch_genome',
 		$name . '_output_rRNA-antisense_match_genome',
 		$name . '_output_rRNA-antisense_unmatch_genome',
-		$name . '_output_tRNA-antisense_pre_match_genome',
-		$name . '_output_tRNA-antisense_mature_match_genome',
-		$name . '_output_tRNA-antisense_pre_unmatch_genome',
-		$name . '_output_tRNA-antisense_mature_unmatch_genome',
-		$name . '_output_mt_tRNA-antisense_pre_match_genome',
-		$name . '_output_mt_tRNA-antisense_mature_match_genome',
-		$name . '_output_mt_tRNA-antisense_pre_unmatch_genome',
-		$name . '_output_mt_tRNA-antisense_mature_unmatch_genome',
+		$name . '_output_tRNA_pre-antisense_match_genome', 
+		$name . '_output_tRNA_mature-antisense_match_genome',
+		$name . '_output_tRNA_pre-antisense_unmatch_genome',
+		$name . '_output_tRNA_mature-antisense_unmatch_genome',
+		$name . '_output_mt_tRNA_pre-antisense_match_genome',
+		$name . '_output_mt_tRNA_mature-antisense_match_genome',
+		$name . '_output_mt_tRNA_pre-antisense_unmatch_genome',
+		$name . '_output_mt_tRNA_mature-antisense_unmatch_genome',
 		$name . '_output_piRNA-antisense_match_genome',
 		$name . '_output_piRNA-antisense_unmatch_genome',
 		$name . '_output_ensembl-antisense_match_genome',
@@ -173,7 +173,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	}
 	close $fh;
 	if ($sums > 0){
-		printf OUTPUT2 "miRBase-miRNA_Match_Genome\t-\t%d\n", $sums;
+		printf OUTPUT2 "miRBase-miRNA_Match_Genome\t-\t%.0f\n", $sums;
 		foreach $anno(sort keys %sum){
 			printf OUTPUT2 "miRBase-miRNA_Match_Genome\t$anno\t%.2f\n", $sum{$anno};
 		}
@@ -226,7 +226,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	}
 	close $fh;
 	if ($sums > 0){
-		printf OUTPUT2 "miRBase-miRNA_Unmatch_Genome\t-\t%d\n", $sums;
+		printf OUTPUT2 "miRBase-miRNA_Unmatch_Genome\t-\t%.0f\n", $sums;
 		foreach $anno(sort keys %sum){
 			printf OUTPUT2 "miRBase-miRNA_Unmatch_Genome\t$anno\t%.2f\n", $sum{$anno};
 		}
@@ -303,7 +303,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	}
 	close $fh;
 	if ($sums > 0){
-		printf OUTPUT2 "rRNAdb-rRNA_Match_Genome\t-\t%d\n", $sums;
+		printf OUTPUT2 "rRNAdb-rRNA_Match_Genome\t-\t%.0f\n", $sums;
 		foreach $anno(sort keys %sum){
 			printf OUTPUT2 "rRNAdb-rRNA_Match_Genome\t${anno}\t%.2f\n", $sum{$anno};
 		}
@@ -367,7 +367,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	}
 	close $fh;
 	if ($sums > 0){
-		printf OUTPUT2 "YRNAdb-YRNA_Match_Genome\t-\t%d\n", $sums;
+		printf OUTPUT2 "YRNAdb-YRNA_Match_Genome\t-\t%.0f\n", $sums;
 		foreach $anno(sort keys %sum){
 			printf OUTPUT2 "YRNAdb-YRNA_Match_Genome\t${anno}\t%.2f\n", $sum{$anno};
 		}
@@ -449,7 +449,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	}
 	close $fh;
 	if ($sums > 0){
-		printf OUTPUT2 "rRNAdb-rRNA_Unmatch_Genome\t-\t%d\n", $sums;
+		printf OUTPUT2 "rRNAdb-rRNA_Unmatch_Genome\t-\t%.0f\n", $sums;
 		foreach $anno(sort keys %sum){
 			printf OUTPUT2 "rRNAdb-rRNA_Unmatch_Genome\t${anno}\t%.2f\n", $sum{$anno};
 		}
@@ -513,7 +513,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	}
 	close $fh;
 	if ($sums > 0){
-		printf OUTPUT2 "YRNAdb-YRNA_Unmatch_Genome\t-\t%d\n", $sums;
+		printf OUTPUT2 "YRNAdb-YRNA_Unmatch_Genome\t-\t%.0f\n", $sums;
 		foreach $anno(sort keys %sum){
 			printf OUTPUT2 "YRNAdb-YRNA_Unmatch_Genome\t${anno}\t%.2f\n", $sum{$anno};
 		}
@@ -577,9 +577,9 @@ $i += 1;
 			($id, $anno, $start_site, $seq) = (split /\t/)[0, 3, 4, 5];
 			$anno =~ / ([0-9]+) bp/;
 			$tRNA_len = $1;
-			$anno =~ /([A-Za-z]+) \([A-Za-z]+\)/;
+			$anno =~ /([A-Za-z0-9]+) \([A-Za-z]+\)/;
 			$tRNA_name = $1;
-			$anno =~ /[A-Za-z]+ \(([A-Za-z]+)\)/;
+			$anno =~ /[A-Za-z0-9]+ \(([A-Za-z]+)\)/;
 			$tRNA_codon = $1;
 			$len = length $seq;
 			if ($start_site == 0){
@@ -639,9 +639,9 @@ $i += 1;
 			($id, $anno, $start_site, $seq) = (split /\t/)[0, 3, 4, 5]; 
 			$anno =~ / ([0-9]+) bp/;
 			$tRNA_len = $1;
-			$anno =~ /([A-Za-z]+) \([A-Za-z]+\)/;
+			$anno =~ /([A-Za-z0-9]+) \([A-Za-z]+\)/;
 			$tRNA_name = $1;
-			$anno =~ /[A-Za-z]+ \(([A-Za-z]+)\)/;
+			$anno =~ /[A-Za-z0-9]+ \(([A-Za-z]+)\)/;
 			$tRNA_codon = $1;
 			$len = length $seq;
 			if ($start_site == 0){
@@ -701,7 +701,7 @@ $i += 1;
 		close $fh;
 	}
 	if ($sums_pre > 0){
-		printf OUTPUT2 "GtRNAdb-pre-tRNA_Match_Genome\t-\t%d\n", $sums_pre;
+		printf OUTPUT2 "GtRNAdb-pre-tRNA_Match_Genome\t-\t%.0f\n", $sums_pre;
 		foreach $anno(sort keys %sum_pre){
 			printf OUTPUT2 "GtRNAdb-pre-tRNA_Match_Genome\t$anno\t%.2f\n", $sum_pre{$anno};
 		}
@@ -710,7 +710,7 @@ $i += 1;
 		}
 	}
 	if ($sums_pre_5_end > 0){
-		printf OUTPUT2 "GtRNAdb-pre-tRNA_5_end_Match_Genome\t-\t%d\n", $sums_pre_5_end;
+		printf OUTPUT2 "GtRNAdb-pre-tRNA_5_end_Match_Genome\t-\t%.0f\n", $sums_pre_5_end;
 		foreach $anno(sort keys %sum_pre_5_end){
 			printf OUTPUT2 "GtRNAdb-pre-tRNA_5_end_Match_Genome\t$anno\t%.2f\n", $sum_pre_5_end{$anno};
 		}
@@ -719,7 +719,7 @@ $i += 1;
 		}
 	}
 	if ($sums_pre_3_end > 0){
-		printf OUTPUT2 "GtRNAdb-pre-tRNA_3_end_Match_Genome\t-\t%d\n", $sums_pre_3_end;
+		printf OUTPUT2 "GtRNAdb-pre-tRNA_3_end_Match_Genome\t-\t%.0f\n", $sums_pre_3_end;
 		foreach $anno(sort keys %sum_pre_3_end){
 			printf OUTPUT2 "GtRNAdb-pre-tRNA_3_end_Match_Genome\t$anno\t%.2f\n", $sum_pre_3_end{$anno};
 		}
@@ -728,7 +728,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature > 0){
-		printf OUTPUT2 "GtRNAdb-mature-tRNA_Match_Genome\t-\t%d\n", $sums_mature;
+		printf OUTPUT2 "GtRNAdb-mature-tRNA_Match_Genome\t-\t%.0f\n", $sums_mature;
 		foreach $anno(sort keys %sum_mature){
 			printf OUTPUT2 "GtRNAdb-mature-tRNA_Match_Genome\t$anno\t%.2f\n", $sum_mature{$anno};
 		}
@@ -737,7 +737,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_5_end > 0){
-		printf OUTPUT2 "GtRNAdb-mature-tRNA_5_end_Match_Genome\t-\t%d\n", $sums_mature_5_end;
+		printf OUTPUT2 "GtRNAdb-mature-tRNA_5_end_Match_Genome\t-\t%.0f\n", $sums_mature_5_end;
 		foreach $anno(sort keys %sum_mature_5_end){
 			printf OUTPUT2 "GtRNAdb-mature-tRNA_5_end_Match_Genome\t$anno\t%.2f\n", $sum_mature_5_end{$anno};
 		}
@@ -746,7 +746,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_3_end > 0){
-		printf OUTPUT2 "GtRNAdb-mature-tRNA_3_end_Match_Genome\t-\t%d\n", $sums_mature_3_end;
+		printf OUTPUT2 "GtRNAdb-mature-tRNA_3_end_Match_Genome\t-\t%.0f\n", $sums_mature_3_end;
 		foreach $anno(sort keys %sum_mature_3_end){
 			printf OUTPUT2 "GtRNAdb-mature-tRNA_3_end_Match_Genome\t$anno\t%.2f\n", $sum_mature_3_end{$anno};
 		}
@@ -755,7 +755,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_CCA_end > 0){
-		printf OUTPUT2 "GtRNAdb-mature-tRNA_CCA_end_Match_Genome\t-\t%d\n", $sums_mature_CCA_end;
+		printf OUTPUT2 "GtRNAdb-mature-tRNA_CCA_end_Match_Genome\t-\t%.0f\n", $sums_mature_CCA_end;
 		foreach $anno(sort keys %sum_mature_CCA_end){
 			printf OUTPUT2 "GtRNAdb-mature-tRNA_CCA_end_Match_Genome\t$anno\t%.2f\n", $sum_mature_CCA_end{$anno};
 		}
@@ -814,9 +814,9 @@ $i += 1;
 			($id, $anno, $start_site, $seq) = (split /\t/)[0, 3, 4, 5];
 			$anno =~ / ([0-9]+) bp/;
 			$tRNA_len = $1;
-			$anno =~ /([A-Za-z]+) \([A-Za-z]+\)/;
+			$anno =~ /([A-Za-z0-9]+) \([A-Za-z]+\)/;
 			$tRNA_name = $1;
-			$anno =~ /[A-Za-z]+ \(([A-Za-z]+)\)/;
+			$anno =~ /[A-Za-z0-9]+ \(([A-Za-z]+)\)/;
 			$tRNA_codon = $1;
 			$len = length $seq;
 			if ($start_site == 0){
@@ -876,9 +876,9 @@ $i += 1;
 			($id, $anno, $start_site, $seq) = (split /\t/)[0, 3, 4, 5];
 			$anno =~ / ([0-9]+) bp/;
 			$tRNA_len = $1;
-			$anno =~ /([A-Za-z]+) \([A-Za-z]+\)/;
+			$anno =~ /([A-Za-z0-9]+) \([A-Za-z]+\)/;
 			$tRNA_name = $1;
-			$anno =~ /[A-Za-z]+ \(([A-Za-z]+)\)/;
+			$anno =~ /[A-Za-z0-9]+ \(([A-Za-z]+)\)/;
 			$tRNA_codon = $1;
 			$len = length $seq;
 			if ($start_site == 0){
@@ -938,7 +938,7 @@ $i += 1;
 		close $fh;
 	}
 	if ($sums_pre > 0){
-		printf OUTPUT2 "GtRNAdb-pre-tRNA_Unmatch_Genome\t-\t%d\n", $sums_pre;
+		printf OUTPUT2 "GtRNAdb-pre-tRNA_Unmatch_Genome\t-\t%.0f\n", $sums_pre;
 		foreach $anno(sort keys %sum_pre){
 			printf OUTPUT2 "GtRNAdb-pre-tRNA_Unmatch_Genome\t$anno\t%.2f\n", $sum_pre{$anno};
 		}
@@ -947,7 +947,7 @@ $i += 1;
 		}
 	}
 	if ($sums_pre_5_end > 0){
-		printf OUTPUT2 "GtRNAdb-pre-tRNA_5_end_Unmatch_Genome\t-\t%d\n", $sums_pre_5_end;
+		printf OUTPUT2 "GtRNAdb-pre-tRNA_5_end_Unmatch_Genome\t-\t%.0f\n", $sums_pre_5_end;
 		foreach $anno(sort keys %sum_pre_5_end){
 			printf OUTPUT2 "GtRNAdb-pre-tRNA_5_end_Unmatch_Genome\t$anno\t%.2f\n", $sum_pre_5_end{$anno};
 		}
@@ -956,7 +956,7 @@ $i += 1;
 		}
 	}
 	if ($sums_pre_3_end > 0){
-		printf OUTPUT2 "GtRNAdb-pre-tRNA_3_end_Unmatch_Genome\t-\t%d\n", $sums_pre_3_end;
+		printf OUTPUT2 "GtRNAdb-pre-tRNA_3_end_Unmatch_Genome\t-\t%.0f\n", $sums_pre_3_end;
 		foreach $anno(sort keys %sum_pre_3_end){
 			printf OUTPUT2 "GtRNAdb-pre-tRNA_3_end_Unmatch_Genome\t$anno\t%.2f\n", $sum_pre_3_end{$anno};
 		}
@@ -965,7 +965,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature > 0){
-		printf OUTPUT2 "GtRNAdb-mature-tRNA_Unmatch_Genome\t-\t%d\n", $sums_mature;
+		printf OUTPUT2 "GtRNAdb-mature-tRNA_Unmatch_Genome\t-\t%.0f\n", $sums_mature;
 		foreach $anno(sort keys %sum_mature){
 			printf OUTPUT2 "GtRNAdb-mature-tRNA_Unmatch_Genome\t$anno\t%.2f\n", $sum_mature{$anno};
 		}
@@ -974,7 +974,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_5_end > 0){
-		printf OUTPUT2 "GtRNAdb-mature-tRNA_5_end_Unmatch_Genome\t-\t%d\n", $sums_mature_5_end;
+		printf OUTPUT2 "GtRNAdb-mature-tRNA_5_end_Unmatch_Genome\t-\t%.0f\n", $sums_mature_5_end;
 		foreach $anno(sort keys %sum_mature_5_end){
 			printf OUTPUT2 "GtRNAdb-mature-tRNA_5_end_Unmatch_Genome\t$anno\t%.2f\n", $sum_mature_5_end{$anno};
 		}
@@ -983,7 +983,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_3_end > 0){
-		printf OUTPUT2 "GtRNAdb-mature-tRNA_3_end_Unmatch_Genome\t-\t%d\n", $sums_mature_3_end;
+		printf OUTPUT2 "GtRNAdb-mature-tRNA_3_end_Unmatch_Genome\t-\t%.0f\n", $sums_mature_3_end;
 		foreach $anno(sort keys %sum_mature_3_end){
 			printf OUTPUT2 "GtRNAdb-mature-tRNA_3_end_Unmatch_Genome\t$anno\t%.2f\n", $sum_mature_3_end{$anno};
 		}
@@ -992,7 +992,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_CCA_end > 0){
-		printf OUTPUT2 "GtRNAdb-mature-tRNA_CCA_end_Unmatch_Genome\t-\t%d\n", $sums_mature_CCA_end;
+		printf OUTPUT2 "GtRNAdb-mature-tRNA_CCA_end_Unmatch_Genome\t-\t%.0f\n", $sums_mature_CCA_end;
 		foreach $anno(sort keys %sum_mature_CCA_end){
 			printf OUTPUT2 "GtRNAdb-mature-tRNA_CCA_end_Unmatch_Genome\t$anno\t%.2f\n", $sum_mature_CCA_end{$anno};
 		}
@@ -1051,9 +1051,9 @@ $i += 1;
 			($id, $anno, $start_site, $seq) = (split /\t/)[0, 3, 4, 5];
 			$anno =~ / ([0-9]+) bp/;
 			$tRNA_len = $1;
-			$anno =~ /([A-Za-z]+) \([A-Za-z]+\)/;
+			$anno =~ /([A-Za-z0-9]+) \([A-Za-z]+\)/;
 			$tRNA_name = $1;
-			$anno =~ /[A-Za-z]+ \(([A-Za-z]+)\)/;
+			$anno =~ /[A-Za-z0-9]+ \(([A-Za-z]+)\)/;
 			$tRNA_codon = $1;
 			$len = length $seq;
 			if ($start_site == 0){
@@ -1113,9 +1113,9 @@ $i += 1;
 			($id, $anno, $start_site, $seq) = (split /\t/)[0, 3, 4, 5]; 
 			$anno =~ / ([0-9]+) bp/;
 			$tRNA_len = $1;
-			$anno =~ /([A-Za-z]+) \([A-Za-z]+\)/;
+			$anno =~ /([A-Za-z0-9]+) \([A-Za-z]+\)/;
 			$tRNA_name = $1;
-			$anno =~ /[A-Za-z]+ \(([A-Za-z]+)\)/;
+			$anno =~ /[A-Za-z0-9]+ \(([A-Za-z]+)\)/;
 			$tRNA_codon = $1;
 			$len = length $seq;
 			if ($start_site == 0){
@@ -1175,7 +1175,7 @@ $i += 1;
 		close $fh;
 	}
 	if ($sums_pre > 0){
-		printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA_Match_Genome\t-\t%d\n", $sums_pre;
+		printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA_Match_Genome\t-\t%.0f\n", $sums_pre;
 		foreach $anno(sort keys %sum_pre){
 			printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA_Match_Genome\t$anno\t%.2f\n", $sum_pre{$anno};
 		}
@@ -1184,7 +1184,7 @@ $i += 1;
 		}
 	}
 	if ($sums_pre_5_end > 0){
-		printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA_5_end_Match_Genome\t-\t%d\n", $sums_pre_5_end;
+		printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA_5_end_Match_Genome\t-\t%.0f\n", $sums_pre_5_end;
 		foreach $anno(sort keys %sum_pre_5_end){
 			printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA_5_end_Match_Genome\t$anno\t%.2f\n", $sum_pre_5_end{$anno};
 		}
@@ -1193,7 +1193,7 @@ $i += 1;
 		}
 	}
 	if ($sums_pre_3_end > 0){
-		printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA_3_end_Match_Genome\t-\t%d\n", $sums_pre_3_end;
+		printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA_3_end_Match_Genome\t-\t%.0f\n", $sums_pre_3_end;
 		foreach $anno(sort keys %sum_pre_3_end){
 			printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA_3_end_Match_Genome\t$anno\t%.2f\n", $sum_pre_3_end{$anno};
 		}
@@ -1202,7 +1202,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature > 0){
-		printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_Match_Genome\t-\t%d\n", $sums_mature;
+		printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_Match_Genome\t-\t%.0f\n", $sums_mature;
 		foreach $anno(sort keys %sum_mature){
 			printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_Match_Genome\t$anno\t%.2f\n", $sum_mature{$anno};
 		}
@@ -1211,7 +1211,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_5_end > 0){
-		printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_5_end_Match_Genome\t-\t%d\n", $sums_mature_5_end;
+		printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_5_end_Match_Genome\t-\t%.0f\n", $sums_mature_5_end;
 		foreach $anno(sort keys %sum_mature_5_end){
 			printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_5_end_Match_Genome\t$anno\t%.2f\n", $sum_mature_5_end{$anno};
 		}
@@ -1220,7 +1220,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_3_end > 0){
-		printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_3_end_Match_Genome\t-\t%d\n", $sums_mature_3_end;
+		printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_3_end_Match_Genome\t-\t%.0f\n", $sums_mature_3_end;
 		foreach $anno(sort keys %sum_mature_3_end){
 			printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_3_end_Match_Genome\t$anno\t%.2f\n", $sum_mature_3_end{$anno};
 		}
@@ -1229,7 +1229,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_CCA_end > 0){
-		printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_CCA_end_Match_Genome\t-\t%d\n", $sums_mature_CCA_end;
+		printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_CCA_end_Match_Genome\t-\t%.0f\n", $sums_mature_CCA_end;
 		foreach $anno(sort keys %sum_mature_CCA_end){
 			printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_CCA_end_Match_Genome\t$anno\t%.2f\n", $sum_mature_CCA_end{$anno};
 		}
@@ -1288,9 +1288,9 @@ $i += 1;
 			($id, $anno, $start_site, $seq) = (split /\t/)[0, 3, 4, 5];
 			$anno =~ / ([0-9]+) bp/;
 			$tRNA_len = $1;
-			$anno =~ /([A-Za-z]+) \([A-Za-z]+\)/;
+			$anno =~ /([A-Za-z0-9]+) \([A-Za-z]+\)/;
 			$tRNA_name = $1;
-			$anno =~ /[A-Za-z]+ \(([A-Za-z]+)\)/;
+			$anno =~ /[A-Za-z0-9]+ \(([A-Za-z]+)\)/;
 			$tRNA_codon = $1;
 			$len = length $seq;
 			if ($start_site == 0){
@@ -1350,9 +1350,9 @@ $i += 1;
 			($id, $anno, $start_site, $seq) = (split /\t/)[0, 3, 4, 5];
 			$anno =~ / ([0-9]+) bp/;
 			$tRNA_len = $1;
-			$anno =~ /([A-Za-z]+) \([A-Za-z]+\)/;
+			$anno =~ /([A-Za-z0-9]+) \([A-Za-z]+\)/;
 			$tRNA_name = $1;
-			$anno =~ /[A-Za-z]+ \(([A-Za-z]+)\)/;
+			$anno =~ /[A-Za-z0-9]+ \(([A-Za-z]+)\)/;
 			$tRNA_codon = $1;
 			$len = length $seq;
 			if ($start_site == 0){
@@ -1412,7 +1412,7 @@ $i += 1;
 		close $fh;
 	}
 	if ($sums_pre > 0){
-		printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA_Unmatch_Genome\t-\t%d\n", $sums_pre;
+		printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA_Unmatch_Genome\t-\t%.0f\n", $sums_pre;
 		foreach $anno(sort keys %sum_pre){
 			printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA_Unmatch_Genome\t$anno\t%.2f\n", $sum_pre{$anno};
 		}
@@ -1421,7 +1421,7 @@ $i += 1;
 		}
 	}
 	if ($sums_pre_5_end > 0){
-		printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA_5_end_Unmatch_Genome\t-\t%d\n", $sums_pre_5_end;
+		printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA_5_end_Unmatch_Genome\t-\t%.0f\n", $sums_pre_5_end;
 		foreach $anno(sort keys %sum_pre_5_end){
 			printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA_5_end_Unmatch_Genome\t$anno\t%.2f\n", $sum_pre_5_end{$anno};
 		}
@@ -1430,7 +1430,7 @@ $i += 1;
 		}
 	}
 	if ($sums_pre_3_end > 0){
-		printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA_3_end_Unmatch_Genome\t-\t%d\n", $sums_pre_3_end;
+		printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA_3_end_Unmatch_Genome\t-\t%.0f\n", $sums_pre_3_end;
 		foreach $anno(sort keys %sum_pre_3_end){
 			printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA_3_end_Unmatch_Genome\t$anno\t%.2f\n", $sum_pre_3_end{$anno};
 		}
@@ -1439,7 +1439,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature > 0){
-		printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_Unmatch_Genome\t-\t%d\n", $sums_mature;
+		printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_Unmatch_Genome\t-\t%.0f\n", $sums_mature;
 		foreach $anno(sort keys %sum_mature){
 			printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_Unmatch_Genome\t$anno\t%.2f\n", $sum_mature{$anno};
 		}
@@ -1448,7 +1448,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_5_end > 0){
-		printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_5_end_Unmatch_Genome\t-\t%d\n", $sums_mature_5_end;
+		printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_5_end_Unmatch_Genome\t-\t%.0f\n", $sums_mature_5_end;
 		foreach $anno(sort keys %sum_mature_5_end){
 			printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_5_end_Unmatch_Genome\t$anno\t%.2f\n", $sum_mature_5_end{$anno};
 		}
@@ -1457,7 +1457,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_3_end > 0){
-		printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_3_end_Unmatch_Genome\t-\t%d\n", $sums_mature_3_end;
+		printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_3_end_Unmatch_Genome\t-\t%.0f\n", $sums_mature_3_end;
 		foreach $anno(sort keys %sum_mature_3_end){
 			printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_3_end_Unmatch_Genome\t$anno\t%.2f\n", $sum_mature_3_end{$anno};
 		}
@@ -1466,7 +1466,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_CCA_end > 0){
-		printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_CCA_end_Unmatch_Genome\t-\t%d\n", $sums_mature_CCA_end;
+		printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_CCA_end_Unmatch_Genome\t-\t%.0f\n", $sums_mature_CCA_end;
 		foreach $anno(sort keys %sum_mature_CCA_end){
 			printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA_CCA_end_Unmatch_Genome\t$anno\t%.2f\n", $sum_mature_CCA_end{$anno};
 		}
@@ -1510,7 +1510,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	}
 	close $fh;
 	if ($sums > 0){
-		printf OUTPUT2 "piRNAdb-piRNA_Match_Genome\t-\t%d\n", $sums;
+		printf OUTPUT2 "piRNAdb-piRNA_Match_Genome\t-\t%.0f\n", $sums;
 		foreach $len (sort keys %distr){
 			printf OUTPUT3 "piRNAdb-piRNA_Match_Genome\t$len\t%.2f\n", $distr{$len};
 		}
@@ -1551,7 +1551,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	}
 	close $fh;
 	if ($sums > 0){
-		printf OUTPUT2 "piRNAdb-piRNA_Unmatch_Genome\t-\t%d\n", $sums;
+		printf OUTPUT2 "piRNAdb-piRNA_Unmatch_Genome\t-\t%.0f\n", $sums;
 		foreach $len (sort keys %distr){
 			printf OUTPUT3 "piRNAdb-piRNA_Unmatch_Genome\t$len\t%.2f\n", $distr{$len};
 		}
@@ -1603,7 +1603,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	close $fh;
 	if ($sums > 0){
 		foreach $anno(sort keys %sum){
-			printf OUTPUT2 "ensembl-${anno}_Match_Genome\t-\t%d\n", $sum{$anno};
+			printf OUTPUT2 "ensembl-${anno}_Match_Genome\t-\t%.0f\n", $sum{$anno};
 		}
 		foreach	my $key1(sort keys %distr){
 			foreach my $key2 (sort keys %{$distr{$key1}}){
@@ -1658,7 +1658,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	close $fh;
 	if ($sums > 0){
 		foreach $anno(sort keys %sum){
-			printf OUTPUT2 "ensembl-${anno}_Unmatch_Genome\t-\t%d\n", $sum{$anno};
+			printf OUTPUT2 "ensembl-${anno}_Unmatch_Genome\t-\t%.0f\n", $sum{$anno};
 		}
 		foreach	my $key1(sort keys %distr){
 			foreach my $key2 (sort keys %{$distr{$key1}}){
@@ -1784,7 +1784,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	}
 	close $fh;
 	foreach $anno(sort keys %sum){
-		printf OUTPUT2 "Rfam-${anno}_Match_Genome\t-\t%d\n", $sum{$anno};
+		printf OUTPUT2 "Rfam-${anno}_Match_Genome\t-\t%.0f\n", $sum{$anno};
 	}
 	foreach	my $key1(sort keys %distr){
 		foreach my $key2 (sort keys %{$distr{$key1}}){
@@ -1909,7 +1909,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	}
 	close $fh;
 	foreach $anno(sort keys %sum){
-		printf OUTPUT2 "Rfam-${anno}_Unmatch_Genome\t-\t%d\n", $sum{$anno};
+		printf OUTPUT2 "Rfam-${anno}_Unmatch_Genome\t-\t%.0f\n", $sum{$anno};
 	}
 	foreach	my $key1(sort keys %distr){
 		foreach my $key2 (sort keys %{$distr{$key1}}){
@@ -1961,7 +1961,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	}
 	close $fh;
 	if ($sums > 0){
-		printf OUTPUT2 "miRBase-miRNA-antisense_Match_Genome\t-\t%d\n", $sums;
+		printf OUTPUT2 "miRBase-miRNA-antisense_Match_Genome\t-\t%.0f\n", $sums;
 		foreach $anno(sort keys %sum){
 			printf OUTPUT2 "miRBase-miRNA-antisense_Match_Genome\t$anno\t%.2f\n", $sum{$anno};
 		}
@@ -2014,7 +2014,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	}
 	close $fh;
 	if ($sums > 0){
-		printf OUTPUT2 "miRBase-miRNA-antisense_Unmatch_Genome\t-\t%d\n", $sums;
+		printf OUTPUT2 "miRBase-miRNA-antisense_Unmatch_Genome\t-\t%.0f\n", $sums;
 		foreach $anno(sort keys %sum){
 			printf OUTPUT2 "miRBase-miRNA-antisense_Unmatch_Genome\t$anno\t%.2f\n", $sum{$anno};
 		}
@@ -2091,7 +2091,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	}
 	close $fh;
 	if ($sums > 0){
-		printf OUTPUT2 "rRNAdb-rRNA-antisense_Match_Genome\t-\t%d\n", $sums;
+		printf OUTPUT2 "rRNAdb-rRNA-antisense_Match_Genome\t-\t%.0f\n", $sums;
 		foreach $anno(sort keys %sum){
 			printf OUTPUT2 "rRNAdb-rRNA-antisense_Match_Genome\t${anno}\t%.2f\n", $sum{$anno};
 		}
@@ -2155,7 +2155,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	}
 	close $fh;
 	if ($sums > 0){
-		printf OUTPUT2 "YRNAdb-YRNA-antisense_Match_Genome\t-\t%d\n", $sums;
+		printf OUTPUT2 "YRNAdb-YRNA-antisense_Match_Genome\t-\t%.0f\n", $sums;
 		foreach $anno(sort keys %sum){
 			printf OUTPUT2 "YRNAdb-YRNA-antisense_Match_Genome\t${anno}\t%.2f\n", $sum{$anno};
 		}
@@ -2237,7 +2237,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	}
 	close $fh;
 	if ($sums > 0){
-		printf OUTPUT2 "rRNAdb-rRNA-antisense_Unmatch_Genome\t-\t%d\n", $sums;
+		printf OUTPUT2 "rRNAdb-rRNA-antisense_Unmatch_Genome\t-\t%.0f\n", $sums;
 		foreach $anno(sort keys %sum){
 			printf OUTPUT2 "rRNAdb-rRNA-antisense_Unmatch_Genome\t${anno}\t%.2f\n", $sum{$anno};
 		}
@@ -2301,7 +2301,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	}
 	close $fh;
 	if ($sums > 0){
-		printf OUTPUT2 "YRNAdb-YRNA-antisense_Unmatch_Genome\t-\t%d\n", $sums;
+		printf OUTPUT2 "YRNAdb-YRNA-antisense_Unmatch_Genome\t-\t%.0f\n", $sums;
 		foreach $anno(sort keys %sum){
 			printf OUTPUT2 "YRNAdb-YRNA-antisense_Unmatch_Genome\t${anno}\t%.2f\n", $sum{$anno};
 		}
@@ -2365,9 +2365,9 @@ $i += 1;
 			($id, $anno, $start_site, $seq) = (split /\t/)[0, 3, 4, 5];
 			$anno =~ / ([0-9]+) bp/;
 			$tRNA_len = $1;
-			$anno =~ /([A-Za-z]+) \([A-Za-z]+\)/;
+			$anno =~ /([A-Za-z0-9]+) \([A-Za-z]+\)/;
 			$tRNA_name = $1;
-			$anno =~ /[A-Za-z]+ \(([A-Za-z]+)\)/;
+			$anno =~ /[A-Za-z0-9]+ \(([A-Za-z]+)\)/;
 			$tRNA_codon = $1;
 			$len = length $seq;
 			if ($start_site == 0){
@@ -2427,9 +2427,9 @@ $i += 1;
 			($id, $anno, $start_site, $seq) = (split /\t/)[0, 3, 4, 5];
 			$anno =~ / ([0-9]+) bp/;
 			$tRNA_len = $1;
-			$anno =~ /([A-Za-z]+) \([A-Za-z]+\)/;
+			$anno =~ /([A-Za-z0-9]+) \([A-Za-z]+\)/;
 			$tRNA_name = $1;
-			$anno =~ /[A-Za-z]+ \(([A-Za-z]+)\)/;
+			$anno =~ /[A-Za-z0-9]+ \(([A-Za-z]+)\)/;
 			$tRNA_codon = $1;
 			$len = length $seq;
 			if ($start_site == 0){
@@ -2489,7 +2489,7 @@ $i += 1;
 		close $fh;
 	}
 	if ($sums_pre > 0){
-		printf OUTPUT2 "GtRNAdb-pre-tRNA-antisense_Match_Genome\t-\t%d\n", $sums_pre;
+		printf OUTPUT2 "GtRNAdb-pre-tRNA-antisense_Match_Genome\t-\t%.0f\n", $sums_pre;
 		foreach $anno(sort keys %sum_pre){
 			printf OUTPUT2 "GtRNAdb-pre-tRNA-antisense_Match_Genome\t$anno\t%.2f\n", $sum_pre{$anno};
 		}
@@ -2498,7 +2498,7 @@ $i += 1;
 		}
 	}
 	if ($sums_pre_5_end > 0){
-		printf OUTPUT2 "GtRNAdb-pre-tRNA_5_end-antisense_Match_Genome\t-\t%d\n", $sums_pre_5_end;
+		printf OUTPUT2 "GtRNAdb-pre-tRNA_5_end-antisense_Match_Genome\t-\t%.0f\n", $sums_pre_5_end;
 		foreach $anno(sort keys %sum_pre_5_end){
 			printf OUTPUT2 "GtRNAdb-pre-tRNA_5_end-antisense_Match_Genome\t$anno\t%.2f\n", $sum_pre_5_end{$anno};
 		}
@@ -2507,7 +2507,7 @@ $i += 1;
 		}
 	}
 	if ($sums_pre_3_end > 0){
-		printf OUTPUT2 "GtRNAdb-pre-tRNA_3_end-antisense_Match_Genome\t-\t%d\n", $sums_pre_3_end;
+		printf OUTPUT2 "GtRNAdb-pre-tRNA_3_end-antisense_Match_Genome\t-\t%.0f\n", $sums_pre_3_end;
 		foreach $anno(sort keys %sum_pre_3_end){
 			printf OUTPUT2 "GtRNAdb-pre-tRNA_3_end-antisense_Match_Genome\t$anno\t%.2f\n", $sum_pre_3_end{$anno};
 		}
@@ -2516,7 +2516,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature > 0){
-		printf OUTPUT2 "GtRNAdb-mature-tRNA-antisense_Match_Genome\t-\t%d\n", $sums_mature;
+		printf OUTPUT2 "GtRNAdb-mature-tRNA-antisense_Match_Genome\t-\t%.0f\n", $sums_mature;
 		foreach $anno(sort keys %sum_mature){
 			printf OUTPUT2 "GtRNAdb-mature-tRNA-antisense_Match_Genome\t$anno\t%.2f\n", $sum_mature{$anno};
 		}
@@ -2525,7 +2525,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_5_end > 0){
-		printf OUTPUT2 "GtRNAdb-mature-tRNA_5_end-antisense_Match_Genome\t-\t%d\n", $sums_mature_5_end;
+		printf OUTPUT2 "GtRNAdb-mature-tRNA_5_end-antisense_Match_Genome\t-\t%.0f\n", $sums_mature_5_end;
 		foreach $anno(sort keys %sum_mature_5_end){
 			printf OUTPUT2 "GtRNAdb-mature-tRNA_5_end-antisense_Match_Genome\t$anno\t%.2f\n", $sum_mature_5_end{$anno};
 		}
@@ -2534,7 +2534,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_3_end > 0){
-		printf OUTPUT2 "GtRNAdb-mature-tRNA_3_end-antisense_Match_Genome\t-\t%d\n", $sums_mature_3_end;
+		printf OUTPUT2 "GtRNAdb-mature-tRNA_3_end-antisense_Match_Genome\t-\t%.0f\n", $sums_mature_3_end;
 		foreach $anno(sort keys %sum_mature_3_end){
 			printf OUTPUT2 "GtRNAdb-mature-tRNA_3_end-antisense_Match_Genome\t$anno\t%.2f\n", $sum_mature_3_end{$anno};
 		}
@@ -2543,7 +2543,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_CCA_end > 0){
-		printf OUTPUT2 "GtRNAdb-mature-tRNA_CCA_end-antisense_Match_Genome\t-\t%d\n", $sums_mature_CCA_end;
+		printf OUTPUT2 "GtRNAdb-mature-tRNA_CCA_end-antisense_Match_Genome\t-\t%.0f\n", $sums_mature_CCA_end;
 		foreach $anno(sort keys %sum_mature_CCA_end){
 			printf OUTPUT2 "GtRNAdb-mature-tRNA_CCA_end-antisense_Match_Genome\t$anno\t%.2f\n", $sum_mature_CCA_end{$anno};
 		}
@@ -2602,9 +2602,9 @@ $i += 1;
 			($id, $anno, $start_site, $seq) = (split /\t/)[0, 3, 4, 5];
 			$anno =~ / ([0-9]+) bp/;
 			$tRNA_len = $1;
-			$anno =~ /([A-Za-z]+) \([A-Za-z]+\)/;
+			$anno =~ /([A-Za-z0-9]+) \([A-Za-z]+\)/;
 			$tRNA_name = $1;
-			$anno =~ /[A-Za-z]+ \(([A-Za-z]+)\)/;
+			$anno =~ /[A-Za-z0-9]+ \(([A-Za-z]+)\)/;
 			$tRNA_codon = $1;
 			$len = length $seq;
 			if ($start_site == 0){
@@ -2664,9 +2664,9 @@ $i += 1;
 			($id, $anno, $start_site, $seq) = (split /\t/)[0, 3, 4, 5];
 			$anno =~ / ([0-9]+) bp/;
 			$tRNA_len = $1;
-			$anno =~ /([A-Za-z]+) \([A-Za-z]+\)/;
+			$anno =~ /([A-Za-z0-9]+) \([A-Za-z]+\)/;
 			$tRNA_name = $1;
-			$anno =~ /[A-Za-z]+ \(([A-Za-z]+)\)/;
+			$anno =~ /[A-Za-z0-9]+ \(([A-Za-z]+)\)/;
 			$tRNA_codon = $1;
 			$len = length $seq;
 			if ($start_site == 0){
@@ -2726,7 +2726,7 @@ $i += 1;
 		close $fh;
 	}
 	if ($sums_pre > 0){
-		printf OUTPUT2 "GtRNAdb-pre-tRNA-antisense_Unmatch_Genome\t-\t%d\n", $sums_pre;
+		printf OUTPUT2 "GtRNAdb-pre-tRNA-antisense_Unmatch_Genome\t-\t%.0f\n", $sums_pre;
 		foreach $anno(sort keys %sum_pre){
 			printf OUTPUT2 "GtRNAdb-pre-tRNA-antisense_Unmatch_Genome\t$anno\t%.2f\n", $sum_pre{$anno};
 		}
@@ -2735,7 +2735,7 @@ $i += 1;
 		}
 	}
 	if ($sums_pre_5_end > 0){
-		printf OUTPUT2 "GtRNAdb-pre-tRNA_5_end-antisense_Unmatch_Genome\t-\t%d\n", $sums_pre_5_end;
+		printf OUTPUT2 "GtRNAdb-pre-tRNA_5_end-antisense_Unmatch_Genome\t-\t%.0f\n", $sums_pre_5_end;
 		foreach $anno(sort keys %sum_pre_5_end){
 			printf OUTPUT2 "GtRNAdb-pre-tRNA_5_end-antisense_Unmatch_Genome\t$anno\t%.2f\n", $sum_pre_5_end{$anno};
 		}
@@ -2744,7 +2744,7 @@ $i += 1;
 		}
 	}
 	if ($sums_pre_3_end > 0){
-		printf OUTPUT2 "GtRNAdb-pre-tRNA_3_end-antisense_Unmatch_Genome\t-\t%d\n", $sums_pre_3_end;
+		printf OUTPUT2 "GtRNAdb-pre-tRNA_3_end-antisense_Unmatch_Genome\t-\t%.0f\n", $sums_pre_3_end;
 		foreach $anno(sort keys %sum_pre_3_end){
 			printf OUTPUT2 "GtRNAdb-pre-tRNA_3_end-antisense_Unmatch_Genome\t$anno\t%.2f\n", $sum_pre_3_end{$anno};
 		}
@@ -2753,7 +2753,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature > 0){
-		printf OUTPUT2 "GtRNAdb-mature-tRNA-antisense_Unmatch_Genome\t-\t%d\n", $sums_mature;
+		printf OUTPUT2 "GtRNAdb-mature-tRNA-antisense_Unmatch_Genome\t-\t%.0f\n", $sums_mature;
 		foreach $anno(sort keys %sum_mature){
 			printf OUTPUT2 "GtRNAdb-mature-tRNA-antisense_Unmatch_Genome\t$anno\t%.2f\n", $sum_mature{$anno};
 		}
@@ -2762,7 +2762,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_5_end > 0){
-		printf OUTPUT2 "GtRNAdb-mature-tRNA_5_end-antisense_Unmatch_Genome\t-\t%d\n", $sums_mature_5_end;
+		printf OUTPUT2 "GtRNAdb-mature-tRNA_5_end-antisense_Unmatch_Genome\t-\t%.0f\n", $sums_mature_5_end;
 		foreach $anno(sort keys %sum_mature_5_end){
 			printf OUTPUT2 "GtRNAdb-mature-tRNA_5_end-antisense_Unmatch_Genome\t$anno\t%.2f\n", $sum_mature_5_end{$anno};
 		}
@@ -2771,7 +2771,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_3_end > 0){
-		printf OUTPUT2 "GtRNAdb-mature-tRNA_3_end-antisense_Unmatch_Genome\t-\t%d\n", $sums_mature_3_end;
+		printf OUTPUT2 "GtRNAdb-mature-tRNA_3_end-antisense_Unmatch_Genome\t-\t%.0f\n", $sums_mature_3_end;
 		foreach $anno(sort keys %sum_mature_3_end){
 			printf OUTPUT2 "GtRNAdb-mature-tRNA_3_end-antisense_Unmatch_Genome\t$anno\t%.2f\n", $sum_mature_3_end{$anno};
 		}
@@ -2780,7 +2780,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_CCA_end > 0){
-		printf OUTPUT2 "GtRNAdb-mature-tRNA_CCA_end-antisense_Unmatch_Genome\t-\t%d\n", $sums_mature_CCA_end;
+		printf OUTPUT2 "GtRNAdb-mature-tRNA_CCA_end-antisense_Unmatch_Genome\t-\t%.0f\n", $sums_mature_CCA_end;
 		foreach $anno(sort keys %sum_mature_CCA_end){
 			printf OUTPUT2 "GtRNAdb-mature-tRNA_CCA_end-antisense_Unmatch_Genome\t$anno\t%.2f\n", $sum_mature_CCA_end{$anno};
 		}
@@ -2839,9 +2839,9 @@ $i += 1;
 			($id, $anno, $start_site, $seq) = (split /\t/)[0, 3, 4, 5];
 			$anno =~ / ([0-9]+) bp/;
 			$tRNA_len = $1;
-			$anno =~ /([A-Za-z]+) \([A-Za-z]+\)/;
+			$anno =~ /([A-Za-z0-9]+) \([A-Za-z]+\)/;
 			$tRNA_name = $1;
-			$anno =~ /[A-Za-z]+ \(([A-Za-z]+)\)/;
+			$anno =~ /[A-Za-z0-9]+ \(([A-Za-z]+)\)/;
 			$tRNA_codon = $1;
 			$len = length $seq;
 			if ($start_site == 0){
@@ -2901,9 +2901,9 @@ $i += 1;
 			($id, $anno, $start_site, $seq) = (split /\t/)[0, 3, 4, 5];
 			$anno =~ / ([0-9]+) bp/;
 			$tRNA_len = $1;
-			$anno =~ /([A-Za-z]+) \([A-Za-z]+\)/;
+			$anno =~ /([A-Za-z0-9]+) \([A-Za-z]+\)/;
 			$tRNA_name = $1;
-			$anno =~ /[A-Za-z]+ \(([A-Za-z]+)\)/;
+			$anno =~ /[A-Za-z0-9]+ \(([A-Za-z]+)\)/;
 			$tRNA_codon = $1;
 			$len = length $seq;
 			if ($start_site == 0){
@@ -2963,7 +2963,7 @@ $i += 1;
 		close $fh;
 	}
 	if ($sums_pre > 0){
-		printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA-antisense_Match_Genome\t-\t%d\n", $sums_pre;
+		printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA-antisense_Match_Genome\t-\t%.0f\n", $sums_pre;
 		foreach $anno(sort keys %sum_pre){
 			printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA-antisense_Match_Genome\t$anno\t%.2f\n", $sum_pre{$anno};
 		}
@@ -2972,7 +2972,7 @@ $i += 1;
 		}
 	}
 	if ($sums_pre_5_end > 0){
-		printf OUTPUT2 "mitotRNAdb-pre-tRNA_5_end-antisense_Match_Genome\t-\t%d\n", $sums_pre_5_end;
+		printf OUTPUT2 "mitotRNAdb-pre-tRNA_5_end-antisense_Match_Genome\t-\t%.0f\n", $sums_pre_5_end;
 		foreach $anno(sort keys %sum_pre_5_end){
 			printf OUTPUT2 "mitotRNAdb-pre-tRNA_5_end-antisense_Match_Genome\t$anno\t%.2f\n", $sum_pre_5_end{$anno};
 		}
@@ -2981,7 +2981,7 @@ $i += 1;
 		}
 	}
 	if ($sums_pre_3_end > 0){
-		printf OUTPUT2 "mitotRNAdb-pre-tRNA_3_end-antisense_Match_Genome\t-\t%d\n", $sums_pre_3_end;
+		printf OUTPUT2 "mitotRNAdb-pre-tRNA_3_end-antisense_Match_Genome\t-\t%.0f\n", $sums_pre_3_end;
 		foreach $anno(sort keys %sum_pre_3_end){
 			printf OUTPUT2 "mitotRNAdb-pre-tRNA_3_end-antisense_Match_Genome\t$anno\t%.2f\n", $sum_pre_3_end{$anno};
 		}
@@ -2990,7 +2990,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature > 0){
-		printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA-antisense_Match_Genome\t-\t%d\n", $sums_mature;
+		printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA-antisense_Match_Genome\t-\t%.0f\n", $sums_mature;
 		foreach $anno(sort keys %sum_mature){
 			printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA-antisense_Match_Genome\t$anno\t%.2f\n", $sum_mature{$anno};
 		}
@@ -2999,7 +2999,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_5_end > 0){
-		printf OUTPUT2 "mitotRNAdb-mature-tRNA_5_end-antisense_Match_Genome\t-\t%d\n", $sums_mature_5_end;
+		printf OUTPUT2 "mitotRNAdb-mature-tRNA_5_end-antisense_Match_Genome\t-\t%.0f\n", $sums_mature_5_end;
 		foreach $anno(sort keys %sum_mature_5_end){
 			printf OUTPUT2 "mitotRNAdb-mature-tRNA_5_end-antisense_Match_Genome\t$anno\t%.2f\n", $sum_mature_5_end{$anno};
 		}
@@ -3008,7 +3008,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_3_end > 0){
-		printf OUTPUT2 "mitotRNAdb-mature-tRNA_3_end-antisense_Match_Genome\t-\t%d\n", $sums_mature_3_end;
+		printf OUTPUT2 "mitotRNAdb-mature-tRNA_3_end-antisense_Match_Genome\t-\t%.0f\n", $sums_mature_3_end;
 		foreach $anno(sort keys %sum_mature_3_end){
 			printf OUTPUT2 "mitotRNAdb-mature-tRNA_3_end-antisense_Match_Genome\t$anno\t%.2f\n", $sum_mature_3_end{$anno};
 		}
@@ -3017,7 +3017,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_CCA_end > 0){
-		printf OUTPUT2 "mitotRNAdb-mature-tRNA_CCA_end-antisense_Match_Genome\t-\t%d\n", $sums_mature_CCA_end;
+		printf OUTPUT2 "mitotRNAdb-mature-tRNA_CCA_end-antisense_Match_Genome\t-\t%.0f\n", $sums_mature_CCA_end;
 		foreach $anno(sort keys %sum_mature_CCA_end){
 			printf OUTPUT2 "mitotRNAdb-mature-tRNA_CCA_end-antisense_Match_Genome\t$anno\t%.2f\n", $sum_mature_CCA_end{$anno};
 		}
@@ -3076,9 +3076,9 @@ $i += 1;
 			($id, $anno, $start_site, $seq) = (split /\t/)[0, 3, 4, 5];
 			$anno =~ / ([0-9]+) bp/;
 			$tRNA_len = $1;
-			$anno =~ /([A-Za-z]+) \([A-Za-z]+\)/;
+			$anno =~ /([A-Za-z0-9]+) \([A-Za-z]+\)/;
 			$tRNA_name = $1;
-			$anno =~ /[A-Za-z]+ \(([A-Za-z]+)\)/;
+			$anno =~ /[A-Za-z0-9]+ \(([A-Za-z]+)\)/;
 			$tRNA_codon = $1;
 			$len = length $seq;
 			if ($start_site == 0){
@@ -3138,9 +3138,9 @@ $i += 1;
 			($id, $anno, $start_site, $seq) = (split /\t/)[0, 3, 4, 5];
 			$anno =~ / ([0-9]+) bp/;
 			$tRNA_len = $1;
-			$anno =~ /([A-Za-z]+) \([A-Za-z]+\)/;
+			$anno =~ /([A-Za-z0-9]+) \([A-Za-z]+\)/;
 			$tRNA_name = $1;
-			$anno =~ /[A-Za-z]+ \(([A-Za-z]+)\)/;
+			$anno =~ /[A-Za-z0-9]+ \(([A-Za-z]+)\)/;
 			$tRNA_codon = $1;
 			$len = length $seq;
 			if ($start_site == 0){
@@ -3200,7 +3200,7 @@ $i += 1;
 		close $fh;
 	}
 	if ($sums_pre > 0){
-		printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA-antisense_Unmatch_Genome\t-\t%d\n", $sums_pre;
+		printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA-antisense_Unmatch_Genome\t-\t%.0f\n", $sums_pre;
 		foreach $anno(sort keys %sum_pre){
 			printf OUTPUT2 "mitotRNAdb-pre-mt_tRNA-antisense_Unmatch_Genome\t$anno\t%.2f\n", $sum_pre{$anno};
 		}
@@ -3209,7 +3209,7 @@ $i += 1;
 		}
 	}
 	if ($sums_pre_5_end > 0){
-		printf OUTPUT2 "mitotRNAdb-pre-tRNA_5_end-antisense_Unmatch_Genome\t-\t%d\n", $sums_pre_5_end;
+		printf OUTPUT2 "mitotRNAdb-pre-tRNA_5_end-antisense_Unmatch_Genome\t-\t%.0f\n", $sums_pre_5_end;
 		foreach $anno(sort keys %sum_pre_5_end){
 			printf OUTPUT2 "mitotRNAdb-pre-tRNA_5_end-antisense_Unmatch_Genome\t$anno\t%.2f\n", $sum_pre_5_end{$anno};
 		}
@@ -3218,7 +3218,7 @@ $i += 1;
 		}
 	}
 	if ($sums_pre_3_end > 0){
-		printf OUTPUT2 "mitotRNAdb-pre-tRNA_3_end-antisense_Unmatch_Genome\t-\t%d\n", $sums_pre_3_end;
+		printf OUTPUT2 "mitotRNAdb-pre-tRNA_3_end-antisense_Unmatch_Genome\t-\t%.0f\n", $sums_pre_3_end;
 		foreach $anno(sort keys %sum_pre_3_end){
 			printf OUTPUT2 "mitotRNAdb-pre-tRNA_3_end-antisense_Unmatch_Genome\t$anno\t%.2f\n", $sum_pre_3_end{$anno};
 		}
@@ -3227,7 +3227,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature > 0){
-		printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA-antisense_Unmatch_Genome\t-\t%d\n", $sums_mature;
+		printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA-antisense_Unmatch_Genome\t-\t%.0f\n", $sums_mature;
 		foreach $anno(sort keys %sum_mature){
 			printf OUTPUT2 "mitotRNAdb-mature-mt_tRNA-antisense_Unmatch_Genome\t$anno\t%.2f\n", $sum_mature{$anno};
 		}
@@ -3236,7 +3236,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_5_end > 0){
-		printf OUTPUT2 "mitotRNAdb-mature-tRNA_5_end-antisense_Unmatch_Genome\t-\t%d\n", $sums_mature_5_end;
+		printf OUTPUT2 "mitotRNAdb-mature-tRNA_5_end-antisense_Unmatch_Genome\t-\t%.0f\n", $sums_mature_5_end;
 		foreach $anno(sort keys %sum_mature_5_end){
 			printf OUTPUT2 "mitotRNAdb-mature-tRNA_5_end-antisense_Unmatch_Genome\t$anno\t%.2f\n", $sum_mature_5_end{$anno};
 		}
@@ -3245,7 +3245,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_3_end > 0){
-		printf OUTPUT2 "mitotRNAdb-mature-tRNA_3_end-antisense_Unmatch_Genome\t-\t%d\n", $sums_mature_3_end;
+		printf OUTPUT2 "mitotRNAdb-mature-tRNA_3_end-antisense_Unmatch_Genome\t-\t%.0f\n", $sums_mature_3_end;
 		foreach $anno(sort keys %sum_mature_3_end){
 			printf OUTPUT2 "mitotRNAdb-mature-tRNA_3_end-antisense_Unmatch_Genome\t$anno\t%.2f\n", $sum_mature_3_end{$anno};
 		}
@@ -3254,7 +3254,7 @@ $i += 1;
 		}
 	}
 	if ($sums_mature_CCA_end > 0){
-		printf OUTPUT2 "mitotRNAdb-mature-tRNA_CCA_end-antisense_Unmatch_Genome\t-\t%d\n", $sums_mature_CCA_end;
+		printf OUTPUT2 "mitotRNAdb-mature-tRNA_CCA_end-antisense_Unmatch_Genome\t-\t%.0f\n", $sums_mature_CCA_end;
 		foreach $anno(sort keys %sum_mature_CCA_end){
 			printf OUTPUT2 "mitotRNAdb-mature-tRNA_CCA_end-antisense_Unmatch_Genome\t$anno\t%.2f\n", $sum_mature_CCA_end{$anno};
 		}
@@ -3298,7 +3298,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	}
 	close $fh;
 	if ($sums > 0){
-		printf OUTPUT2 "piRNAdb-piRNA-antisense_Match_Genome\t-\t%d\n", $sums;
+		printf OUTPUT2 "piRNAdb-piRNA-antisense_Match_Genome\t-\t%.0f\n", $sums;
 		foreach $len (sort keys %distr){
 			printf OUTPUT3 "piRNAdb-piRNA-antisense_Match_Genome\t$len\t%.2f\n", $distr{$len};
 		}
@@ -3339,7 +3339,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	}
 	close $fh;
 	if ($sums > 0){
-		printf OUTPUT2 "piRNAdb-piRNA-antisense_Unmatch_Genome\t-\t%d\n", $sums;
+		printf OUTPUT2 "piRNAdb-piRNA-antisense_Unmatch_Genome\t-\t%.0f\n", $sums;
 		foreach $len (sort keys %distr){
 			printf OUTPUT3 "piRNAdb-piRNA-antisense_Unmatch_Genome\t$len\t%.2f\n", $distr{$len};
 		}
@@ -3391,7 +3391,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	close $fh;
 	if ($sums > 0){
 		foreach $anno(sort keys %sum){
-			printf OUTPUT2 "ensembl-${anno}_Match_Genome\t-\t%d\n", $sum{$anno};
+			printf OUTPUT2 "ensembl-${anno}_Match_Genome\t-\t%.0f\n", $sum{$anno};
 		}
 		foreach	my $key1(sort keys %distr){
 			foreach my $key2 (sort keys %{$distr{$key1}}){
@@ -3446,7 +3446,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	close $fh;
 	if ($sums > 0){
 		foreach $anno(sort keys %sum){
-			printf OUTPUT2 "ensembl-${anno}_Unmatch_Genome\t-\t%d\n", $sum{$anno};
+			printf OUTPUT2 "ensembl-${anno}_Unmatch_Genome\t-\t%.0f\n", $sum{$anno};
 		}
 		foreach	my $key1(sort keys %distr){
 			foreach my $key2 (sort keys %{$distr{$key1}}){
@@ -3572,7 +3572,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	}
 	close $fh;
 	foreach $anno(sort keys %sum){
-		printf OUTPUT2 "Rfam-${anno}_Match_Genome\t-\t%d\n", $sum{$anno};
+		printf OUTPUT2 "Rfam-${anno}_Match_Genome\t-\t%.0f\n", $sum{$anno};
 	}
 	foreach	my $key1(sort keys %distr){
 		foreach my $key2 (sort keys %{$distr{$key1}}){
@@ -3697,7 +3697,7 @@ if (-e $out_file[$i] && !-z $out_file[$i]){
 	}
 	close $fh;
 	foreach $anno(sort keys %sum){
-		printf OUTPUT2 "Rfam-${anno}_Unmatch_Genome\t-\t%d\n", $sum{$anno};
+		printf OUTPUT2 "Rfam-${anno}_Unmatch_Genome\t-\t%.0f\n", $sum{$anno};
 	}
 	foreach	my $key1(sort keys %distr){
 		foreach my $key2 (sort keys %{$distr{$key1}}){
