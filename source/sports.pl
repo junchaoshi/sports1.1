@@ -284,8 +284,10 @@ unless($tRNA_db_address eq "NULL"){
 	##mito-tRNA-bowtie-build
 	my $tRNA_db_mito_tRNA_pre_file = $tRNA_db_mito_tRNA_file . ".1.ebwt";
 	unless (-e $tRNA_db_mito_tRNA_pre_file || -e $tRNA_db_mito_tRNA_pre_file . "l"){
-		print "\n\nGenerating pre-mito-tRNA database bowtie index...\n\n";
-		system ("bowtie-build -q ${tRNA_db_mito_tRNA_file}.fa ${tRNA_db_mito_tRNA_file}");
+		if (-e "$tRNA_db_mito_tRNA_file.fa"){
+			print "\n\nGenerating pre-mito-tRNA database bowtie index...\n\n";
+			system ("bowtie-build -q ${tRNA_db_mito_tRNA_file}.fa ${tRNA_db_mito_tRNA_file}");
+		}
 	}
 	my $tRNA_db_mito_tRNA_CCA_file = $tRNA_db_mito_tRNA_file . "_CCA.1.ebwt";
 	unless (-e $tRNA_db_mito_tRNA_CCA_file || -e $tRNA_db_mito_tRNA_CCA_file . "l"){
