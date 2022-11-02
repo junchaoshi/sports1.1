@@ -300,7 +300,7 @@ unless($tRNA_db_address eq "NULL"){
 			}else{
 				system ("perl ${script_address}tRNA_db_processing.pl ${tRNA_db_mito_tRNA_file}.fa");
 			}
-			print "\n\nGenerating mature-tRNA database bowtie index...\n\n";
+			print "\n\nGenerating mature-mito-tRNA database bowtie index...\n\n";
 			system ("bowtie-build -q ${tRNA_db_mito_tRNA_file}_CCA.fa ${tRNA_db_mito_tRNA_file}_CCA");
 		}
 	}
