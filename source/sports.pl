@@ -291,15 +291,18 @@ unless($tRNA_db_address eq "NULL"){
 	}
 	my $tRNA_db_mito_tRNA_CCA_file = $tRNA_db_mito_tRNA_file . "_CCA.1.ebwt";
 	unless (-e $tRNA_db_mito_tRNA_CCA_file || -e $tRNA_db_mito_tRNA_CCA_file . "l"){
-		if(-e "${tRNA_db_mito_tRNA_file}_CCA.fa"){
-			if (-e $tRNA_db_mature_mito_tRNA_file){
-				system ("perl ${script_address}tRNA_db_processing.pl ${tRNA_db_mature_mito_tRNA_file}");
-				$tRNA_db_mature_mito_tRNA_file =~ s/\.fa$//;
-				system ("mv ${tRNA_db_mature_mito_tRNA_file}_CCA.fa ${tRNA_db_mito_tRNA_file}_CCA.fa");
-				$tRNA_db_mature_mito_tRNA_file = $tRNA_db_mature_mito_tRNA_file . ".fa";
-			}else{
-				system ("perl ${script_address}tRNA_db_processing.pl ${tRNA_db_mito_tRNA_file}.fa");
-			}
+		if(-e $tRNA_db_mature_mito_tRNA_file){
+			system ("perl ${script_address}tRNA_db_processing.pl ${tRNA_db_mature_mito_tRNA_file}");
+			$tRNA_db_mature_mito_tRNA_file =~ s/\.fa$//;
+			system ("mv ${tRNA_db_mature_mito_tRNA_file}_CCA.fa ${tRNA_db_mito_tRNA_file}_CCA.fa");
+			$tRNA_db_mature_mito_tRNA_file = $tRNA_db_mature_mito_tRNA_file . ".fa";
+			print "\n\nGenerating mature-mito-tRNA database bowtie index...\n\n";
+			system ("bowtie-build -q ${tRNA_db_mito_tRNA_file}_CCA.fa ${tRNA_db_mito_tRNA_file}_CCA");
+		}elsif(-e "${tRNA_db_mito_tRNA_file}_CCA.fa"){
+			print "\n\nGenerating mature-mito-tRNA database bowtie index...\n\n";
+			system ("bowtie-build -q ${tRNA_db_mito_tRNA_file}_CCA.fa ${tRNA_db_mito_tRNA_file}_CCA");
+		}elsif(-e "${tRNA_db_mito_tRNA_file}.fa"){
+			system ("perl ${script_address}tRNA_db_processing.pl ${tRNA_db_mito_tRNA_file}.fa");
 			print "\n\nGenerating mature-mito-tRNA database bowtie index...\n\n";
 			system ("bowtie-build -q ${tRNA_db_mito_tRNA_file}_CCA.fa ${tRNA_db_mito_tRNA_file}_CCA");
 		}
