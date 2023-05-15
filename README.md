@@ -1729,4 +1729,4 @@ The SPORTS1.1 package is provided as is without any guarantees or warranty for c
 ## Contact information <a id='contact'></a>
 Contact author: Junchao Shi
 
-E-mail: sports.rna@gmail.com; junchao.shi@yahoo.com
+E-mail: shijc.lab@gmail.com
