@@ -41,9 +41,9 @@ Linux system, enough disk space and Ram depending on the size of RNA deep sequen
 	
     2. Bowtie [1] (http://bowtie-bio.sourceforge.net/index.shtml) (Tested version: 1.1.2, 1.2.1.1)	
 
-    3. SRA Toolkit (https://ncbi.github.io/sra-tools/) (Tested version: 2.8.2)
+    3. SRA Toolkit (https://github.com/ncbi/sra-tools) (Tested version: 2.8.2)
    
-    4. cutadapt [2] (http://cutadapt.readthedocs.io/en/stable/index.html) (Tested version: 1.11)
+       cutadapt [2] (http://cutadapt.readthedocs.io/en/stable/index.html) (Tested version: 1.11)
 	
     5. R (https://www.r-project.org/) (Tested version: 3.2.3, 3.2.5)
 
