@@ -609,7 +609,7 @@ Extracted from miRDeep2 [3] (https://github.com/rajewsky-lab/mirdeep2)
 
 5. Example usage:
 
-    `Rscript --vanilla r_RNA_length_distribution.R <SPORTS_output_fold_address> <dataset_name>`
+    `Rscript --vanilla r_RNA_length_distribution.R <SPORTS_output_fold_address> <dataset_name> <rRNA_length>`
     
 ### rRNA_mapping.R
 
