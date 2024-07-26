@@ -1,7 +1,6 @@
-# SPORTS1.1
-<b>S</b>mall non-coding RNA annotation <b>P</b>ipeline <b>O</b>ptimized for <b>r</b>RNA- and <b>t</b>RNA-Derived <b>S</b>mall RNAs
+# SPORTS1.1 (<b>S</b>mall non-coding RNA annotation <b>P</b>ipeline <b>O</b>ptimized for <b>r</b>RNA- and <b>t</b>RNA-Derived <b>S</b>mall RNAs)
 
-If you use SPORTS1.1 in your work, please cite this paper: 
+<b>If you use SPORTS1.1 in your work, please cite this paper</b>: 
 
 [SPORTS1.0: a tool for annotating and profiling non-coding RNAs optimized for rRNA-and tRNA-derived small RNAs](https://www.sciencedirect.com/science/article/pii/S1672022918300445)
 
