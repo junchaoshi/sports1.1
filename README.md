@@ -1,4 +1,4 @@
-# SPORTS1.1 (<b>S</b>mall non-coding RNA annotation <b>P</b>ipeline <b>O</b>ptimized for <b>r</b>RNA- and <b>t</b>RNA-Derived <b>S</b>mall RNAs)
+# SPORTS1.1 (***S***mall non-coding RNA annotation ***P***ipeline ***O***ptimized for ***r***RNA- and ***t***RNA-Derived ***S***mall RNAs)
 
 <b>If you use SPORTS1.1 in your work, please cite this paper</b>: 
 
