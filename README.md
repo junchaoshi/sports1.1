@@ -1,7 +1,6 @@
-# SPORTS1.1
-<b>S</b>mall non-coding RNA annotation <b>P</b>ipeline <b>O</b>ptimized for <b>r</b>RNA- and <b>t</b>RNA-Derived <b>S</b>mall RNAs
+# SPORTS1.1 (***S***mall non-coding RNA annotation ***P***ipeline ***O***ptimized for ***r***RNA- and ***t***RNA-Derived ***S***mall RNAs)
 
-If you use SPORTS1.1 in your work, please cite this paper: 
+<b>If you use SPORTS1.1 in your work, please cite this paper</b>: 
 
 [SPORTS1.0: a tool for annotating and profiling non-coding RNAs optimized for rRNA-and tRNA-derived small RNAs](https://www.sciencedirect.com/science/article/pii/S1672022918300445)
 
@@ -41,9 +40,9 @@ Linux system, enough disk space and Ram depending on the size of RNA deep sequen
 	
     2. Bowtie [1] (http://bowtie-bio.sourceforge.net/index.shtml) (Tested version: 1.1.2, 1.2.1.1)	
 
-    3. SRA Toolkit (https://ncbi.github.io/sra-tools/) (Tested version: 2.8.2)
+    3. SRA Toolkit (https://github.com/ncbi/sra-tools) (Tested version: 2.8.2)
    
-    4. cutadapt [2] (http://cutadapt.readthedocs.io/en/stable/index.html) (Tested version: 1.11)
+       cutadapt [2] (http://cutadapt.readthedocs.io/en/stable/index.html) (Tested version: 1.11)
 	
     5. R (https://www.r-project.org/) (Tested version: 3.2.3, 3.2.5)
 
@@ -609,7 +608,7 @@ Extracted from miRDeep2 [3] (https://github.com/rajewsky-lab/mirdeep2)
 
 5. Example usage:
 
-    `Rscript --vanilla r_RNA_length_distribution.R <SPORTS_output_fold_address> <dataset_name>`
+    `Rscript --vanilla r_RNA_length_distribution.R <SPORTS_output_fold_address> <dataset_name> <rRNA_length>`
     
 ### rRNA_mapping.R
 
@@ -1729,4 +1728,4 @@ The SPORTS1.1 package is provided as is without any guarantees or warranty for c
 ## Contact information <a id='contact'></a>
 Contact author: Junchao Shi
 
-E-mail: sports.rna@gmail.com; junchao.shi@yahoo.com
+E-mail: shijc.lab@gmail.com; shijc@big.ac.cn
