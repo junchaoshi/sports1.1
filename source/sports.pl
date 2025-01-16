@@ -551,7 +551,7 @@ rm -rf ${output_address}${input_query_name}.sra
 		print FILE '
 echo ""
 echo "remove default 5\' and 3\' adapters"
-cutadapt -j ${thread} -g ' . $adapter_5 . ' -a ' . $adapter_3 . ' -o ${output_address}${input_query_name}_trim_1.${input_query_suffix} --max-n 0 ${output_address}${input_query_name}.${input_query_suffix}
+cutadapt -j ${thread} -g ' . $adapter_5 . ' -a ' . $adapter_3 . ' -n 2 -o ${output_address}${input_query_name}_trim_1.${input_query_suffix} --max-n 0 ${output_address}${input_query_name}.${input_query_suffix}
 rm -rf ${output_address}${input_query_name}.${input_query_suffix}
 		';
 		}
@@ -578,7 +578,7 @@ rm -rf ${output_address}${input_query_name}.${input_query_suffix}
 		print FILE '
 echo ""
 echo "remove 5-end and 3-end adapters"
-cutadapt -j ${thread} -g ' . $adapter_5 . ' -a ' . $adapter_3 . ' -o ${output_address}${input_query_name}_trim_1.${input_query_suffix} --max-n 0 ${output_address}${input_query_name}.${input_query_suffix}
+cutadapt -j ${thread} -g ' . $adapter_5 . ' -a ' . $adapter_3 . ' -n 2 -o ${output_address}${input_query_name}_trim_1.${input_query_suffix} --max-n 0 ${output_address}${input_query_name}.${input_query_suffix}
 		';
 		}
 	}
