@@ -1,10 +1,14 @@
 # SPORTS1.1 (***S***mall non-coding RNA annotation ***P***ipeline ***O***ptimized for ***r***RNA- and ***t***RNA-Derived ***S***mall RNAs)
 
-<b>If you use SPORTS1.1 in your work, please cite this paper</b>: 
+<b>If you use SPORTS1.1 in your work, please cite these papers</b>: 
 
 [SPORTS1.0: a tool for annotating and profiling non-coding RNAs optimized for rRNA-and tRNA-derived small RNAs](https://www.sciencedirect.com/science/article/pii/S1672022918300445)
 
 Junchao Shi, Eun-A Ko, Kenton M. Sanders, Qi Chen, Tong Zhou. SPORTS1.0: a tool for annotating and profiling non-coding RNAs optimized for rRNA-and tRNA-derived small RNAs. <i>Genomics, Proteomics & Bioinformatics</i> (2018) doi.org/10.1016/j.gpb.2018.04.004
+
+[Optimized identification and characterization of small RNAs with PANDORA-seq](https://www.nature.com/articles/s41596-025-01158-4)
+
+Junchao Shi, Yunfang Zhang, Yun Li, Liwen Zhang, Xudong Zhang, Menghong Yan, Qi Chen, Ying Zhang. Optimized identification and characterization of small RNAs with PANDORA-seq. <i>Nature Protocols</i> (2025) doi.org/10.1038/s41596-025-01158-4
 
 <a href='#require'> Requirements </a>
 
@@ -1734,4 +1738,4 @@ The SPORTS1.1 package is provided as is without any guarantees or warranty for c
 ## Contact information <a id='contact'></a>
 Contact author: Junchao Shi
 
-E-mail: shijc.lab@gmail.com; shijc@big.ac.cn
+E-mail: shijc.lab@gmail.com; shijc@cncb.ac.cn
