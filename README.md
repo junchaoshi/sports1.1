@@ -26,6 +26,8 @@ Junchao Shi, Yunfang Zhang, Yun Li, Liwen Zhang, Xudong Zhang, Menghong Yan, Qi 
 
 <a href='#history'> Update history </a>
 
+<a href='#statistics'>  Software statistics </a>
+
 <a href='#disclaimer'> Disclaimer </a>
 
 <a href='#contact'> Contact information </a>
@@ -1731,6 +1733,9 @@ To download annotation databases of mulitple species please use this link: https
 
 ## Copyright and licensing information <a id='copyright'></a>
 SPORTS1.1 is available under the GNU General Public License version 3 (GPLv3).
+
+## Software statistics <a id='statistics'></a>
+![GitHub all releases downloads](https://img.shields.io/github/downloads/junchaoshi/sports1.1/total.svg)
 
 ## Disclaimer <a id='disclaimer'></a>
 The SPORTS1.1 package is provided as is without any guarantees or warranty for correctness. The authors are not responsible for any damage or loss of any kind caused by the use or misuse of the scripts included in the software package. The authors are not under obligation to provide support, service, corrections, or upgrades to the package.
