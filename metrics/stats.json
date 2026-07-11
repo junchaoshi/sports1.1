@@ -1,19 +1,160 @@
 {
-  "daily": {},
+  "daily": {
+    "2026-06-26": {
+      "clones": {
+        "count": 1,
+        "uniques": 1
+      },
+      "views": {
+        "count": 10,
+        "uniques": 6
+      }
+    },
+    "2026-06-27": {
+      "clones": {
+        "count": 0,
+        "uniques": 0
+      },
+      "views": {
+        "count": 5,
+        "uniques": 5
+      }
+    },
+    "2026-06-28": {
+      "clones": {
+        "count": 1,
+        "uniques": 1
+      },
+      "views": {
+        "count": 10,
+        "uniques": 6
+      }
+    },
+    "2026-06-29": {
+      "clones": {
+        "count": 1,
+        "uniques": 1
+      },
+      "views": {
+        "count": 9,
+        "uniques": 6
+      }
+    },
+    "2026-06-30": {
+      "clones": {
+        "count": 0,
+        "uniques": 0
+      },
+      "views": {
+        "count": 14,
+        "uniques": 7
+      }
+    },
+    "2026-07-01": {
+      "clones": {
+        "count": 4,
+        "uniques": 3
+      },
+      "views": {
+        "count": 8,
+        "uniques": 3
+      }
+    },
+    "2026-07-02": {
+      "clones": {
+        "count": 1,
+        "uniques": 1
+      },
+      "views": {
+        "count": 10,
+        "uniques": 7
+      }
+    },
+    "2026-07-03": {
+      "clones": {
+        "count": 0,
+        "uniques": 0
+      },
+      "views": {
+        "count": 10,
+        "uniques": 7
+      }
+    },
+    "2026-07-04": {
+      "clones": {
+        "count": 1,
+        "uniques": 1
+      },
+      "views": {
+        "count": 3,
+        "uniques": 3
+      }
+    },
+    "2026-07-05": {
+      "clones": {
+        "count": 1,
+        "uniques": 1
+      },
+      "views": {
+        "count": 1,
+        "uniques": 1
+      }
+    },
+    "2026-07-06": {
+      "clones": {
+        "count": 2,
+        "uniques": 2
+      },
+      "views": {
+        "count": 3,
+        "uniques": 3
+      }
+    },
+    "2026-07-07": {
+      "clones": {
+        "count": 1,
+        "uniques": 1
+      },
+      "views": {
+        "count": 12,
+        "uniques": 4
+      }
+    },
+    "2026-07-08": {
+      "clones": {
+        "count": 1,
+        "uniques": 1
+      },
+      "views": {
+        "count": 3,
+        "uniques": 3
+      }
+    },
+    "2026-07-09": {
+      "clones": {
+        "count": 2,
+        "uniques": 2
+      },
+      "views": {
+        "count": 4,
+        "uniques": 2
+      }
+    }
+  },
   "repository": "junchaoshi/sports1.1",
   "summary": {
     "month": {
-      "clones": 0,
-      "views": 0
+      "clones": 13,
+      "views": 54
     },
     "total": {
-      "clones": 0,
-      "views": 0
+      "clones": 16,
+      "views": 102
     },
     "year": {
-      "clones": 0,
-      "views": 0
+      "clones": 16,
+      "views": 102
     }
   },
-  "updated_at_utc": "not yet updated"
+  "updated_at_utc": "2026-07-11T02:01:24Z"
 }
