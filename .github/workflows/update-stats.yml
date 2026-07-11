@@ -1,0 +1,40 @@
+name: Update traffic stats
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "37 0 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Run self-test
+        run: python scripts/update_stats.py --self-test
+
+      - name: Update stats
+        run: python scripts/update_stats.py
+        env:
+          TRAFFIC_TOKEN: ${{ secrets.TRAFFIC_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Commit changes
+        run: |
+          if git diff --quiet; then
+            echo "No stats changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md metrics/stats.json
+          git commit -m "Update traffic statistics"
+          git push

@@ -1735,7 +1735,14 @@ To download annotation databases of mulitple species please use this link: https
 SPORTS1.1 is available under the GNU General Public License version 3 (GPLv3).
 
 ## Software statistics <a id='statistics'></a>
-![GitHub all releases downloads](https://img.shields.io/github/downloads/junchaoshi/sports1.1/total.svg)
+<!-- stats:start -->
+| Metric | This month | This year | Total |
+|---|---|---|---|
+| Repository views | ![month: 0](https://img.shields.io/badge/month-0-blue?style=flat-square) | ![year: 0](https://img.shields.io/badge/year-0-blue?style=flat-square) | ![total: 0](https://img.shields.io/badge/total-0-blue?style=flat-square) |
+| Git clones (download proxy) | ![month: 0](https://img.shields.io/badge/month-0-brightgreen?style=flat-square) | ![year: 0](https://img.shields.io/badge/year-0-brightgreen?style=flat-square) | ![total: 0](https://img.shields.io/badge/total-0-brightgreen?style=flat-square) |
+
+Last updated: not yet updated. Git clones are used as the download proxy because GitHub does not report `master.zip` download counts.
+<!-- stats:end -->
 
 ## Disclaimer <a id='disclaimer'></a>
 The SPORTS1.1 package is provided as is without any guarantees or warranty for correctness. The authors are not responsible for any damage or loss of any kind caused by the use or misuse of the scripts included in the software package. The authors are not under obligation to provide support, service, corrections, or upgrades to the package.
