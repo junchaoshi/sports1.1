@@ -1738,10 +1738,10 @@ SPORTS1.1 is available under the GNU General Public License version 3 (GPLv3).
 <!-- stats:start -->
 | Metric | This month | This year | Total |
 |---|---|---|---|
-| Repository views | ![month: 72](https://img.shields.io/badge/month-72-blue?style=flat-square) | ![year: 120](https://img.shields.io/badge/year-120-blue?style=flat-square) | ![total: 120](https://img.shields.io/badge/total-120-blue?style=flat-square) |
-| Git clones (download proxy) | ![month: 35](https://img.shields.io/badge/month-35-brightgreen?style=flat-square) | ![year: 38](https://img.shields.io/badge/year-38-brightgreen?style=flat-square) | ![total: 38](https://img.shields.io/badge/total-38-brightgreen?style=flat-square) |
+| Repository views | ![month: 84](https://img.shields.io/badge/month-84-blue?style=flat-square) | ![year: 132](https://img.shields.io/badge/year-132-blue?style=flat-square) | ![total: 132](https://img.shields.io/badge/total-132-blue?style=flat-square) |
+| Git clones (download proxy) | ![month: 43](https://img.shields.io/badge/month-43-brightgreen?style=flat-square) | ![year: 46](https://img.shields.io/badge/year-46-brightgreen?style=flat-square) | ![total: 46](https://img.shields.io/badge/total-46-brightgreen?style=flat-square) |
 
-Last updated: 2026-07-13 UTC. Git clones are used as the download proxy because GitHub does not report `master.zip` download counts.
+Last updated: 2026-07-14 UTC. Git clones are used as the download proxy because GitHub does not report `master.zip` download counts.
 <!-- stats:end -->
 
 ## Disclaimer <a id='disclaimer'></a>
