@@ -139,22 +139,52 @@
         "count": 4,
         "uniques": 2
       }
+    },
+    "2026-07-10": {
+      "clones": {
+        "count": 2,
+        "uniques": 2
+      },
+      "views": {
+        "count": 2,
+        "uniques": 2
+      }
+    },
+    "2026-07-11": {
+      "clones": {
+        "count": 20,
+        "uniques": 16
+      },
+      "views": {
+        "count": 16,
+        "uniques": 1
+      }
+    },
+    "2026-07-12": {
+      "clones": {
+        "count": 8,
+        "uniques": 6
+      },
+      "views": {
+        "count": 12,
+        "uniques": 5
+      }
     }
   },
   "repository": "junchaoshi/sports1.1",
   "summary": {
     "month": {
-      "clones": 13,
-      "views": 54
+      "clones": 43,
+      "views": 84
     },
     "total": {
-      "clones": 16,
-      "views": 102
+      "clones": 46,
+      "views": 132
     },
     "year": {
-      "clones": 16,
-      "views": 102
+      "clones": 46,
+      "views": 132
     }
   },
-  "updated_at_utc": "2026-07-11T02:01:24Z"
+  "updated_at_utc": "2026-07-14T03:46:12Z"
 }
