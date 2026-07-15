@@ -15,6 +15,8 @@ from urllib.parse import quote
 
 
 REPO = "junchaoshi/sports1.1"
+BADGES_START = "<!-- stats-badges:start -->"
+BADGES_END = "<!-- stats-badges:end -->"
 STATS_START = "<!-- stats:start -->"
 STATS_END = "<!-- stats:end -->"
 
@@ -90,6 +92,17 @@ def badge(label: str, value: int, color: str) -> str:
     return f"![{label}: {comma(value)}](https://img.shields.io/badge/{label_part}-{value_part}-{color_part}?style=flat-square)"
 
 
+def render_badges(stats: dict) -> str:
+    summary = stats["summary"]
+    return "\n".join(
+        [
+            BADGES_START,
+            f"{badge('views total', summary['total']['views'], 'blue')} {badge('git clones total', summary['total']['clones'], 'brightgreen')}",
+            BADGES_END,
+        ]
+    )
+
+
 def render_block(stats: dict) -> str:
     summary = stats["summary"]
     updated = stats["updated_at_utc"][:10]
@@ -107,7 +120,20 @@ def render_block(stats: dict) -> str:
     )
 
 
-def update_readme(text: str, block: str) -> str:
+def update_readme(text: str, badges_block: str, block: str) -> str:
+    top_marked = re.compile(
+        rf"{re.escape(BADGES_START)}.*?{re.escape(BADGES_END)}",
+        re.DOTALL,
+    )
+    if top_marked.search(text):
+        text = top_marked.sub(badges_block, text)
+    else:
+        title = re.search(r"(?m)^# .+\n", text)
+        if title:
+            text = text[: title.end()] + "\n" + badges_block + "\n\n" + text[title.end() :].lstrip("\n")
+        else:
+            text = badges_block + "\n\n" + text
+
     marked = re.compile(
         rf"{re.escape(STATS_START)}.*?{re.escape(STATS_END)}",
         re.DOTALL,
@@ -138,7 +164,10 @@ def update(repo: str, stats_path: pathlib.Path, readme_path: pathlib.Path, token
     stats["updated_at_utc"] = now.isoformat().replace("+00:00", "Z")
     stats["summary"] = summarize(stats, now.date())
     write_json(stats_path, stats)
-    readme_path.write_text(update_readme(readme_path.read_text(encoding="utf-8"), render_block(stats)), encoding="utf-8")
+    readme_path.write_text(
+        update_readme(readme_path.read_text(encoding="utf-8"), render_badges(stats), render_block(stats)),
+        encoding="utf-8",
+    )
 
 
 def self_test() -> None:
@@ -160,10 +189,13 @@ def self_test() -> None:
     }
     stats["summary"] = summary
     stats["updated_at_utc"] = "2026-07-09T00:00:00Z"
+    badges_block = render_badges(stats)
     block = render_block(stats)
-    readme = "Intro\n\n## Software statistics <a id='statistics'></a>\nold badge\n\n## Disclaimer <a id='disclaimer'></a>\ntext\n"
-    updated = update_readme(readme, block)
+    readme = "# Intro\n\n## Software statistics <a id='statistics'></a>\nold badge\n\n## Disclaimer <a id='disclaimer'></a>\ntext\n"
+    updated = update_readme(readme, badges_block, block)
     assert "old badge" not in updated
+    assert "<!-- stats-badges:start -->" in updated
+    assert "img.shields.io/badge/views%20total-35-blue" in updated
     assert "img.shields.io/badge/month-3-brightgreen" in updated
     assert "## Disclaimer <a id='disclaimer'></a>" in updated
 

@@ -1,5 +1,9 @@
 # SPORTS1.1 (***S***mall non-coding RNA annotation ***P***ipeline ***O***ptimized for ***r***RNA- and ***t***RNA-Derived ***S***mall RNAs)
 
+<!-- stats-badges:start -->
+![views total: 102](https://img.shields.io/badge/views%20total-102-blue?style=flat-square) ![git clones total: 16](https://img.shields.io/badge/git%20clones%20total-16-brightgreen?style=flat-square)
+<!-- stats-badges:end -->
+
 <b>If you use SPORTS1.1 in your work, please cite these papers</b>: 
 
 [SPORTS1.0: a tool for annotating and profiling non-coding RNAs optimized for rRNA-and tRNA-derived small RNAs](https://www.sciencedirect.com/science/article/pii/S1672022918300445)
