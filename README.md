@@ -1,7 +1,7 @@
 # SPORTS1.1 (***S***mall non-coding RNA annotation ***P***ipeline ***O***ptimized for ***r***RNA- and ***t***RNA-Derived ***S***mall RNAs)
 
 <!-- stats-badges:start -->
-![views total: 373](https://img.shields.io/badge/views%20total-373-blue?style=flat-square) ![git clones total: 231](https://img.shields.io/badge/git%20clones%20total-231-brightgreen?style=flat-square)
+![views total: 373](https://img.shields.io/badge/views%20total-373-blue?style=flat-square) ![git clones total: 235](https://img.shields.io/badge/git%20clones%20total-235-brightgreen?style=flat-square)
 <!-- stats-badges:end -->
 
 <b>If you use SPORTS1.1 in your work, please cite these papers</b>: 
@@ -1743,9 +1743,9 @@ SPORTS1.1 is available under the GNU General Public License version 3 (GPLv3).
 | Metric | This month | This year | Total |
 |---|---|---|---|
 | Repository views | ![month: 77](https://img.shields.io/badge/month-77-blue?style=flat-square) | ![year: 373](https://img.shields.io/badge/year-373-blue?style=flat-square) | ![total: 373](https://img.shields.io/badge/total-373-blue?style=flat-square) |
-| Git clones (download proxy) | ![month: 27](https://img.shields.io/badge/month-27-brightgreen?style=flat-square) | ![year: 231](https://img.shields.io/badge/year-231-brightgreen?style=flat-square) | ![total: 231](https://img.shields.io/badge/total-231-brightgreen?style=flat-square) |
+| Git clones (download proxy) | ![month: 31](https://img.shields.io/badge/month-31-brightgreen?style=flat-square) | ![year: 235](https://img.shields.io/badge/year-235-brightgreen?style=flat-square) | ![total: 235](https://img.shields.io/badge/total-235-brightgreen?style=flat-square) |
 
-Last updated: 2026-08-09 UTC. Git clones are used as the download proxy because GitHub does not report `master.zip` download counts.
+Last updated: 2026-08-10 UTC. Git clones are used as the download proxy because GitHub does not report `master.zip` download counts.
 <!-- stats:end -->
 
 ## Disclaimer <a id='disclaimer'></a>
