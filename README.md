@@ -1,7 +1,7 @@
 # SPORTS1.1 (***S***mall non-coding RNA annotation ***P***ipeline ***O***ptimized for ***r***RNA- and ***t***RNA-Derived ***S***mall RNAs)
 
 <!-- stats-badges:start -->
-![views total: 570](https://img.shields.io/badge/views%20total-570-blue?style=flat-square) ![git clones total: 346](https://img.shields.io/badge/git%20clones%20total-346-brightgreen?style=flat-square)
+![views total: 574](https://img.shields.io/badge/views%20total-574-blue?style=flat-square) ![git clones total: 347](https://img.shields.io/badge/git%20clones%20total-347-brightgreen?style=flat-square)
 <!-- stats-badges:end -->
 
 <b>If you use SPORTS1.1 in your work, please cite these papers</b>: 
@@ -1742,10 +1742,10 @@ SPORTS1.1 is available under the GNU General Public License version 3 (GPLv3).
 <!-- stats:start -->
 | Metric | This month | This year | Total |
 |---|---|---|---|
-| Repository views | ![month: 7](https://img.shields.io/badge/month-7-blue?style=flat-square) | ![year: 570](https://img.shields.io/badge/year-570-blue?style=flat-square) | ![total: 570](https://img.shields.io/badge/total-570-blue?style=flat-square) |
-| Git clones (download proxy) | ![month: 5](https://img.shields.io/badge/month-5-brightgreen?style=flat-square) | ![year: 346](https://img.shields.io/badge/year-346-brightgreen?style=flat-square) | ![total: 346](https://img.shields.io/badge/total-346-brightgreen?style=flat-square) |
+| Repository views | ![month: 11](https://img.shields.io/badge/month-11-blue?style=flat-square) | ![year: 574](https://img.shields.io/badge/year-574-blue?style=flat-square) | ![total: 574](https://img.shields.io/badge/total-574-blue?style=flat-square) |
+| Git clones (download proxy) | ![month: 6](https://img.shields.io/badge/month-6-brightgreen?style=flat-square) | ![year: 347](https://img.shields.io/badge/year-347-brightgreen?style=flat-square) | ![total: 347](https://img.shields.io/badge/total-347-brightgreen?style=flat-square) |
 
-Last updated: 2026-09-03 UTC. Git clones are used as the download proxy because GitHub does not report `master.zip` download counts.
+Last updated: 2026-09-04 UTC. Git clones are used as the download proxy because GitHub does not report `master.zip` download counts.
 <!-- stats:end -->
 
 ## Disclaimer <a id='disclaimer'></a>
