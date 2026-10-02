@@ -3,7 +3,7 @@ name: Update traffic stats
 on:
   workflow_dispatch:
   schedule:
-    - cron: "37 0 * * *"
+    - cron: "37 0 * * 1"
 
 permissions:
   contents: write
