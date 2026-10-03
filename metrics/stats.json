@@ -169,22 +169,842 @@
         "count": 12,
         "uniques": 5
       }
+    },
+    "2026-07-13": {
+      "clones": {
+        "count": 5,
+        "uniques": 5
+      },
+      "views": {
+        "count": 5,
+        "uniques": 5
+      }
+    },
+    "2026-07-14": {
+      "clones": {
+        "count": 18,
+        "uniques": 13
+      },
+      "views": {
+        "count": 12,
+        "uniques": 4
+      }
+    },
+    "2026-07-15": {
+      "clones": {
+        "count": 23,
+        "uniques": 14
+      },
+      "views": {
+        "count": 14,
+        "uniques": 9
+      }
+    },
+    "2026-07-16": {
+      "clones": {
+        "count": 11,
+        "uniques": 6
+      },
+      "views": {
+        "count": 12,
+        "uniques": 4
+      }
+    },
+    "2026-07-17": {
+      "clones": {
+        "count": 13,
+        "uniques": 8
+      },
+      "views": {
+        "count": 5,
+        "uniques": 5
+      }
+    },
+    "2026-07-18": {
+      "clones": {
+        "count": 6,
+        "uniques": 5
+      },
+      "views": {
+        "count": 2,
+        "uniques": 2
+      }
+    },
+    "2026-07-19": {
+      "clones": {
+        "count": 4,
+        "uniques": 3
+      },
+      "views": {
+        "count": 1,
+        "uniques": 1
+      }
+    },
+    "2026-07-20": {
+      "clones": {
+        "count": 9,
+        "uniques": 8
+      },
+      "views": {
+        "count": 11,
+        "uniques": 8
+      }
+    },
+    "2026-07-21": {
+      "clones": {
+        "count": 7,
+        "uniques": 4
+      },
+      "views": {
+        "count": 7,
+        "uniques": 4
+      }
+    },
+    "2026-07-22": {
+      "clones": {
+        "count": 3,
+        "uniques": 3
+      },
+      "views": {
+        "count": 35,
+        "uniques": 8
+      }
+    },
+    "2026-07-23": {
+      "clones": {
+        "count": 6,
+        "uniques": 5
+      },
+      "views": {
+        "count": 8,
+        "uniques": 6
+      }
+    },
+    "2026-07-24": {
+      "clones": {
+        "count": 4,
+        "uniques": 3
+      },
+      "views": {
+        "count": 0,
+        "uniques": 0
+      }
+    },
+    "2026-07-25": {
+      "clones": {
+        "count": 10,
+        "uniques": 6
+      },
+      "views": {
+        "count": 5,
+        "uniques": 4
+      }
+    },
+    "2026-07-26": {
+      "clones": {
+        "count": 5,
+        "uniques": 4
+      },
+      "views": {
+        "count": 5,
+        "uniques": 4
+      }
+    },
+    "2026-07-27": {
+      "clones": {
+        "count": 3,
+        "uniques": 3
+      },
+      "views": {
+        "count": 6,
+        "uniques": 6
+      }
+    },
+    "2026-07-28": {
+      "clones": {
+        "count": 11,
+        "uniques": 7
+      },
+      "views": {
+        "count": 8,
+        "uniques": 7
+      }
+    },
+    "2026-07-29": {
+      "clones": {
+        "count": 8,
+        "uniques": 7
+      },
+      "views": {
+        "count": 6,
+        "uniques": 5
+      }
+    },
+    "2026-07-30": {
+      "clones": {
+        "count": 11,
+        "uniques": 7
+      },
+      "views": {
+        "count": 6,
+        "uniques": 5
+      }
+    },
+    "2026-07-31": {
+      "clones": {
+        "count": 1,
+        "uniques": 1
+      },
+      "views": {
+        "count": 16,
+        "uniques": 9
+      }
+    },
+    "2026-08-01": {
+      "clones": {
+        "count": 4,
+        "uniques": 3
+      },
+      "views": {
+        "count": 27,
+        "uniques": 5
+      }
+    },
+    "2026-08-02": {
+      "clones": {
+        "count": 4,
+        "uniques": 4
+      },
+      "views": {
+        "count": 0,
+        "uniques": 0
+      }
+    },
+    "2026-08-03": {
+      "clones": {
+        "count": 7,
+        "uniques": 4
+      },
+      "views": {
+        "count": 2,
+        "uniques": 1
+      }
+    },
+    "2026-08-04": {
+      "clones": {
+        "count": 2,
+        "uniques": 2
+      },
+      "views": {
+        "count": 20,
+        "uniques": 6
+      }
+    },
+    "2026-08-05": {
+      "clones": {
+        "count": 3,
+        "uniques": 3
+      },
+      "views": {
+        "count": 14,
+        "uniques": 9
+      }
+    },
+    "2026-08-06": {
+      "clones": {
+        "count": 5,
+        "uniques": 4
+      },
+      "views": {
+        "count": 12,
+        "uniques": 5
+      }
+    },
+    "2026-08-07": {
+      "clones": {
+        "count": 2,
+        "uniques": 2
+      },
+      "views": {
+        "count": 2,
+        "uniques": 2
+      }
+    },
+    "2026-08-08": {
+      "clones": {
+        "count": 4,
+        "uniques": 4
+      },
+      "views": {
+        "count": 0,
+        "uniques": 0
+      }
+    },
+    "2026-08-09": {
+      "clones": {
+        "count": 3,
+        "uniques": 2
+      },
+      "views": {
+        "count": 5,
+        "uniques": 4
+      }
+    },
+    "2026-08-10": {
+      "clones": {
+        "count": 6,
+        "uniques": 5
+      },
+      "views": {
+        "count": 7,
+        "uniques": 5
+      }
+    },
+    "2026-08-11": {
+      "clones": {
+        "count": 6,
+        "uniques": 4
+      },
+      "views": {
+        "count": 13,
+        "uniques": 8
+      }
+    },
+    "2026-08-12": {
+      "clones": {
+        "count": 2,
+        "uniques": 2
+      },
+      "views": {
+        "count": 16,
+        "uniques": 10
+      }
+    },
+    "2026-08-13": {
+      "clones": {
+        "count": 4,
+        "uniques": 4
+      },
+      "views": {
+        "count": 13,
+        "uniques": 8
+      }
+    },
+    "2026-08-14": {
+      "clones": {
+        "count": 3,
+        "uniques": 2
+      },
+      "views": {
+        "count": 6,
+        "uniques": 6
+      }
+    },
+    "2026-08-15": {
+      "clones": {
+        "count": 1,
+        "uniques": 1
+      },
+      "views": {
+        "count": 3,
+        "uniques": 2
+      }
+    },
+    "2026-08-16": {
+      "clones": {
+        "count": 1,
+        "uniques": 1
+      },
+      "views": {
+        "count": 1,
+        "uniques": 1
+      }
+    },
+    "2026-08-17": {
+      "clones": {
+        "count": 10,
+        "uniques": 8
+      },
+      "views": {
+        "count": 18,
+        "uniques": 9
+      }
+    },
+    "2026-08-18": {
+      "clones": {
+        "count": 3,
+        "uniques": 2
+      },
+      "views": {
+        "count": 28,
+        "uniques": 9
+      }
+    },
+    "2026-08-19": {
+      "clones": {
+        "count": 6,
+        "uniques": 5
+      },
+      "views": {
+        "count": 4,
+        "uniques": 2
+      }
+    },
+    "2026-08-20": {
+      "clones": {
+        "count": 5,
+        "uniques": 4
+      },
+      "views": {
+        "count": 3,
+        "uniques": 3
+      }
+    },
+    "2026-08-21": {
+      "clones": {
+        "count": 11,
+        "uniques": 6
+      },
+      "views": {
+        "count": 10,
+        "uniques": 3
+      }
+    },
+    "2026-08-22": {
+      "clones": {
+        "count": 5,
+        "uniques": 5
+      },
+      "views": {
+        "count": 3,
+        "uniques": 2
+      }
+    },
+    "2026-08-23": {
+      "clones": {
+        "count": 1,
+        "uniques": 1
+      },
+      "views": {
+        "count": 2,
+        "uniques": 2
+      }
+    },
+    "2026-08-24": {
+      "clones": {
+        "count": 4,
+        "uniques": 3
+      },
+      "views": {
+        "count": 12,
+        "uniques": 7
+      }
+    },
+    "2026-08-25": {
+      "clones": {
+        "count": 4,
+        "uniques": 3
+      },
+      "views": {
+        "count": 7,
+        "uniques": 7
+      }
+    },
+    "2026-08-26": {
+      "clones": {
+        "count": 4,
+        "uniques": 3
+      },
+      "views": {
+        "count": 6,
+        "uniques": 6
+      }
+    },
+    "2026-08-27": {
+      "clones": {
+        "count": 3,
+        "uniques": 2
+      },
+      "views": {
+        "count": 15,
+        "uniques": 6
+      }
+    },
+    "2026-08-28": {
+      "clones": {
+        "count": 5,
+        "uniques": 3
+      },
+      "views": {
+        "count": 12,
+        "uniques": 7
+      }
+    },
+    "2026-08-29": {
+      "clones": {
+        "count": 11,
+        "uniques": 8
+      },
+      "views": {
+        "count": 2,
+        "uniques": 2
+      }
+    },
+    "2026-08-30": {
+      "clones": {
+        "count": 3,
+        "uniques": 3
+      },
+      "views": {
+        "count": 2,
+        "uniques": 2
+      }
+    },
+    "2026-08-31": {
+      "clones": {
+        "count": 5,
+        "uniques": 5
+      },
+      "views": {
+        "count": 2,
+        "uniques": 2
+      }
+    },
+    "2026-09-01": {
+      "clones": {
+        "count": 5,
+        "uniques": 4
+      },
+      "views": {
+        "count": 7,
+        "uniques": 4
+      }
+    },
+    "2026-09-02": {
+      "clones": {
+        "count": 1,
+        "uniques": 1
+      },
+      "views": {
+        "count": 4,
+        "uniques": 3
+      }
+    },
+    "2026-09-03": {
+      "clones": {
+        "count": 3,
+        "uniques": 2
+      },
+      "views": {
+        "count": 16,
+        "uniques": 5
+      }
+    },
+    "2026-09-04": {
+      "clones": {
+        "count": 3,
+        "uniques": 2
+      },
+      "views": {
+        "count": 8,
+        "uniques": 6
+      }
+    },
+    "2026-09-05": {
+      "clones": {
+        "count": 12,
+        "uniques": 9
+      },
+      "views": {
+        "count": 8,
+        "uniques": 2
+      }
+    },
+    "2026-09-06": {
+      "clones": {
+        "count": 12,
+        "uniques": 7
+      },
+      "views": {
+        "count": 8,
+        "uniques": 2
+      }
+    },
+    "2026-09-07": {
+      "clones": {
+        "count": 4,
+        "uniques": 3
+      },
+      "views": {
+        "count": 12,
+        "uniques": 8
+      }
+    },
+    "2026-09-08": {
+      "clones": {
+        "count": 3,
+        "uniques": 3
+      },
+      "views": {
+        "count": 10,
+        "uniques": 7
+      }
+    },
+    "2026-09-09": {
+      "clones": {
+        "count": 5,
+        "uniques": 4
+      },
+      "views": {
+        "count": 13,
+        "uniques": 9
+      }
+    },
+    "2026-09-10": {
+      "clones": {
+        "count": 18,
+        "uniques": 12
+      },
+      "views": {
+        "count": 15,
+        "uniques": 7
+      }
+    },
+    "2026-09-11": {
+      "clones": {
+        "count": 18,
+        "uniques": 12
+      },
+      "views": {
+        "count": 14,
+        "uniques": 8
+      }
+    },
+    "2026-09-12": {
+      "clones": {
+        "count": 14,
+        "uniques": 10
+      },
+      "views": {
+        "count": 2,
+        "uniques": 2
+      }
+    },
+    "2026-09-13": {
+      "clones": {
+        "count": 9,
+        "uniques": 5
+      },
+      "views": {
+        "count": 0,
+        "uniques": 0
+      }
+    },
+    "2026-09-14": {
+      "clones": {
+        "count": 7,
+        "uniques": 7
+      },
+      "views": {
+        "count": 8,
+        "uniques": 6
+      }
+    },
+    "2026-09-15": {
+      "clones": {
+        "count": 6,
+        "uniques": 5
+      },
+      "views": {
+        "count": 9,
+        "uniques": 8
+      }
+    },
+    "2026-09-16": {
+      "clones": {
+        "count": 8,
+        "uniques": 7
+      },
+      "views": {
+        "count": 18,
+        "uniques": 4
+      }
+    },
+    "2026-09-17": {
+      "clones": {
+        "count": 6,
+        "uniques": 5
+      },
+      "views": {
+        "count": 4,
+        "uniques": 4
+      }
+    },
+    "2026-09-18": {
+      "clones": {
+        "count": 9,
+        "uniques": 9
+      },
+      "views": {
+        "count": 3,
+        "uniques": 2
+      }
+    },
+    "2026-09-19": {
+      "clones": {
+        "count": 5,
+        "uniques": 4
+      },
+      "views": {
+        "count": 5,
+        "uniques": 4
+      }
+    },
+    "2026-09-20": {
+      "clones": {
+        "count": 12,
+        "uniques": 8
+      },
+      "views": {
+        "count": 2,
+        "uniques": 2
+      }
+    },
+    "2026-09-21": {
+      "clones": {
+        "count": 5,
+        "uniques": 4
+      },
+      "views": {
+        "count": 3,
+        "uniques": 3
+      }
+    },
+    "2026-09-22": {
+      "clones": {
+        "count": 4,
+        "uniques": 3
+      },
+      "views": {
+        "count": 5,
+        "uniques": 4
+      }
+    },
+    "2026-09-23": {
+      "clones": {
+        "count": 4,
+        "uniques": 4
+      },
+      "views": {
+        "count": 7,
+        "uniques": 5
+      }
+    },
+    "2026-09-24": {
+      "clones": {
+        "count": 15,
+        "uniques": 10
+      },
+      "views": {
+        "count": 17,
+        "uniques": 6
+      }
+    },
+    "2026-09-25": {
+      "clones": {
+        "count": 23,
+        "uniques": 21
+      },
+      "views": {
+        "count": 4,
+        "uniques": 3
+      }
+    },
+    "2026-09-26": {
+      "clones": {
+        "count": 15,
+        "uniques": 11
+      },
+      "views": {
+        "count": 0,
+        "uniques": 0
+      }
+    },
+    "2026-09-27": {
+      "clones": {
+        "count": 10,
+        "uniques": 6
+      },
+      "views": {
+        "count": 2,
+        "uniques": 2
+      }
+    },
+    "2026-09-28": {
+      "clones": {
+        "count": 23,
+        "uniques": 17
+      },
+      "views": {
+        "count": 24,
+        "uniques": 7
+      }
+    },
+    "2026-09-29": {
+      "clones": {
+        "count": 18,
+        "uniques": 14
+      },
+      "views": {
+        "count": 20,
+        "uniques": 4
+      }
+    },
+    "2026-09-30": {
+      "clones": {
+        "count": 3,
+        "uniques": 2
+      },
+      "views": {
+        "count": 4,
+        "uniques": 3
+      }
+    },
+    "2026-10-01": {
+      "clones": {
+        "count": 3,
+        "uniques": 3
+      },
+      "views": {
+        "count": 4,
+        "uniques": 3
+      }
+    },
+    "2026-10-02": {
+      "clones": {
+        "count": 18,
+        "uniques": 12
+      },
+      "views": {
+        "count": 0,
+        "uniques": 0
+      }
     }
   },
   "repository": "junchaoshi/sports1.1",
   "summary": {
     "month": {
-      "clones": 43,
-      "views": 84
+      "clones": 21,
+      "views": 4
     },
     "total": {
-      "clones": 46,
-      "views": 132
+      "clones": 642,
+      "views": 819
     },
     "year": {
-      "clones": 46,
-      "views": 132
+      "clones": 642,
+      "views": 819
     }
   },
-  "updated_at_utc": "2026-07-14T03:46:12Z"
+  "updated_at_utc": "2026-10-03T05:41:58Z"
 }
