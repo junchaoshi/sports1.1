@@ -1349,22 +1349,92 @@
         "count": 1,
         "uniques": 1
       }
+    },
+    "2026-11-08": {
+      "clones": {
+        "count": 3,
+        "uniques": 3
+      },
+      "views": {
+        "count": 1,
+        "uniques": 1
+      }
+    },
+    "2026-11-09": {
+      "clones": {
+        "count": 8,
+        "uniques": 5
+      },
+      "views": {
+        "count": 9,
+        "uniques": 5
+      }
+    },
+    "2026-11-10": {
+      "clones": {
+        "count": 29,
+        "uniques": 7
+      },
+      "views": {
+        "count": 14,
+        "uniques": 13
+      }
+    },
+    "2026-11-11": {
+      "clones": {
+        "count": 2,
+        "uniques": 2
+      },
+      "views": {
+        "count": 3,
+        "uniques": 3
+      }
+    },
+    "2026-11-12": {
+      "clones": {
+        "count": 6,
+        "uniques": 3
+      },
+      "views": {
+        "count": 9,
+        "uniques": 7
+      }
+    },
+    "2026-11-13": {
+      "clones": {
+        "count": 3,
+        "uniques": 3
+      },
+      "views": {
+        "count": 4,
+        "uniques": 4
+      }
+    },
+    "2026-11-14": {
+      "clones": {
+        "count": 2,
+        "uniques": 2
+      },
+      "views": {
+        "count": 3,
+        "uniques": 3
+      }
     }
   },
   "repository": "junchaoshi/sports1.1",
   "summary": {
     "month": {
-      "clones": 40,
-      "views": 66
+      "clones": 93,
+      "views": 109
     },
     "total": {
-      "clones": 862,
-      "views": 1219
+      "clones": 915,
+      "views": 1262
     },
     "year": {
-      "clones": 862,
-      "views": 1219
+      "clones": 915,
+      "views": 1262
     }
   },
-  "updated_at_utc": "2026-11-09T07:06:59Z"
+  "updated_at_utc": "2026-11-16T07:12:29Z"
 }
